@@ -1,7 +1,9 @@
-package com.demo.savemymoney;
+package com.demo.savemymoney.login;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.demo.savemymoney.R;
 
 public class LoginActivity extends AppCompatActivity {
 
