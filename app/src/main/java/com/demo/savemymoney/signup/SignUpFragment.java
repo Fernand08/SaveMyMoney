@@ -1,6 +1,6 @@
 package com.demo.savemymoney.signup;
 
-import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,12 +8,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.demo.savemymoney.R;
+import com.demo.savemymoney.databinding.SignUpFragmentBinding;
 
-public class SignUpFragment extends Fragment {
+import java.util.List;
 
-    private SignUpViewModel mViewModel;
+public class SignUpFragment extends Fragment implements SignUpFragmentPresenter.View {
+
+    private SignUpFragmentBinding binding;
 
     public static SignUpFragment newInstance() {
         return new SignUpFragment();
@@ -22,14 +26,34 @@ public class SignUpFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.sign_up_fragment, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.sign_up_fragment, container, false);
+        SignUpFragmentPresenter presenter = new SignUpFragmentPresenter(this, getActivity());
+        SignUpViewModel user = new SignUpViewModel();
+
+        binding.setUser(user);
+        binding.setPresenter(presenter);
+
+        return binding.getRoot();
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(SignUpViewModel.class);
-        // TODO: Use the ViewModel
+    public void showErrorMessages(List<String> messages) {
+        for (String message : messages)
+            Toast.makeText(getActivity(),
+                    message,
+                    Toast.LENGTH_SHORT).show();
+
     }
 
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(getActivity(),
+                message,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void reset() {
+        binding.setUser(new SignUpViewModel());
+    }
 }

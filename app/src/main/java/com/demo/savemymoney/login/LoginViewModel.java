@@ -16,7 +16,7 @@ public class LoginViewModel extends BaseObservable {
 
     public void setEmail(String email) {
         this.email = email;
-        notifyPropertyChanged(BR.email);
+       // notifyPropertyChanged(BR.email);
     }
 
     @Bindable
@@ -26,6 +26,6 @@ public class LoginViewModel extends BaseObservable {
 
     public void setPassword(String password) {
         this.password = password;
-        notifyPropertyChanged(BR.password);
+        //notifyPropertyChanged(BR.password);
     }
 }
