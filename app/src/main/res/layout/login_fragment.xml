@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".login.LoginFragment">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.demo.savemymoney.login.LoginViewModel" />
+
+        <variable
+            name="presenter"
+            type="com.demo.savemymoney.login.LoginFragmentPresenter" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="@string/login_email"
+            android:inputType="textEmailAddress"
+            android:text="@={user.email}"
+            tools:targetApi="o" />
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emailEditText"
+            android:autofillHints=""
+            android:hint="@string/login_password"
+            android:inputType="textPassword"
+            android:text="@={user.password}"
+            tools:targetApi="o" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/passwordEditText"
+            android:onClick="@{()->presenter.login(user)}"
+            android:text="@string/login_go" />
+
+    </RelativeLayout>
+</layout>

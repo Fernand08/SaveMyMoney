@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">SaveMyMoney</string>
+    <string name="app_name">Save My Money</string>
+    <string name="login">Ingresar</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_go">Ingresar</string>
+    <string name="login_error_model_null">Oops!</string>
+    <string name="login_error_email_empty">Ingresa tu correo</string>
+    <string name="login_error_email_invalid">Ingresa un correo válido</string>
+    <string name="login_password_empty">Ingresa tu contraseña</string>
+    <string name="login_failed">Email o clave incorrectos</string>
 </resources>

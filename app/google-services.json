@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "560194396136",
+    "firebase_url": "https://savemymoney-193f5.firebaseio.com",
+    "project_id": "savemymoney-193f5",
+    "storage_bucket": "savemymoney-193f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560194396136:android:e3c3b363276a7f84",
+        "android_client_info": {
+          "package_name": "com.demo.savemymoney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560194396136-imjn99f7fpv0p69ttjqbl7fo4rf5r1fk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.demo.savemymoney",
+            "certificate_hash": "15f618e32e76d8f494b078ecaf7ca442bf3b1f26"
+          }
+        },
+        {
+          "client_id": "560194396136-7gr44rkba7slnrs1bfoj756t28hin7m6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_0i3Z2XeF32WciobZP7sTjp4fuQN6MNs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "560194396136-7gr44rkba7slnrs1bfoj756t28hin7m6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
