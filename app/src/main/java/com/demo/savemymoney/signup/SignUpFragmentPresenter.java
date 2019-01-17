@@ -1,12 +1,15 @@
 package com.demo.savemymoney.signup;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
 
 import com.demo.savemymoney.R;
+import com.demo.savemymoney.main.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,10 +35,22 @@ public class SignUpFragmentPresenter {
             firebaseAuth.createUserWithEmailAndPassword(model.getEmail(), model.getPassword())
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            TabLayout tabLayout = activity.findViewById(R.id.login_tab_layout);
-                            tabLayout.getTabAt(0).select();
-                            view.showMessage(activity.getString(R.string.sign_up_success));
-                            view.reset();
+
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(model.getFirstName())
+                                    .build();
+
+                            task.getResult().getUser().updateProfile(profileUpdates)
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            activity.startActivity(new Intent(activity, MainActivity.class));
+                                        } else {
+                                            TabLayout tabLayout = activity.findViewById(R.id.login_tab_layout);
+                                            tabLayout.getTabAt(0).select();
+                                            view.showMessage(activity.getString(R.string.sign_up_success));
+                                            view.reset();
+                                        }
+                                    });
                         } else {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException)
                                 view.showErrorMessages(Collections.singletonList(activity.getString(R.string.sign_up_user_collision)));
@@ -52,8 +67,14 @@ public class SignUpFragmentPresenter {
     private List<String> getErrors(SignUpViewModel model) {
         List<String> errors = new ArrayList<>();
         if (model == null)
-            errors.add(activity.getString(R.string.login_error_model_null));
+            errors.add(activity.getString(R.string.sign_up_error_model_null));
         else {
+            if (model.getFirstName() == null || model.getFirstName().isEmpty())
+                errors.add(activity.getString(R.string.login_error_first_name_empty));
+
+            if (model.getLastName() == null || model.getLastName().isEmpty())
+                errors.add(activity.getString(R.string.login_error_last_name_empty));
+
             if (model.getEmail() == null || model.getEmail().isEmpty())
                 errors.add(activity.getString(R.string.login_error_email_empty));
             else if (!EMAIL_ADDRESS.matcher(model.getEmail()).matches())

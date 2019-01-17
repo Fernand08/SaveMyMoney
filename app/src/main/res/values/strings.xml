@@ -14,4 +14,9 @@
     <string name="sign_up_failed">Datos incorrectos</string>
     <string name="sign_up_password_invalid">La contraseña debe tener al menos 6 caracteres</string>
     <string name="sign_up_user_collision">Este correo ya está siendo usado</string>
+    <string name="sign_up_last_name">Apellido</string>
+    <string name="sign_up_first_name">Nombres</string>
+    <string name="sign_up_error_model_null">Oops!</string>
+    <string name="login_error_first_name_empty">Ingresa tus nombres</string>
+    <string name="login_error_last_name_empty">Ingresa tu apellido</string>
 </resources>

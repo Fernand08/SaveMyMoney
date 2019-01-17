@@ -19,9 +19,31 @@
         android:layout_height="match_parent">
 
         <EditText
+            android:id="@+id/firstNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="@string/sign_up_first_name"
+            android:inputType="textPersonName"
+            android:text="@={user.firstName}"
+            tools:targetApi="o" />
+
+        <EditText
+            android:id="@+id/lastNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firstNameEditText"
+            android:autofillHints=""
+            android:hint="@string/sign_up_last_name"
+            android:inputType="textPersonName"
+            android:text="@={user.lastName}"
+            tools:targetApi="o" />
+
+        <EditText
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/lastNameEditText"
             android:autofillHints=""
             android:hint="@string/login_email"
             android:inputType="textEmailAddress"

@@ -3,13 +3,14 @@ package com.demo.savemymoney.login;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 
 import com.demo.savemymoney.R;
+import com.demo.savemymoney.common.BaseActivity;
 import com.demo.savemymoney.common.ViewPagerAdapter;
+import com.demo.savemymoney.main.MainActivity;
 import com.demo.savemymoney.signup.SignUpFragment;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -20,10 +21,19 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
+
         viewPager = findViewById(R.id.login_view_pager);
         tabLayout = findViewById(R.id.login_tab_layout);
         setupViewPager();
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (isUserSignedIn())
+            goTo(MainActivity.class);
     }
 
     private void setupViewPager() {
