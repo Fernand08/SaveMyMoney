@@ -10,6 +10,7 @@ import com.demo.savemymoney.main.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +36,8 @@ public class SignUpFragmentPresenter {
             firebaseAuth.createUserWithEmailAndPassword(model.getEmail(), model.getPassword())
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
+
+                            saveToCloudDb(task.getResult().getUser().getUid(), model);
 
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(model.getFirstName())
@@ -62,6 +65,19 @@ public class SignUpFragmentPresenter {
                     });
         } else
             view.showErrorMessages(errorMessages);
+    }
+
+    private void saveToCloudDb(String uid, SignUpViewModel model) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .document(uid)
+                .set(model.toMap())
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
+                        Log.i("SignUp", "user saved");
+                    else
+                        Log.e("SignUp", "Error saving user");
+                });
     }
 
     private List<String> getErrors(SignUpViewModel model) {

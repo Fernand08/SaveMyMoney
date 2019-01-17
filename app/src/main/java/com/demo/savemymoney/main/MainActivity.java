@@ -22,7 +22,7 @@ public class MainActivity extends BaseActivity {
         if (!isUserSignedIn())
             goTo(LoginActivity.class);
         else
-            Toast.makeText(this, "Hola " + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Hello " + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
 
     }
 

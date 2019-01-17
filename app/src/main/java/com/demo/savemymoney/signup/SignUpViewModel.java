@@ -5,6 +5,9 @@ import android.databinding.Bindable;
 
 import com.demo.savemymoney.BR;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SignUpViewModel extends BaseObservable {
 
     private String firstName;
@@ -50,5 +53,12 @@ public class SignUpViewModel extends BaseObservable {
     public void setPassword(String password) {
         this.password = password;
         notifyPropertyChanged(BR.password);
+    }
+
+    Map<String, Object> toMap() {
+        Map<String, Object> data = new HashMap<>();
+        data.put("firstName", firstName);
+        data.put("lastName", lastName);
+        return data;
     }
 }
