@@ -32,7 +32,6 @@ public class SignUpFragmentPresenter {
     public void signUp(SignUpViewModel model) {
         List<String> errorMessages = getErrors(model);
         if (errorMessages.isEmpty()) {
-            //TODO save first and last name
             firebaseAuth.createUserWithEmailAndPassword(model.getEmail(), model.getPassword())
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
