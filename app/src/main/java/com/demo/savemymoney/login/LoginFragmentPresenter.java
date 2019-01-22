@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.demo.savemymoney.R;
+import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.main.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -25,38 +26,43 @@ public class LoginFragmentPresenter {
     }
 
     public void login(LoginViewModel model) {
-        List<String> errorMessages = getErrors(model);
+        List<ErrorMessage> errorMessages = getErrors(model);
         if (errorMessages.isEmpty()) {
+            view.clearErrorMessages();
             firebaseAuth.signInWithEmailAndPassword(model.getEmail(), model.getPassword())
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
                         } else
-                            view.showErrorMessages(Collections.singletonList(context.getString(R.string.login_failed)));
+                            view.showErrorMessages(Collections.singletonList(new ErrorMessage(null, context.getString(R.string.login_failed))));
                     });
-        } else
+        } else {
+            view.clearErrorMessages();
             view.showErrorMessages(errorMessages);
+        }
     }
 
-    private List<String> getErrors(LoginViewModel model) {
-        List<String> errors = new ArrayList<>();
+    private List<ErrorMessage> getErrors(LoginViewModel model) {
+        List<ErrorMessage> errors = new ArrayList<>();
         if (model == null)
-            errors.add(context.getString(R.string.login_error_model_null));
+            errors.add(new ErrorMessage(null, context.getString(R.string.login_error_model_null)));
         else {
             if (model.getEmail() == null || model.getEmail().isEmpty())
-                errors.add(context.getString(R.string.login_error_email_empty));
+                errors.add(new ErrorMessage(R.id.emailInputLayout, context.getString(R.string.login_error_email_empty)));
             else if (!EMAIL_ADDRESS.matcher(model.getEmail()).matches())
-                errors.add(context.getString(R.string.login_error_email_invalid));
+                errors.add(new ErrorMessage(R.id.emailInputLayout, context.getString(R.string.login_error_email_invalid)));
 
             if (model.getPassword() == null || model.getPassword().isEmpty())
-                errors.add(context.getString(R.string.login_password_empty));
+                errors.add(new ErrorMessage(R.id.passwordInputLayout, context.getString(R.string.login_password_empty)));
         }
 
         return errors;
     }
 
     public interface View {
-        void showErrorMessages(List<String> messages);
+        void showErrorMessages(List<ErrorMessage> errors);
+
+        void clearErrorMessages();
     }
 }
