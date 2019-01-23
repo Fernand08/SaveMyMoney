@@ -4,19 +4,28 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.demo.savemymoney.R;
+import com.demo.savemymoney.common.BaseFragment;
+import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.databinding.SignUpFragmentBinding;
 
 import java.util.List;
 
-public class SignUpFragment extends Fragment implements SignUpFragmentPresenter.View {
+import butterknife.BindViews;
+import butterknife.ButterKnife;
 
+import static com.demo.savemymoney.common.ButterKnifeActions.CLEAR_ERROR;
+
+public class SignUpFragment extends BaseFragment implements SignUpFragmentPresenter.View {
+
+    @BindViews({R.id.firstNameInputLayout, R.id.lastNameInputLayout, R.id.emailSignUpInputLayout, R.id.passwordSignUpInputLayout, R.id.passwordConfirmInputLayout})
+    List<TextInputLayout> inputLayouts;
     private SignUpFragmentBinding binding;
 
     public static SignUpFragment newInstance() {
@@ -32,28 +41,47 @@ public class SignUpFragment extends Fragment implements SignUpFragmentPresenter.
 
         binding.setUser(user);
         binding.setPresenter(presenter);
+        View view = binding.getRoot();
 
-        return binding.getRoot();
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
-    public void showErrorMessages(List<String> messages) {
-        for (String message : messages)
-            Toast.makeText(getActivity(),
-                    message,
-                    Toast.LENGTH_SHORT).show();
-
+    public void showErrorMessages(List<ErrorMessage> errors) {
+        for (ErrorMessage error : errors) {
+            if (error.getInputId() == null)
+                Snackbar.make(getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
+            else {
+                TextInputLayout input = getActivity().findViewById(error.getInputId());
+                input.setErrorEnabled(true);
+                input.setError(error.getMessage());
+            }
+        }
     }
 
     @Override
-    public void showMessage(String message) {
-        Toast.makeText(getActivity(),
-                message,
-                Toast.LENGTH_SHORT).show();
+    public void clearErrorMessages() {
+        ButterKnife.apply(inputLayouts, CLEAR_ERROR);
+    }
+
+    @Override
+    public void showMessageSuccess(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void reset() {
         binding.setUser(new SignUpViewModel());
+    }
+
+    @Override
+    public void showProgress() {
+        showProgressDialog(R.string.loading_signup);
+    }
+
+    @Override
+    public void hideProgress() {
+        hideProgressDialog();
     }
 }

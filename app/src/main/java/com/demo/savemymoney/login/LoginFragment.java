@@ -4,14 +4,14 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.demo.savemymoney.R;
+import com.demo.savemymoney.common.BaseFragment;
 import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.databinding.LoginFragmentBinding;
 
@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 
 import static com.demo.savemymoney.common.ButterKnifeActions.CLEAR_ERROR;
 
-public class LoginFragment extends Fragment implements LoginFragmentPresenter.View {
+public class LoginFragment extends BaseFragment implements LoginFragmentPresenter.View {
 
     @BindViews({R.id.emailInputLayout, R.id.passwordInputLayout})
     List<TextInputLayout> inputLayouts;
@@ -43,6 +43,7 @@ public class LoginFragment extends Fragment implements LoginFragmentPresenter.Vi
         binding.setPresenter(presenter);
 
         View view = binding.getRoot();
+
         ButterKnife.bind(this, view);
         return view;
     }
@@ -51,9 +52,7 @@ public class LoginFragment extends Fragment implements LoginFragmentPresenter.Vi
     public void showErrorMessages(List<ErrorMessage> errors) {
         for (ErrorMessage error : errors) {
             if (error.getInputId() == null)
-                Toast.makeText(getActivity(),
-                        error.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                Snackbar.make(getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
             else {
                 TextInputLayout input = getActivity().findViewById(error.getInputId());
                 input.setErrorEnabled(true);
@@ -65,6 +64,16 @@ public class LoginFragment extends Fragment implements LoginFragmentPresenter.Vi
 
     @Override
     public void clearErrorMessages() {
-        ButterKnife.apply(inputLayouts,CLEAR_ERROR);
+        ButterKnife.apply(inputLayouts, CLEAR_ERROR);
+    }
+
+    @Override
+    public void showProgress() {
+        showProgressDialog(R.string.loading_login);
+    }
+
+    @Override
+    public void hideProgress() {
+        this.hideProgressDialog();
     }
 }

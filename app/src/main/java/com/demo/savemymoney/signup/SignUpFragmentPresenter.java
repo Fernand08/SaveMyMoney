@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.util.Log;
 
 import com.demo.savemymoney.R;
+import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.main.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
@@ -30,8 +31,9 @@ public class SignUpFragmentPresenter {
     }
 
     public void signUp(SignUpViewModel model) {
-        List<String> errorMessages = getErrors(model);
+        List<ErrorMessage> errorMessages = getErrors(model);
         if (errorMessages.isEmpty()) {
+            view.showProgress();
             firebaseAuth.createUserWithEmailAndPassword(model.getEmail(), model.getPassword())
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -45,20 +47,23 @@ public class SignUpFragmentPresenter {
                             task.getResult().getUser().updateProfile(profileUpdates)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
+                                            view.hideProgress();
                                             activity.startActivity(new Intent(activity, MainActivity.class));
                                         } else {
+                                            view.hideProgress();
                                             TabLayout tabLayout = activity.findViewById(R.id.login_tab_layout);
                                             tabLayout.getTabAt(0).select();
-                                            view.showMessage(activity.getString(R.string.sign_up_success));
+                                            view.showMessageSuccess(activity.getString(R.string.sign_up_success));
                                             view.reset();
                                         }
                                     });
                         } else {
+                            view.hideProgress();
                             if (task.getException() instanceof FirebaseAuthUserCollisionException)
-                                view.showErrorMessages(Collections.singletonList(activity.getString(R.string.sign_up_user_collision)));
+                                view.showErrorMessages(Collections.singletonList(new ErrorMessage(null, activity.getString(R.string.sign_up_user_collision))));
                             else {
                                 Log.e(getClass().getName(), "Error creating user", task.getException());
-                                view.showErrorMessages(Collections.singletonList(activity.getString(R.string.sign_up_failed)));
+                                view.showErrorMessages(Collections.singletonList(new ErrorMessage(null, activity.getString(R.string.sign_up_failed))));
                             }
                         }
                     });
@@ -79,36 +84,49 @@ public class SignUpFragmentPresenter {
                 });
     }
 
-    private List<String> getErrors(SignUpViewModel model) {
-        List<String> errors = new ArrayList<>();
+    private List<ErrorMessage> getErrors(SignUpViewModel model) {
+        List<ErrorMessage> errors = new ArrayList<>();
+        view.clearErrorMessages();
         if (model == null)
-            errors.add(activity.getString(R.string.sign_up_error_model_null));
+            errors.add(new ErrorMessage(null, activity.getString(R.string.sign_up_error_model_null)));
         else {
             if (model.getFirstName() == null || model.getFirstName().isEmpty())
-                errors.add(activity.getString(R.string.login_error_first_name_empty));
+                errors.add(new ErrorMessage(R.id.firstNameInputLayout, activity.getString(R.string.login_error_first_name_empty)));
 
             if (model.getLastName() == null || model.getLastName().isEmpty())
-                errors.add(activity.getString(R.string.login_error_last_name_empty));
+                errors.add(new ErrorMessage(R.id.lastNameInputLayout, activity.getString(R.string.login_error_last_name_empty)));
 
             if (model.getEmail() == null || model.getEmail().isEmpty())
-                errors.add(activity.getString(R.string.login_error_email_empty));
+                errors.add(new ErrorMessage(R.id.emailSignUpInputLayout, activity.getString(R.string.login_error_email_empty)));
             else if (!EMAIL_ADDRESS.matcher(model.getEmail()).matches())
-                errors.add(activity.getString(R.string.login_error_email_invalid));
+                errors.add(new ErrorMessage(R.id.emailSignUpInputLayout, activity.getString(R.string.login_error_email_invalid)));
 
             if (model.getPassword() == null || model.getPassword().isEmpty())
-                errors.add(activity.getString(R.string.login_password_empty));
+                errors.add(new ErrorMessage(R.id.passwordSignUpInputLayout, activity.getString(R.string.login_password_empty)));
             else if (model.getPassword().length() < 6)
-                errors.add(activity.getString(R.string.sign_up_password_invalid));
+                errors.add(new ErrorMessage(R.id.passwordSignUpInputLayout, activity.getString(R.string.sign_up_password_invalid)));
+            else if (model.getPasswordConfirm() == null || model.getPasswordConfirm().isEmpty())
+                errors.add(new ErrorMessage(R.id.passwordConfirmInputLayout, activity.getString(R.string.login_password_empty)));
+            else if (model.getPasswordConfirm().length() < 6)
+                errors.add(new ErrorMessage(R.id.passwordConfirmInputLayout, activity.getString(R.string.sign_up_password_invalid)));
+            else if (!model.getPassword().equals(model.getPasswordConfirm()))
+                errors.add(new ErrorMessage(R.id.passwordConfirmInputLayout, activity.getString(R.string.sign_up_password_not_match)));
         }
 
         return errors;
     }
 
     public interface View {
-        void showErrorMessages(List<String> messages);
+        void showErrorMessages(List<ErrorMessage> errors);
 
-        void showMessage(String message);
+        void clearErrorMessages();
+
+        void showMessageSuccess(String message);
 
         void reset();
+
+        void showProgress();
+
+        void hideProgress();
     }
 }

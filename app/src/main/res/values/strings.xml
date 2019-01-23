@@ -19,4 +19,8 @@
     <string name="sign_up_error_model_null">Oops!</string>
     <string name="login_error_first_name_empty">Ingresa tus nombres</string>
     <string name="login_error_last_name_empty">Ingresa tu apellido</string>
+    <string name="loading_login">Iniciando sesión</string>
+    <string name="login_password_confirm">Confirmar contraseña</string>
+    <string name="sign_up_password_not_match">Las contraseñas no coinciden</string>
+    <string name="loading_signup">Registrando</string>
 </resources>

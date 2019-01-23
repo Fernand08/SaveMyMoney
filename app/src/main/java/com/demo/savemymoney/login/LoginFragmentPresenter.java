@@ -28,9 +28,11 @@ public class LoginFragmentPresenter {
     public void login(LoginViewModel model) {
         List<ErrorMessage> errorMessages = getErrors(model);
         if (errorMessages.isEmpty()) {
+            view.showProgress();
             view.clearErrorMessages();
             firebaseAuth.signInWithEmailAndPassword(model.getEmail(), model.getPassword())
                     .addOnCompleteListener(task -> {
+                        view.hideProgress();
                         if (task.isSuccessful()) {
                             Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
@@ -64,5 +66,9 @@ public class LoginFragmentPresenter {
         void showErrorMessages(List<ErrorMessage> errors);
 
         void clearErrorMessages();
+
+        void showProgress();
+
+        void hideProgress();
     }
 }

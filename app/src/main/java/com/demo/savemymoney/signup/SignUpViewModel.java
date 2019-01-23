@@ -14,6 +14,7 @@ public class SignUpViewModel extends BaseObservable {
     private String lastName;
     private String email;
     private String password;
+    private String passwordConfirm;
 
     @Bindable
     public String getFirstName() {
@@ -53,6 +54,16 @@ public class SignUpViewModel extends BaseObservable {
     public void setPassword(String password) {
         this.password = password;
         notifyPropertyChanged(BR.password);
+    }
+
+    @Bindable
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+        notifyPropertyChanged(BR.passwordConfirm);
     }
 
     Map<String, Object> toMap() {
