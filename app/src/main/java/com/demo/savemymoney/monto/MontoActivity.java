@@ -2,7 +2,7 @@ package com.demo.savemymoney.monto;
 
 import android.arch.persistence.room.Room;
 
-import android.content.Intent;
+
 
 import android.os.Bundle;
 import android.view.View;
@@ -19,9 +19,10 @@ import com.demo.savemymoney.data.db.AppDatabase;
 import com.demo.savemymoney.data.entity.Income;
 
 import com.demo.savemymoney.login.LoginActivity;
-import com.demo.savemymoney.main.MainActivity;
+
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 
 public class MontoActivity extends BaseActivity {
@@ -51,6 +52,8 @@ public class MontoActivity extends BaseActivity {
 
 
         db = Room.inMemoryDatabaseBuilder(this, AppDatabase.class).build();
+        //db = Room.DateBaseBuilder , seria mejor implementar con el DateBaseBuilder? o es con inMemoryDatebaseBuilder ?
+
         dao = db.incomeDao();
 
     }
@@ -85,33 +88,44 @@ public class MontoActivity extends BaseActivity {
 
     }
     public void Registrar(View view){
+        //Id Usuario
         String usuario =  mAuth.getCurrentUser().getUid();
-       String selecion = periodo.getSelectedItem().toString();
-        String  fechaInicio = txtFechaInicio.getText().toString();
-        Date fechaInicio_date=new SimpleDateFormat("dd/MM/yyyy").parse(fechaInicio,null);
 
+        //Periodo
+       String selecion = periodo.getSelectedItem().toString();
+
+       //Aun no ingresare una fecha, solo estoy tomando la fecha del dia de hoy
+        String  fechaInicio = txtFechaInicio.getText().toString();
+        // tomando la fecha del dia de hoy
+        Date fecha = java.util.Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.format(fecha);
+
+        // monto o sueldo a ingresar
         String monto = txtMonto.getText().toString();
         double monto_Double = Double.parseDouble(monto);
-     /*
 
-        Income result = dao.findByUserUID(usuario);
-        String validar = result.userUID;
-*/
+        Toast.makeText(this ,"LLEGUE AQUI ",Toast.LENGTH_SHORT).show();
 
+        if(!selecion.isEmpty()  && !monto.isEmpty()  ){
 
-        if(!selecion.isEmpty() && !fechaInicio.isEmpty() && !monto.isEmpty()  ){
             Income income = new Income();
-    /*      income.setUserUID(usuario);
-            income.setAmount(monto_Double);
-            income.setPeriod(selecion);
-            income.setStartDate(fechaInicio_date);
-            */
-            income.userUID = usuario ;
+            income.userUID = usuario;
             income.amount = monto_Double;
             income.period = selecion;
-            income.startDate = fechaInicio_date;
+            income.startDate = fecha;
+            income.payDate = fecha;
+            /*
+            income.setUserUID(usuario);
+            income.setAmount(monto_Double);
+            income.setPeriod(selecion);
+            income.setStartDate(fecha);
+            income.setPayDate(fecha);
 
-            dao.saveIncome(income);
+             */
+
+
+            dao.saveIncome(income);  // mi error llega aqui .
 
             Toast.makeText(this ,"Se Almaceno tu informacion ",Toast.LENGTH_SHORT).show();
 
