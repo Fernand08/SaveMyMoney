@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Save My Money</string>
-    <string name="login">Ingresar</string>
-    <string name="sign_up">Registrarse</string>
+    <string name="login">Ingresa</string>
+    <string name="sign_up">Regístrate</string>
     <string name="login_email">Email</string>
     <string name="login_password">Contraseña</string>
     <string name="login_go">Ingresar</string>
