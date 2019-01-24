@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.main.MainActivity;
+import com.demo.savemymoney.monto.MontoActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class LoginFragmentPresenter {
                     .addOnCompleteListener(task -> {
                         view.hideProgress();
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(context, MainActivity.class);
+                            Intent intent = new Intent(context, MontoActivity.class);
                             context.startActivity(intent);
                         } else
                             view.showErrorMessages(Collections.singletonList(new ErrorMessage(null, context.getString(R.string.login_failed))));
