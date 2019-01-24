@@ -23,4 +23,14 @@
     <string name="login_password_confirm">Confirmar contraseña</string>
     <string name="sign_up_password_not_match">Las contraseñas no coinciden</string>
     <string name="loading_signup">Registrando</string>
+
+
+
+
+    <string name="monto_nombre">Hola Bienvenido </string>
+    <string name="monto_ingrese_monto">Ingrese el Monto</string>
+    <string name="monto_periodo">Periodo</string>
+    <string name="monto_fechaInicio">Fecha Inicio</string>
+    <string name="monto_registrar">Siguiente</string>
+    <string name="monto_salir">Salir</string>
 </resources>

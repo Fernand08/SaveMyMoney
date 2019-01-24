@@ -12,6 +12,15 @@
         android:layout_height="wrap_content"
         android:onClick="signOut"
         android:text="Salir"
-        tools:layout_editor_absoluteX="139dp"
-        tools:layout_editor_absoluteY="16dp" />
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="89dp" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="inMonto"
+        android:text="Button"
+        tools:layout_editor_absoluteX="208dp"
+        tools:layout_editor_absoluteY="104dp" />
 </android.support.constraint.ConstraintLayout>
