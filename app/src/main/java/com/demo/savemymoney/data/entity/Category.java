@@ -13,4 +13,5 @@ public class Category {
     public String color;
     public Double distributedAmount;
     public Boolean isSaving;
+    public Boolean isDeletable;
 }
