@@ -1,12 +1,16 @@
 package com.demo.savemymoney.monto;
 
+import android.app.DatePickerDialog;
 import android.arch.persistence.room.Room;
 
 
-
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,9 +27,13 @@ import com.demo.savemymoney.login.LoginActivity;
 import com.github.clemp6r.futuroid.FutureCallback;
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class MontoActivity extends BaseActivity {
 
@@ -33,6 +41,13 @@ public class MontoActivity extends BaseActivity {
     private EditText txtMonto;
     private EditText txtFechaInicio;
     private Spinner periodo;
+
+
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+
+
+
 
     private IncomeRepository repository;
 
@@ -52,6 +67,52 @@ public class MontoActivity extends BaseActivity {
         periodo.setAdapter(adapter);
 
 
+
+        txtFechaInicio =(EditText)findViewById(R.id.txt_Fecha);
+
+        Locale locale = new Locale("ES");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getApplicationContext().getResources().updateConfiguration(config, null);
+        txtFechaInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date());
+                Date today = cal.getTime();
+                SimpleDateFormat dateformart = new SimpleDateFormat();
+                dateformart.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+                dateformart.applyPattern("dd/MM/yyyy");
+
+                String fecha =  dateformart.format(today);
+
+                int year  = cal.get(cal.YEAR);
+                int month = cal.get(cal.MONTH);
+                int day = cal.get(cal.DAY_OF_MONTH);
+                DatePickerDialog dialog = new DatePickerDialog(
+                        MontoActivity.this, R.style.Theme_AppCompat_Light_Dialog_MinWidth , mDateSetListener
+                        ,year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.rgb(89, 89, 89)));
+
+                dialog.setTitle("Seleccione Fecha de Ingreso del Sueldo");
+                dialog.getWindow();
+                dialog.show();
+            }
+        });
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int mouth, int day) {
+                mouth = mouth+1;
+                String  fecha = day+"/"+mouth+"/"+year;
+                txtFechaInicio.setText(fecha);
+            }
+        };
+
+
+
+        ////////////////////////////////////////////
         repository = new IncomeRepository(this);
 
     }
@@ -62,6 +123,18 @@ public class MontoActivity extends BaseActivity {
         super.onStart();
       String nombre = mAuth.getCurrentUser().getDisplayName();
       tvMonto.setText("Hola Bienvenido "+ nombre + ", Ingrese el monto por Periodo");
+
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(new Date());
+      int calendarTime = Calendar.DAY_OF_MONTH;
+      int temp = calendar.get(calendarTime);
+      calendar.set(calendarTime,temp);
+      SimpleDateFormat dateformart = new SimpleDateFormat();
+      dateformart.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+      Date fecha = calendar.getTime();
+      dateformart.applyPattern("dd/MM/yyyy");
+      String fecha_Actual = dateformart.format(fecha);
+      txtFechaInicio.setText(fecha_Actual);
 
 /*
       String usuario = mAuth.getCurrentUser().getUid();
@@ -85,25 +158,23 @@ public class MontoActivity extends BaseActivity {
 
 
     }
-    public void Registrar(View view){
-        //Id Usuario
+    public void Registrar(View view) throws ParseException {
+
         String usuario =  mAuth.getCurrentUser().getUid();
 
-        //Periodo
+
        String selecion = periodo.getSelectedItem().toString();
 
-       //Aun no ingresare una fecha, solo estoy tomando la fecha del dia de hoy
-        String  fechaInicio = txtFechaInicio.getText().toString();
-        // tomando la fecha del dia de hoy
-        Date fecha = java.util.Calendar.getInstance().getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.format(fecha);
 
-        // monto o sueldo a ingresar
+        String  fechaInicio = txtFechaInicio.getText().toString();
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaInicio_Date =  sdf.parse(fechaInicio);
         String monto = txtMonto.getText().toString();
         double monto_Double = Double.parseDouble(monto);
 
-        Toast.makeText(this ,"LLEGUE AQUI ",Toast.LENGTH_SHORT).show();
+
 
         if(!selecion.isEmpty()  && !monto.isEmpty()  ){
 
@@ -111,18 +182,9 @@ public class MontoActivity extends BaseActivity {
             income.userUID = usuario;
             income.amount = monto_Double;
             income.period = selecion;
-            income.startDate = fecha;
-            income.payDate = fecha;
-            /*
-            income.setUserUID(usuario);
-            income.setAmount(monto_Double);
-            income.setPeriod(selecion);
-            income.setStartDate(fecha);
-            income.setPayDate(fecha);
+            income.startDate = fechaInicio_Date;
+            income.payDate = fechaInicio_Date;
 
-             */
-
-// mi error llegaba* aqui .
 
             repository.save(income)
             .addCallback(new FutureCallback<Void>() {
