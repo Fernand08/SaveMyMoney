@@ -8,11 +8,14 @@ import android.support.test.runner.AndroidJUnit4;
 import com.demo.savemymoney.data.dao.MainAmountDao;
 import com.demo.savemymoney.data.db.AppDatabase;
 import com.demo.savemymoney.data.entity.MainAmount;
+import com.github.clemp6r.futuroid.Async;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.Callable;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,11 +39,16 @@ public class MainAmountEntityTest {
 
     @Test
     public void saveMainAmount() {
-        MainAmount mainAmount = new MainAmount();
-        mainAmount.userUID = "TEST_UID";
-        mainAmount.amount = 50000000.00;
-        dao.saveMainAmount(mainAmount);
-        MainAmount result = dao.findByUserUID(mainAmount.userUID);
-        assertThat(result.userUID, equalTo(mainAmount.userUID));
+
+        Async.submit((Callable<Void>) () -> {
+            MainAmount mainAmount = new MainAmount();
+            mainAmount.userUID = "TEST_UID";
+            mainAmount.amount = 50000000.00;
+            dao.saveMainAmount(mainAmount);
+            MainAmount result = dao.findByUserUID(mainAmount.userUID);
+            assertThat(result.userUID, equalTo(mainAmount.userUID));
+            return null;
+        });
+
     }
 }
