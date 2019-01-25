@@ -18,7 +18,9 @@ import com.demo.savemymoney.data.dao.IncomeDao;
 import com.demo.savemymoney.data.db.AppDatabase;
 import com.demo.savemymoney.data.entity.Income;
 
+import com.demo.savemymoney.data.repository.IncomeRepository;
 import com.demo.savemymoney.login.LoginActivity;
+import com.github.clemp6r.futuroid.FutureCallback;
 
 
 import java.text.SimpleDateFormat;
@@ -32,8 +34,7 @@ public class MontoActivity extends BaseActivity {
     private EditText txtFechaInicio;
     private Spinner periodo;
 
-    private IncomeDao dao ;
-    private AppDatabase db;
+    private IncomeRepository repository;
 
 
     @Override
@@ -51,10 +52,7 @@ public class MontoActivity extends BaseActivity {
         periodo.setAdapter(adapter);
 
 
-        db = Room.inMemoryDatabaseBuilder(this, AppDatabase.class).build();
-        //db = Room.DateBaseBuilder , seria mejor implementar con el DateBaseBuilder? o es con inMemoryDatebaseBuilder ?
-
-        dao = db.incomeDao();
+        repository = new IncomeRepository(this);
 
     }
   @Override
@@ -124,12 +122,23 @@ public class MontoActivity extends BaseActivity {
 
              */
 
+// mi error llegaba* aqui .
 
-            dao.saveIncome(income);  // mi error llega aqui .
+            repository.save(income)
+            .addCallback(new FutureCallback<Void>() {
+                @Override
+                public void onSuccess(Void result) {
+                    Toast.makeText(MontoActivity.this ,"Se Almaceno tu informacion ",Toast.LENGTH_SHORT).show();
+                }
 
-            Toast.makeText(this ,"Se Almaceno tu informacion ",Toast.LENGTH_SHORT).show();
+                @Override
+                public void onFailure(Throwable t) {
+                    Toast.makeText(MontoActivity.this ,"No Se Almaceno tu informacion :(",Toast.LENGTH_SHORT).show();
+                }
+            });
 
-            db.close();
+
+
 
 
         } else {
