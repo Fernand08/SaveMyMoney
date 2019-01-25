@@ -17,7 +17,7 @@ import com.demo.savemymoney.data.entity.MainAmount;
         Category.class,
         CategoryDetail.class,
         CategoryDetailHistory.class
-}, version = 1)
+}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract MainAmountDao mainAmountDao();
