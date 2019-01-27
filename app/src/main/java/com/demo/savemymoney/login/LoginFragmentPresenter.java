@@ -2,11 +2,14 @@ package com.demo.savemymoney.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.main.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,8 +39,14 @@ public class LoginFragmentPresenter {
                         if (task.isSuccessful()) {
                             Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
-                        } else
-                            view.showErrorMessages(Collections.singletonList(new ErrorMessage(null, context.getString(R.string.login_failed))));
+                        } else {
+                            Log.e(getClass().getName(), "Authentication error", task.getException());
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException)
+                                view.showErrorMessages(Collections.singletonList(new ErrorMessage(null, context.getString(R.string.login_failed))));
+                            else if (task.getException() instanceof FirebaseAuthInvalidUserException)
+                                view.showErrorMessages(Collections.singletonList(new ErrorMessage(null, context.getString(R.string.login_failed_user_not_exist))));
+
+                        }
                     });
         } else {
             view.clearErrorMessages();

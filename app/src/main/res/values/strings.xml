@@ -33,4 +33,5 @@
     <string name="menu_incomes">Ingresos</string>
     <string name="menu_home">Inicio</string>
     <string name="menu_exit">Salir</string>
+    <string name="login_failed_user_not_exist">No existe un usuario con el correo ingresado</string>
 </resources>
