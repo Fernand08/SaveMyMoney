@@ -8,6 +8,8 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -56,6 +58,17 @@ public class MontoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monto);
+
+        MontoFragment montoFragment = new MontoFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.add(R.id.id_montoactivity,montoFragment,null);
+        fragmentTransaction.commit();
+
+
+
+
 
         tvMonto = (TextView)findViewById(R.id.tv_Monto);
         txtMonto = (EditText)findViewById(R.id.txt_Monto);
@@ -219,4 +232,6 @@ public class MontoActivity extends BaseActivity {
         mAuth.signOut();
         goTo(LoginActivity.class);
     }
+
+
 }

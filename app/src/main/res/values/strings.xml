@@ -25,8 +25,6 @@
     <string name="loading_signup">Registrando</string>
 
 
-
-
     <string name="monto_nombre">Hola Bienvenido </string>
     <string name="monto_ingrese_monto">Ingrese el Monto</string>
     <string name="monto_periodo">Periodo</string>
@@ -34,4 +32,7 @@
     <string name="monto_registrar">Siguiente</string>
     <string name="monto_salir">Salir</string>
     <string name="ir_monto">Monto</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
