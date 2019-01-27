@@ -36,4 +36,6 @@
     <string name="login_failed_user_not_exist">No existe un usuario con el correo ingresado</string>
     <string name="sign_up_accept_terms">Acepto los términos y condiciones</string>
     <string name="sign_up_not_accepted_terms">Debes aceptar los términos y condiciones</string>
+    <string name="login_error_first_name_invalid">No es un nombre válido</string>
+    <string name="login_error_last_name_invalid">No es un apellido válido</string>
 </resources>
