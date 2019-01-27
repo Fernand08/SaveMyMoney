@@ -2,19 +2,19 @@
     <string name="app_name">Save My Money</string>
     <string name="login">Ingresa</string>
     <string name="sign_up">Regístrate</string>
-    <string name="login_email">Email</string>
+    <string name="login_email">Correo electrónico</string>
     <string name="login_password">Contraseña</string>
     <string name="login_go">Ingresar</string>
     <string name="login_error_model_null">Oops!</string>
     <string name="login_error_email_empty">Ingresa tu correo</string>
     <string name="login_error_email_invalid">Ingresa un correo válido</string>
     <string name="login_password_empty">Ingresa tu contraseña</string>
-    <string name="login_failed">Email o clave incorrectos</string>
+    <string name="login_failed">Correo electrónico o clave incorrectos</string>
     <string name="sign_up_success">Muy bien! Ahora ingresa tus datos</string>
     <string name="sign_up_failed">Datos incorrectos</string>
     <string name="sign_up_password_invalid">La contraseña debe tener al menos 6 caracteres</string>
     <string name="sign_up_user_collision">Este correo ya está siendo usado</string>
-    <string name="sign_up_last_name">Apellido</string>
+    <string name="sign_up_last_name">Apellidos</string>
     <string name="sign_up_first_name">Nombres</string>
     <string name="sign_up_error_model_null">Oops!</string>
     <string name="login_error_first_name_empty">Ingresa tus nombres</string>
@@ -34,4 +34,6 @@
     <string name="menu_home">Inicio</string>
     <string name="menu_exit">Salir</string>
     <string name="login_failed_user_not_exist">No existe un usuario con el correo ingresado</string>
+    <string name="sign_up_accept_terms">Acepto los términos y condiciones</string>
+    <string name="sign_up_not_accepted_terms">Debes aceptar los términos y condiciones</string>
 </resources>

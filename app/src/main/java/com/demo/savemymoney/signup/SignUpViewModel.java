@@ -15,6 +15,17 @@ public class SignUpViewModel extends BaseObservable {
     private String email;
     private String password;
     private String passwordConfirm;
+    private boolean acceptTerms;
+
+    @Bindable
+    public boolean getAcceptTerms() {
+        return acceptTerms;
+    }
+
+    public void setAcceptTerms(boolean acceptTerms) {
+        this.acceptTerms = acceptTerms;
+        notifyPropertyChanged(BR.acceptTerms);
+    }
 
     @Bindable
     public String getFirstName() {

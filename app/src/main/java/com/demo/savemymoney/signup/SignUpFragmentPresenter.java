@@ -111,6 +111,9 @@ public class SignUpFragmentPresenter {
                 errors.add(new ErrorMessage(R.id.passwordConfirmInputLayout, activity.getString(R.string.sign_up_password_invalid)));
             else if (!model.getPassword().equals(model.getPasswordConfirm()))
                 errors.add(new ErrorMessage(R.id.passwordConfirmInputLayout, activity.getString(R.string.sign_up_password_not_match)));
+
+            if (errors.isEmpty() && !model.getAcceptTerms())
+                errors.add(new ErrorMessage(null, activity.getString(R.string.sign_up_not_accepted_terms)));
         }
 
         return errors;
