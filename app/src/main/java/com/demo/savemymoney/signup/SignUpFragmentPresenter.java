@@ -40,10 +40,12 @@ public class SignUpFragmentPresenter {
 
                             saveToCloudDb(task.getResult().getUser().getUid(), model);
 
+
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(model.getFirstName())
                                     .build();
 
+                            task.getResult().getUser().sendEmailVerification();
                             task.getResult().getUser().updateProfile(profileUpdates)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
