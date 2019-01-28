@@ -38,4 +38,16 @@
     <string name="sign_up_not_accepted_terms">Debes aceptar los términos y condiciones</string>
     <string name="login_error_first_name_invalid">No es un nombre válido</string>
     <string name="login_error_last_name_invalid">No es un apellido válido</string>
+
+
+
+    <string name="monto_nombre">Hola Bienvenido </string>
+    <string name="monto_ingrese_monto">Ingrese el Monto</string>
+    <string name="monto_periodo">Periodo</string>
+    <string name="monto_fechaInicio">Fecha Inicio</string>
+    <string name="monto_registrar">Siguiente</string>
+    <string name="monto_salir">Salir</string>
+    <string name="ir_monto">Monto</string>
+
+
 </resources>
