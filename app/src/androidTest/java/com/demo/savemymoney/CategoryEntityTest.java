@@ -5,28 +5,27 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.demo.savemymoney.data.dao.MainAmountDao;
+import com.demo.savemymoney.data.dao.CategoryDao;
 import com.demo.savemymoney.data.db.AppDatabase;
-import com.demo.savemymoney.data.entity.MainAmount;
+import com.demo.savemymoney.data.entity.Category;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import java.util.Collections;
 
 @RunWith(AndroidJUnit4.class)
-public class MainAmountEntityTest {
-    private MainAmountDao dao;
+public class CategoryEntityTest {
+    private CategoryDao dao;
     private AppDatabase db;
 
     @Before
     public void createDb() {
         Context context = InstrumentationRegistry.getTargetContext();
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
-        dao = db.mainAmountDao();
+        dao = db.categoryDao();
     }
 
     @After
@@ -35,14 +34,16 @@ public class MainAmountEntityTest {
     }
 
     @Test
-    public void saveMainAmount() {
+    public void saveCategory() {
 
-        MainAmount mainAmount = new MainAmount();
-        mainAmount.userUID = "TEST_UID";
-        mainAmount.amount = 50000000.00;
-        dao.saveMainAmount(mainAmount);
-        MainAmount result = dao.findByUserUID(mainAmount.userUID);
-        assertThat(result.userUID, equalTo(mainAmount.userUID));
+        Category category = new Category();
+        category.userUID = "TEST_UID";
+        category.isSaving = true;
+        category.categoryId = 1;
+        category.color = "ffffff";
+        category.distributedAmount = 1900.87;
+        dao.save(Collections.singletonList(category));
 
+        dao.getAll(category.userUID);
     }
 }

@@ -18,6 +18,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static android.util.Patterns.EMAIL_ADDRESS;
+import static com.demo.savemymoney.common.validation.ValidationPatterns.FIRST_NAME;
+import static com.demo.savemymoney.common.validation.ValidationPatterns.LAST_NAME;
 
 public class SignUpFragmentPresenter {
     private View view;
@@ -40,10 +42,12 @@ public class SignUpFragmentPresenter {
 
                             saveToCloudDb(task.getResult().getUser().getUid(), model);
 
+
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(model.getFirstName())
                                     .build();
 
+                            task.getResult().getUser().sendEmailVerification();
                             task.getResult().getUser().updateProfile(profileUpdates)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
@@ -92,9 +96,13 @@ public class SignUpFragmentPresenter {
         else {
             if (model.getFirstName() == null || model.getFirstName().isEmpty())
                 errors.add(new ErrorMessage(R.id.firstNameInputLayout, activity.getString(R.string.login_error_first_name_empty)));
+            else if (!FIRST_NAME.matcher(model.getFirstName()).matches())
+                errors.add(new ErrorMessage(R.id.firstNameInputLayout, activity.getString(R.string.login_error_first_name_invalid)));
 
             if (model.getLastName() == null || model.getLastName().isEmpty())
                 errors.add(new ErrorMessage(R.id.lastNameInputLayout, activity.getString(R.string.login_error_last_name_empty)));
+            else if (!LAST_NAME.matcher(model.getLastName()).matches())
+                errors.add(new ErrorMessage(R.id.lastNameInputLayout, activity.getString(R.string.login_error_last_name_invalid)));
 
             if (model.getEmail() == null || model.getEmail().isEmpty())
                 errors.add(new ErrorMessage(R.id.emailSignUpInputLayout, activity.getString(R.string.login_error_email_empty)));
@@ -111,6 +119,9 @@ public class SignUpFragmentPresenter {
                 errors.add(new ErrorMessage(R.id.passwordConfirmInputLayout, activity.getString(R.string.sign_up_password_invalid)));
             else if (!model.getPassword().equals(model.getPasswordConfirm()))
                 errors.add(new ErrorMessage(R.id.passwordConfirmInputLayout, activity.getString(R.string.sign_up_password_not_match)));
+
+            if (errors.isEmpty() && !model.getAcceptTerms())
+                errors.add(new ErrorMessage(null, activity.getString(R.string.sign_up_not_accepted_terms)));
         }
 
         return errors;

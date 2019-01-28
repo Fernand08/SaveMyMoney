@@ -51,7 +51,7 @@ public class SignUpFragment extends BaseFragment implements SignUpFragmentPresen
     public void showErrorMessages(List<ErrorMessage> errors) {
         for (ErrorMessage error : errors) {
             if (error.getInputId() == null)
-                Snackbar.make(getView(), error.getMessage(), Snackbar.LENGTH_LONG).show();
+                showErrorMessage(error.getMessage());
             else {
                 TextInputLayout input = getActivity().findViewById(error.getInputId());
                 input.setErrorEnabled(true);
