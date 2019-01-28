@@ -1,23 +1,24 @@
 package com.demo.savemymoney.main;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseActivity;
 import com.demo.savemymoney.login.LoginActivity;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MainActivityPresenter.View {
+
+    MainActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,10 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        presenter = new MainActivityPresenter(this, this);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -90,10 +94,41 @@ public class MainActivity extends BaseActivity
         super.onStart();
         if (!isUserSignedIn())
             goTo(LoginActivity.class);
+
+        presenter.checkIfHasIncome();
     }
 
     public void signOut() {
         mAuth.signOut();
         goTo(LoginActivity.class);
+    }
+
+    @Override
+    public void showProgress(int resId) {
+        showProgressDialog(resId);
+    }
+
+    @Override
+    public void hideProgress() {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void showError(String message) {
+        showErrorMessage(message);
+    }
+
+    @Override
+    public void notifyToRegisterIncome() {
+        SweetAlertDialog alert = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText(getString(R.string.success_title))
+                .setContentText(getString(R.string.main_income_not_exist_message))
+                .setConfirmText(getString(R.string.main_income_confirm_register))
+                .setConfirmClickListener(sDialog -> {
+                    //TODO go to income activity
+                    sDialog.dismissWithAnimation();
+                });
+        alert.setCancelable(false);
+        alert.show();
     }
 }

@@ -31,6 +31,13 @@ public class BaseActivity extends AppCompatActivity {
         progressDialog.show();
     }
 
+    public void showErrorMessage(String message) {
+        new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Oops...")
+                .setContentText(message)
+                .show();
+    }
+
     public void hideProgressDialog() {
         progressDialog.dismiss();
     }

@@ -41,4 +41,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_income_error">No pudimos acceder a los ingresos</string>
+    <string name="main_income_loading">Verificando ingresos</string>
+    <string name="main_income_not_exist_message">Primero debes registrar tus ingresos</string>
+    <string name="success_title">Bien!</string>
+    <string name="main_income_confirm_register">Ok, vamos</string>
 </resources>
