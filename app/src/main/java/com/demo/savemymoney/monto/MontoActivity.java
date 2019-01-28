@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -40,33 +41,38 @@ import java.util.TimeZone;
 public class MontoActivity extends BaseActivity {
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monto);
+        setContentView(R.layout.fragment_monto);
 
-        MontoFragment montoFragment = new MontoFragment();
+       /* MontoFragment montoFragment = new MontoFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
+        */
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        MontoFragment montoFragment = (MontoFragment) fragmentManager.findFragmentById(R.id.id_montofragment);
+
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.id_fragmente_layout,montoFragment,null);
-        fragmentTransaction.commit();
+
+        if(montoFragment == null || montoFragment.isRemoving()){
+            montoFragment = new MontoFragment();
+            fragmentTransaction.add(R.id.id_montofragment,montoFragment,null);
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+            Log.e("Abstract","Done");
+        }
+
+
+
 
 
 
 
 
     }
-  @Override
-    protected  void  onStart() {
 
-
-        super.onStart();
-
-
-    }
 
 
 

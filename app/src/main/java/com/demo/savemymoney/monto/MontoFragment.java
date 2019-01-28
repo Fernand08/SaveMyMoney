@@ -95,60 +95,6 @@ public class MontoFragment extends BaseFragment {
 
 
 
-        tvMonto = (TextView)getView().findViewById(R.id.tv_Monto);
-        txtMonto = (EditText)getView().findViewById(R.id.txt_Monto);
-        txtFechaInicio =(EditText)getView().findViewById(R.id.txt_Fecha);
-        periodo = (Spinner)getView().findViewById(R.id.spinner);
-
-        String[] opciones = {"Mensual","Quincenal"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item_periodo_monto,opciones);
-        periodo.setAdapter(adapter);
-
-
-
-        Locale locale = new Locale("ES");
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        montoActivity.getApplicationContext().getResources().updateConfiguration(config, null);
-        txtFechaInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(new Date());
-                Date today = cal.getTime();
-                SimpleDateFormat dateformart = new SimpleDateFormat();
-                dateformart.setTimeZone(TimeZone.getTimeZone("GMT-5"));
-                dateformart.applyPattern("dd/MM/yyyy");
-
-                String fecha =  dateformart.format(today);
-
-                int year  = cal.get(cal.YEAR);
-                int month = cal.get(cal.MONTH);
-                int day = cal.get(cal.DAY_OF_MONTH);
-                DatePickerDialog dialog = new DatePickerDialog(
-                        getContext(), R.style.Theme_AppCompat_Light_Dialog_MinWidth , mDateSetListener
-                        ,year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.rgb(89, 89, 89)));
-
-                dialog.setTitle("Seleccione Fecha de Ingreso del Sueldo");
-                dialog.getWindow();
-                dialog.show();
-            }
-        });
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int mouth, int day) {
-                mouth = mouth+1;
-                String  fecha = day+"/"+mouth+"/"+year;
-                txtFechaInicio.setText(fecha);
-            }
-        };
-
-        repository = new IncomeRepository(getContext());
-
     }
 
 
@@ -197,12 +143,67 @@ public class MontoFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_monto, container,false);
 
 
+
+        tvMonto = (TextView)view.findViewById(R.id.tv_Monto);
+        txtMonto = (EditText)view.findViewById(R.id.txt_Monto);
+        txtFechaInicio =(EditText)view.findViewById(R.id.txt_Fecha);
+        periodo = (Spinner)view.findViewById(R.id.spinner);
+
+        String[] opciones = {"Mensual","Quincenal"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item_periodo_monto,opciones);
+        periodo.setAdapter(adapter);
+
+
+
+        Locale locale = new Locale("ES");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+       getActivity(). getApplicationContext().getResources().updateConfiguration(config, null);
+        txtFechaInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date());
+                Date today = cal.getTime();
+                SimpleDateFormat dateformart = new SimpleDateFormat();
+                dateformart.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+                dateformart.applyPattern("dd/MM/yyyy");
+
+                String fecha =  dateformart.format(today);
+
+                int year  = cal.get(cal.YEAR);
+                int month = cal.get(cal.MONTH);
+                int day = cal.get(cal.DAY_OF_MONTH);
+                DatePickerDialog dialog = new DatePickerDialog(
+                        getContext(), R.style.Theme_AppCompat_Light_Dialog_MinWidth , mDateSetListener
+                        ,year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.rgb(89, 89, 89)));
+
+                dialog.setTitle("Seleccione Fecha de Ingreso del Sueldo");
+                dialog.getWindow();
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int mouth, int day) {
+                mouth = mouth+1;
+                String  fecha = day+"/"+mouth+"/"+year;
+                txtFechaInicio.setText(fecha);
+            }
+        };
+
+        repository = new IncomeRepository(getContext());
 
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_monto, container, false);
+        return view;
     }
 
     public void Registrar(View view) throws ParseException {
