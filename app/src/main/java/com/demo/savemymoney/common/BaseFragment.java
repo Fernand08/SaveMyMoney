@@ -1,15 +1,20 @@
 package com.demo.savemymoney.common;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BaseFragment extends Fragment {
     private SweetAlertDialog progressDialog;
-
+    public FirebaseAuth mAuth;
     @Override
     public void onStart() {
         super.onStart();
+        mAuth = FirebaseAuth.getInstance();
         progressDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.setCancelable(false);
     }
@@ -29,4 +34,13 @@ public class BaseFragment extends Fragment {
                 .setContentText(message)
                 .show();
     }
+
+    public boolean isUserSignedIn() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        return currentUser != null;
+    }
+    public void goTo(Class activity) {
+        startActivity(new Intent(getContext(), activity));
+    }
+
 }

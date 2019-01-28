@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseActivity;
+import com.demo.savemymoney.common.BaseFragment;
 import com.demo.savemymoney.data.entity.Income;
 import com.demo.savemymoney.data.repository.IncomeRepository;
 import com.demo.savemymoney.login.LoginActivity;
@@ -42,7 +43,7 @@ import java.util.TimeZone;
  * Use the {@link MontoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MontoFragment extends Fragment{
+public class MontoFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -62,8 +63,6 @@ public class MontoFragment extends Fragment{
     private Spinner periodo;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private IncomeRepository repository;
-
-    private BaseActivity baseActivity;
 
 
 
@@ -160,7 +159,7 @@ public class MontoFragment extends Fragment{
 
 
         super.onStart();
-        String nombre = baseActivity.mAuth.getCurrentUser().getDisplayName();
+        String nombre = mAuth.getCurrentUser().getDisplayName();
         tvMonto.setText("Hola Bienvenido " + nombre + ", Ingrese el monto por Periodo");
 
         Calendar calendar = Calendar.getInstance();
@@ -176,10 +175,10 @@ public class MontoFragment extends Fragment{
         txtFechaInicio.setText(fecha_Actual);
 
 
-        if (!baseActivity.isUserSignedIn()) {
-           baseActivity.goTo(LoginActivity.class);
+        if (!isUserSignedIn()) {
+         goTo(LoginActivity.class);
         } else
-            Toast.makeText(getContext(), "Hello" +baseActivity.mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_LONG);
+            Toast.makeText(getContext(), "Hello" +mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_LONG);
 
 
     }
@@ -208,7 +207,7 @@ public class MontoFragment extends Fragment{
 
     public void Registrar(View view) throws ParseException {
 
-        String usuario =  baseActivity.mAuth.getCurrentUser().getUid();
+        String usuario =  mAuth.getCurrentUser().getUid();
 
 
         String selecion = periodo.getSelectedItem().toString();
@@ -264,8 +263,8 @@ public class MontoFragment extends Fragment{
     }
 
     public void  signOut(View view){
-       baseActivity.mAuth.signOut();
-       baseActivity.goTo(LoginActivity.class);
+       mAuth.signOut();
+    goTo(LoginActivity.class);
     }
 
 
