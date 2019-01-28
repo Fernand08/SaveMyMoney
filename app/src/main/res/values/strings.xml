@@ -38,4 +38,7 @@
     <string name="sign_up_not_accepted_terms">Debes aceptar los términos y condiciones</string>
     <string name="login_error_first_name_invalid">No es un nombre válido</string>
     <string name="login_error_last_name_invalid">No es un apellido válido</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
