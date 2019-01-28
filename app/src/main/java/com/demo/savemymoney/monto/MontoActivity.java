@@ -51,7 +51,7 @@ public class MontoActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.id_montoactivity,montoFragment,null);
+        fragmentTransaction.add(R.id.id_fragmente_layout,montoFragment,null);
         fragmentTransaction.commit();
 
 
@@ -67,9 +67,6 @@ public class MontoActivity extends BaseActivity {
 
 
     }
-
-
-
 
 
 
