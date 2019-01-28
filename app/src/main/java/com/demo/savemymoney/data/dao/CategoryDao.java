@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface CategoryDao {
     @Insert
-    void save(List<Category> category);
+    void save(List<Category> categories);
 
     @Insert
     void save(Category category);

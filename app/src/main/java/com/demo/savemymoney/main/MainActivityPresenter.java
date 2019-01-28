@@ -41,6 +41,10 @@ public class MainActivityPresenter {
                 });
     }
 
+    public void addDefaultCategoriesIfNotExists(){
+
+    }
+
     public interface View {
         void showProgress(int resId);
 
