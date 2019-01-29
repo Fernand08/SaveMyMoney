@@ -15,7 +15,7 @@ public class BaseFragment extends Fragment {
     public void onStart() {
         super.onStart();
         mAuth = FirebaseAuth.getInstance();
-        progressDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        progressDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.setCancelable(false);
     }
 

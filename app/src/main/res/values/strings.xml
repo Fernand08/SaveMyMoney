@@ -39,15 +39,20 @@
     <string name="login_error_first_name_invalid">No es un nombre válido</string>
     <string name="login_error_last_name_invalid">No es un apellido válido</string>
 
-
-
     <string name="monto_nombre">Hola Bienvenido </string>
     <string name="monto_ingrese_monto">Ingrese el Monto</string>
     <string name="monto_periodo">Periodo</string>
     <string name="monto_fechaInicio">Fecha Inicio</string>
-    <string name="monto_registrar">Siguiente</string>
+    <string name="monto_registrar">Guardar</string>
     <string name="monto_salir">Salir</string>
     <string name="ir_monto">Monto</string>
+    <string name="monto_frequency">Frecuencia</string>
+    <string name="monto_frequency_month">Mensual</string>
+    <string name="monto_frequency_15_days">Quincenal</string>
+    <string name="income_register_title">Registrar Ingresos</string>
+    <string name="income_register_subtitle">Registra tus ingresos periódicos</string>
+    <string name="income_invalid">El monto del ingreso debe ser mayor a 0.00</string>
+    <string name="income_loading">Guardando ingreso</string>
 
 
 </resources>

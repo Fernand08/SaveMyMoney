@@ -1,115 +1,112 @@
 package com.demo.savemymoney.monto;
 
 
-
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.res.Configuration;
-import android.databinding.ViewDataBinding;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.demo.savemymoney.R;
-import com.demo.savemymoney.common.BaseActivity;
 import com.demo.savemymoney.common.BaseFragment;
+import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.data.entity.Income;
-import com.demo.savemymoney.data.repository.IncomeRepository;
-import com.demo.savemymoney.login.LoginActivity;
-import com.github.clemp6r.futuroid.FutureCallback;
+import com.demo.savemymoney.databinding.FragmentMontoBinding;
 
-
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MontoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MontoFragment extends BaseFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import ru.kolotnev.formattedittext.CurrencyEditText;
 
 
-    private  MontoActivity montoActivity;
+public class MontoFragment extends BaseFragment implements MontoFragmentPresenter.View {
+
+    @BindView(R.id.monto_textInputLayout)
+    TextInputLayout montoTil;
+    @BindView(R.id.txt_Monto)
+    CurrencyEditText txtMonto;
+    @BindView(R.id.txt_Fecha)
+    EditText txtFechaInicio;
+
+    @BindView(R.id.monto_mensual_radio)
+    RadioButton mensualRadio;
+
+    @BindView(R.id.monto_quincenal_radio)
+    RadioButton QuincenalRadio;
+
+    @BindView(R.id.monto_frequency_radiogroup)
+    RadioGroup frequencyGroup;
 
 
-    private TextView tvMonto;
-    private EditText txtMonto;
-    private EditText txtFechaInicio;
-    private Spinner periodo;
-    private Button btnRegistrar;
-    private Button btnSalir;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private IncomeRepository repository;
 
-
-
-    public MontoFragment() {
-        // Required empty public constructor
-    }
-
-
-
-
-
-
-    // TODO: Rename and change types and number of parameters
-    public static MontoFragment newInstance(String param1, String param2) {
-        MontoFragment fragment = new MontoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static MontoFragment newInstance() {
+        return new MontoFragment();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        FragmentMontoBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_monto, container, false);
+        MontoFragmentPresenter presenter = new MontoFragmentPresenter(this, getContext());
+        binding.setPresenter(presenter);
 
+        View view = binding.getRoot();
 
-
+        ButterKnife.bind(this, view);
+        return view;
     }
 
-
-
-    @SuppressLint("MissingSuperCall")
     @Override
-    public   void  onStart() {
-
-
+    public void onStart() {
         super.onStart();
-        String nombre = mAuth.getCurrentUser().getDisplayName();
-        tvMonto.setText("Hola Bienvenido " + nombre + ", Ingrese el monto por Periodo");
+        initUI();
+    }
+
+    private void initUI() {
+
+        frequencyGroup.check(R.id.monto_mensual_radio);
+        Locale locale = new Locale("ES");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getApplicationContext().getResources().updateConfiguration(config, null);
+
+        txtFechaInicio.setOnClickListener(view12 -> {
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            SimpleDateFormat dateformart = new SimpleDateFormat();
+            dateformart.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+            dateformart.applyPattern("dd/MM/yyyy");
+
+            int year = cal.get(cal.YEAR);
+            int month = cal.get(cal.MONTH);
+            int day = cal.get(cal.DAY_OF_MONTH);
+            new DatePickerDialog(
+                    getContext(), mDateSetListener
+                    , year, month, day).show();
+        });
+
+        mDateSetListener = (datePicker, year, month, day) -> {
+            month = month + 1;
+            String fecha = day + "/" + month + "/" + year;
+            txtFechaInicio.setText(fecha);
+        };
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -122,169 +119,65 @@ public class MontoFragment extends BaseFragment {
         dateformart.applyPattern("dd/MM/yyyy");
         String fecha_Actual = dateformart.format(fecha);
         txtFechaInicio.setText(fecha_Actual);
-
-
-        if (!isUserSignedIn()) {
-         goTo(LoginActivity.class);
-        } else
-            Toast.makeText(getContext(), "Hello" +mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_LONG);
-
-
     }
-
-
-
-
-
-
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void showErrorMessages(List<ErrorMessage> errors) {
 
-        View view = inflater.inflate(R.layout.fragment_monto, container,false);
-
-
-
-        tvMonto = (TextView)view.findViewById(R.id.tv_Monto);
-        txtMonto = (EditText)view.findViewById(R.id.txt_Monto);
-        txtFechaInicio =(EditText)view.findViewById(R.id.txt_Fecha);
-        periodo = (Spinner)view.findViewById(R.id.spinner);
-        btnRegistrar = (Button)view.findViewById(R.id.btnRegistrar);
-        btnSalir = (Button)view.findViewById(R.id.btnSalir);
-
-        String[] opciones = {"Mensual","Quincenal"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item_periodo_monto,opciones);
-        periodo.setAdapter(adapter);
-
-
-
-        Locale locale = new Locale("ES");
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-       getActivity(). getApplicationContext().getResources().updateConfiguration(config, null);
-
-        repository = new IncomeRepository(getContext());
-
-        txtFechaInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(new Date());
-                Date today = cal.getTime();
-                SimpleDateFormat dateformart = new SimpleDateFormat();
-                dateformart.setTimeZone(TimeZone.getTimeZone("GMT-5"));
-                dateformart.applyPattern("dd/MM/yyyy");
-
-                String fecha =  dateformart.format(today);
-
-                int year  = cal.get(cal.YEAR);
-                int month = cal.get(cal.MONTH);
-                int day = cal.get(cal.DAY_OF_MONTH);
-                DatePickerDialog dialog = new DatePickerDialog(
-                        getContext(), R.style.Theme_AppCompat_Light_Dialog_MinWidth , mDateSetListener
-                        ,year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.rgb(89, 89, 89)));
-
-                dialog.setTitle("Seleccione Fecha de Ingreso del Sueldo");
-                dialog.getWindow();
-                dialog.show();
+        for (ErrorMessage error : errors) {
+            if (error.getInputId() == null)
+                showErrorMessage(error.getMessage());
+            else {
+                TextInputLayout input = getActivity().findViewById(error.getInputId());
+                input.setErrorEnabled(true);
+                input.setError(error.getMessage());
             }
-        });
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int mouth, int day) {
-                mouth = mouth+1;
-                String  fecha = day+"/"+mouth+"/"+year;
-                txtFechaInicio.setText(fecha);
-            }
-        };
-
-        btnRegistrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String usuario =  mAuth.getCurrentUser().getUid();
-
-
-                String selecion = periodo.getSelectedItem().toString();
-
-
-                String  fechaInicio = txtFechaInicio.getText().toString();
-
-
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                Date fechaInicio_Date = null;
-                try {
-                    fechaInicio_Date = sdf.parse(fechaInicio);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                String monto = txtMonto.getText().toString();
-                double monto_Double = Double.parseDouble(monto);
-
-
-
-                if(!selecion.isEmpty()  && !monto.isEmpty()  ){
-
-                    Income income = new Income();
-                    income.userUID = usuario;
-                    income.amount = monto_Double;
-                    income.period = selecion;
-                    income.startDate = fechaInicio_Date;
-                    income.payDate = fechaInicio_Date;
-
-
-                    repository.save(income)
-                            .addCallback(new FutureCallback<Void>() {
-                                @Override
-                                public void onSuccess(Void result) {
-                                    Toast.makeText(getContext() ,"Se Almaceno tu informacion ",Toast.LENGTH_SHORT).show();
-                                }
-
-                                @Override
-                                public void onFailure(Throwable t) {
-                                    Toast.makeText(getContext() ,"No Se Almaceno tu informacion :(",Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-
-
-
-
-                } else {
-                    Toast.makeText(getContext() ,"Debes llenar todas los campos",Toast.LENGTH_SHORT).show();
-
-                }
-
-
-
-
-
-
-
-            }
-        });
-
-        btnSalir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                goTo(LoginActivity.class);
-            }
-        });
-        // Inflate the layout for this fragment
-        return view;
+        }
     }
 
+    @Override
+    public void clearErrorMessages() {
+        montoTil.setErrorEnabled(false);
+        montoTil.setError("");
+    }
 
+    @Override
+    public void showProgress() {
+        showProgressDialog(R.string.income_loading);
+    }
 
+    @Override
+    public void hideProgress() {
+        hideProgressDialog();
+    }
 
+    @Override
+    public Income getIncome() {
+        BigDecimal monto = txtMonto.getValue();
+        String usuario = mAuth.getCurrentUser().getUid();
+        String selecion = mensualRadio.isSelected() ? "MENSUAL" : "QUINCENAL";
+        String fechaInicio = txtFechaInicio.getText().toString();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaInicio_Date = null;
+        try {
+            fechaInicio_Date = sdf.parse(fechaInicio);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
+        Income income = new Income();
+        income.userUID = usuario;
+        income.amount = monto.doubleValue();
+        income.period = selecion;
+        income.startDate = fechaInicio_Date;
+        income.payDate = fechaInicio_Date;
+        return income;
+    }
 
+    @Override
+    public void finish() {
+        getActivity().finish();
+    }
 }
