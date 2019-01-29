@@ -1,5 +1,6 @@
 package com.demo.savemymoney.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseActivity;
 import com.demo.savemymoney.login.LoginActivity;
+import com.demo.savemymoney.monto.MontoActivity;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -125,8 +127,8 @@ public class MainActivity extends BaseActivity
                 .setContentText(getString(R.string.main_income_not_exist_message))
                 .setConfirmText(getString(R.string.main_income_confirm_register))
                 .setConfirmClickListener(sDialog -> {
-                    //TODO go to income activity
                     sDialog.dismissWithAnimation();
+                    startActivity(new Intent(MainActivity.this, MontoActivity.class));
                 });
         alert.setCancelable(false);
         alert.show();

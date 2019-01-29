@@ -10,6 +10,7 @@ import com.github.clemp6r.futuroid.Async;
 import com.github.clemp6r.futuroid.Future;
 
 import static com.demo.savemymoney.common.AppConstants.DATABASE_NAME;
+import static com.github.clemp6r.futuroid.Async.submit;
 
 public class IncomeRepository {
 

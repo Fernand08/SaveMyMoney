@@ -38,7 +38,7 @@ public class LoginFragmentPresenter {
                     .addOnCompleteListener(task -> {
                         view.hideProgress();
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(context, MontoActivity.class);
+                            Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
                         } else {
                             Log.e(getClass().getName(), "Authentication error", task.getException());
