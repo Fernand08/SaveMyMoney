@@ -7,9 +7,19 @@
     android:layout_height="match_parent"
     tools:context=".monto.MontoActivity">
 
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.demo.savemymoney.monto.MontoFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
 
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_monto"
 
-
+        />
 
 
 </android.support.constraint.ConstraintLayout>

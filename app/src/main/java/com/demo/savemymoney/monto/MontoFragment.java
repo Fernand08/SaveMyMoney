@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -61,6 +62,8 @@ public class MontoFragment extends BaseFragment {
     private EditText txtMonto;
     private EditText txtFechaInicio;
     private Spinner periodo;
+    private Button btnRegistrar;
+    private Button btnSalir;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private IncomeRepository repository;
 
@@ -135,9 +138,6 @@ public class MontoFragment extends BaseFragment {
 
 
 
-    public void  singOut(View view){
-        montoActivity.signOut(view);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -151,6 +151,8 @@ public class MontoFragment extends BaseFragment {
         txtMonto = (EditText)view.findViewById(R.id.txt_Monto);
         txtFechaInicio =(EditText)view.findViewById(R.id.txt_Fecha);
         periodo = (Spinner)view.findViewById(R.id.spinner);
+        btnRegistrar = (Button)view.findViewById(R.id.btnRegistrar);
+        btnSalir = (Button)view.findViewById(R.id.btnSalir);
 
         String[] opciones = {"Mensual","Quincenal"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.spinner_item_periodo_monto,opciones);
@@ -163,6 +165,9 @@ public class MontoFragment extends BaseFragment {
         Configuration config = new Configuration();
         config.locale = locale;
        getActivity(). getApplicationContext().getResources().updateConfiguration(config, null);
+
+        repository = new IncomeRepository(getContext());
+
         txtFechaInicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,74 +204,85 @@ public class MontoFragment extends BaseFragment {
             }
         };
 
-        repository = new IncomeRepository(getContext());
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String usuario =  mAuth.getCurrentUser().getUid();
 
 
+                String selecion = periodo.getSelectedItem().toString();
+
+
+                String  fechaInicio = txtFechaInicio.getText().toString();
+
+
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date fechaInicio_Date = null;
+                try {
+                    fechaInicio_Date = sdf.parse(fechaInicio);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                String monto = txtMonto.getText().toString();
+                double monto_Double = Double.parseDouble(monto);
+
+
+
+                if(!selecion.isEmpty()  && !monto.isEmpty()  ){
+
+                    Income income = new Income();
+                    income.userUID = usuario;
+                    income.amount = monto_Double;
+                    income.period = selecion;
+                    income.startDate = fechaInicio_Date;
+                    income.payDate = fechaInicio_Date;
+
+
+                    repository.save(income)
+                            .addCallback(new FutureCallback<Void>() {
+                                @Override
+                                public void onSuccess(Void result) {
+                                    Toast.makeText(getContext() ,"Se Almaceno tu informacion ",Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onFailure(Throwable t) {
+                                    Toast.makeText(getContext() ,"No Se Almaceno tu informacion :(",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+
+
+
+                } else {
+                    Toast.makeText(getContext() ,"Debes llenar todas los campos",Toast.LENGTH_SHORT).show();
+
+                }
+
+
+
+
+
+
+
+            }
+        });
+
+        btnSalir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                goTo(LoginActivity.class);
+            }
+        });
         // Inflate the layout for this fragment
         return view;
     }
 
-    public void Registrar(View view) throws ParseException {
-
-        String usuario =  mAuth.getCurrentUser().getUid();
 
 
-        String selecion = periodo.getSelectedItem().toString();
-
-
-        String  fechaInicio = txtFechaInicio.getText().toString();
-
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date fechaInicio_Date =  sdf.parse(fechaInicio);
-        String monto = txtMonto.getText().toString();
-        double monto_Double = Double.parseDouble(monto);
-
-
-
-        if(!selecion.isEmpty()  && !monto.isEmpty()  ){
-
-            Income income = new Income();
-            income.userUID = usuario;
-            income.amount = monto_Double;
-            income.period = selecion;
-            income.startDate = fechaInicio_Date;
-            income.payDate = fechaInicio_Date;
-
-
-            repository.save(income)
-                    .addCallback(new FutureCallback<Void>() {
-                        @Override
-                        public void onSuccess(Void result) {
-                            Toast.makeText(getContext() ,"Se Almaceno tu informacion ",Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(Throwable t) {
-                            Toast.makeText(getContext() ,"No Se Almaceno tu informacion :(",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-
-
-
-
-        } else {
-            Toast.makeText(getContext() ,"Debes llenar todas los campos",Toast.LENGTH_SHORT).show();
-
-        }
-
-
-
-     /*   Intent i = new Intent(this, MainActivity.class);
-
-        startActivity(i); */
-    }
-
-    public void  signOut(View view){
-       mAuth.signOut();
-    goTo(LoginActivity.class);
-    }
 
 
 

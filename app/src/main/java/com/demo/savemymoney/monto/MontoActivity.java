@@ -44,13 +44,16 @@ public class MontoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_monto);
+     //   setContentView(R.layout.fragment_monto);  <- Si es con este, me sale doble
+
+        setContentView(R.layout.activity_monto); // <- Me sale error
+
 
        /* MontoFragment montoFragment = new MontoFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         */
         FragmentManager fragmentManager = getSupportFragmentManager();
-        MontoFragment montoFragment = (MontoFragment) fragmentManager.findFragmentById(R.id.id_montofragment);
+        MontoFragment montoFragment = (MontoFragment) fragmentManager.findFragmentById(R.id.fragment);
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -58,10 +61,11 @@ public class MontoActivity extends BaseActivity {
         if(montoFragment == null || montoFragment.isRemoving()){
             montoFragment = new MontoFragment();
             fragmentTransaction.add(R.id.id_montofragment,montoFragment,null);
+
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-            Log.e("Abstract","Done");
+
         }
 
 
