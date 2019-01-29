@@ -2,6 +2,7 @@ package com.demo.savemymoney.monto;
 
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -17,7 +18,8 @@ import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseFragment;
 import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.data.entity.Income;
-import com.demo.savemymoney.databinding.FragmentMontoBinding;
+import com.demo.savemymoney.databinding.MontoFragmentBinding;
+import com.demo.savemymoney.main.MainActivity;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -30,6 +32,7 @@ import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import ru.kolotnev.formattedittext.CurrencyEditText;
 
 
@@ -61,7 +64,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentMontoBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_monto, container, false);
+        MontoFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.monto_fragment, container, false);
         MontoFragmentPresenter presenter = new MontoFragmentPresenter(this, getContext());
         binding.setPresenter(presenter);
 
@@ -177,7 +180,21 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
     }
 
     @Override
-    public void finish() {
-        getActivity().finish();
+    public void notifyIncomeSaved() {
+
+        SweetAlertDialog alert = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText(getString(R.string.success_title))
+                .setContentText(getString(R.string.income_succes_save))
+                .setConfirmText(getString(R.string.income_confirm_save))
+                .setConfirmClickListener(sDialog -> {
+                    sDialog.dismissWithAnimation();
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getContext().startActivity(intent);
+                    getActivity().finish();
+                });
+        alert.setCancelable(false);
+        alert.show();
     }
+
 }

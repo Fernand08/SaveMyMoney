@@ -85,7 +85,6 @@
             android:onClick="@{()->presenter.saveIncome()}"
             android:text="@string/monto_registrar" />
 
-
     </LinearLayout>
 
 

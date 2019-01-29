@@ -60,5 +60,7 @@
     <string name="income_register_subtitle">Registra tus ingresos periódicos</string>
     <string name="income_invalid">El monto del ingreso debe ser mayor a 0.00</string>
     <string name="income_loading">Guardando ingreso</string>
+    <string name="income_succes_save">Genial! ya estás listo para administrar tu dinero</string>
+    <string name="income_confirm_save">Ok!</string>
 
 </resources>

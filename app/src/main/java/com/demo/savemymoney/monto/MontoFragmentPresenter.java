@@ -1,14 +1,12 @@
 package com.demo.savemymoney.monto;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.data.entity.Income;
 import com.demo.savemymoney.data.repository.IncomeRepository;
-import com.demo.savemymoney.main.MainActivity;
 import com.github.clemp6r.futuroid.FutureCallback;
 
 import java.util.ArrayList;
@@ -35,11 +33,7 @@ public class MontoFragmentPresenter {
                         @Override
                         public void onSuccess(Void result) {
                             view.hideProgress();
-                            Log.i(getClass().getName(), "Income saved");
-                            Intent intent = new Intent(context, MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                            view.finish();
+                            view.notifyIncomeSaved();
                         }
 
                         @Override
@@ -72,6 +66,6 @@ public class MontoFragmentPresenter {
 
         Income getIncome();
 
-        void finish();
+        void notifyIncomeSaved();
     }
 }
