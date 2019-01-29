@@ -2,15 +2,17 @@ package com.demo.savemymoney.data.repository;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.util.Log;
 
 import com.demo.savemymoney.data.db.AppDatabase;
 import com.demo.savemymoney.data.entity.Income;
+import com.github.clemp6r.futuroid.Async;
 import com.github.clemp6r.futuroid.Future;
 
 import static com.demo.savemymoney.common.AppConstants.DATABASE_NAME;
-import static com.github.clemp6r.futuroid.Async.submit;
 
 public class IncomeRepository {
+
     private AppDatabase database;
 
     public IncomeRepository(Context context) {

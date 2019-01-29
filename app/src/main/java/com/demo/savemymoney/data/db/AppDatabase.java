@@ -23,7 +23,7 @@ import com.demo.savemymoney.data.entity.MainAmount;
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract MainAmountDao mainAmountDao();
-
+    public abstract IncomeDao incomeDao();
     public abstract CategoryDao categoryDao();
 
     public abstract IncomeDao incomeDao();

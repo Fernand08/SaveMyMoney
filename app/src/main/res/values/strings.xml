@@ -46,4 +46,19 @@
     <string name="main_income_not_exist_message">Primero debes registrar tus ingresos</string>
     <string name="success_title">Bien!</string>
     <string name="main_income_confirm_register">Ok, vamos</string>
+    <string name="monto_nombre">Hola Bienvenido </string>
+    <string name="monto_ingrese_monto">Ingrese el Monto</string>
+    <string name="monto_periodo">Periodo</string>
+    <string name="monto_fechaInicio">Fecha Inicio</string>
+    <string name="monto_registrar">Guardar</string>
+    <string name="monto_salir">Salir</string>
+    <string name="ir_monto">Monto</string>
+    <string name="monto_frequency">Frecuencia</string>
+    <string name="monto_frequency_month">Mensual</string>
+    <string name="monto_frequency_15_days">Quincenal</string>
+    <string name="income_register_title">Registrar Ingresos</string>
+    <string name="income_register_subtitle">Registra tus ingresos periódicos</string>
+    <string name="income_invalid">El monto del ingreso debe ser mayor a 0.00</string>
+    <string name="income_loading">Guardando ingreso</string>
+
 </resources>

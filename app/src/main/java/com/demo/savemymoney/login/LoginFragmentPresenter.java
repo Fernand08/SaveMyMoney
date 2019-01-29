@@ -7,6 +7,7 @@ import android.util.Log;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.main.MainActivity;
+import com.demo.savemymoney.monto.MontoActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
@@ -37,7 +38,7 @@ public class LoginFragmentPresenter {
                     .addOnCompleteListener(task -> {
                         view.hideProgress();
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(context, MainActivity.class);
+                            Intent intent = new Intent(context, MontoActivity.class);
                             context.startActivity(intent);
                         } else {
                             Log.e(getClass().getName(), "Authentication error", task.getException());
