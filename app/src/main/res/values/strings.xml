@@ -62,5 +62,6 @@
     <string name="income_loading">Guardando ingreso</string>
     <string name="income_succes_save">Genial! ya estás listo para administrar tu dinero</string>
     <string name="income_confirm_save">Ok!</string>
+    <string name="income_succes_save_main">Se guardó tu configuración de ingresos</string>
 
 </resources>

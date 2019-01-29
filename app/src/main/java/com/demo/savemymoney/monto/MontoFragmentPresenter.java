@@ -8,6 +8,7 @@ import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.data.entity.Income;
 import com.demo.savemymoney.data.repository.IncomeRepository;
 import com.github.clemp6r.futuroid.FutureCallback;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +17,13 @@ public class MontoFragmentPresenter {
     private View view;
     private Context context;
     private IncomeRepository repository;
+    private FirebaseAuth firebaseAuth;
 
     public MontoFragmentPresenter(View view, Context context) {
         this.view = view;
         this.context = context;
         repository = new IncomeRepository(context);
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     public void saveIncome() {
@@ -55,6 +58,25 @@ public class MontoFragmentPresenter {
         return errors;
     }
 
+    public void loadIncome() {
+        view.showProgress();
+        repository.getIncome(firebaseAuth.getCurrentUser().getUid())
+                .addCallback(new FutureCallback<Income>() {
+                    @Override
+                    public void onSuccess(Income result) {
+                        view.hideProgress();
+                        if(result!=null){
+                            view.loadValues(result);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        view.hideProgress();
+                    }
+                });
+    }
+
     public interface View {
         void showErrorMessages(List<ErrorMessage> errors);
 
@@ -67,5 +89,7 @@ public class MontoFragmentPresenter {
         Income getIncome();
 
         void notifyIncomeSaved();
+
+        void loadValues(Income result);
     }
 }

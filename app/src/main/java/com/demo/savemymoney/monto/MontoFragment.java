@@ -57,6 +57,10 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
+    MontoFragmentPresenter presenter;
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat();
+
     public static MontoFragment newInstance() {
         return new MontoFragment();
     }
@@ -65,7 +69,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MontoFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.monto_fragment, container, false);
-        MontoFragmentPresenter presenter = new MontoFragmentPresenter(this, getContext());
+        presenter = new MontoFragmentPresenter(this, getContext());
         binding.setPresenter(presenter);
 
         View view = binding.getRoot();
@@ -78,9 +82,12 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
     public void onStart() {
         super.onStart();
         initUI();
+        presenter.loadIncome();
     }
 
     private void initUI() {
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+        dateFormat.applyPattern("dd/MM/yyyy");
 
         frequencyGroup.check(R.id.monto_mensual_radio);
         Locale locale = new Locale("ES");
@@ -116,11 +123,9 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
         int calendarTime = Calendar.DAY_OF_MONTH;
         int temp = calendar.get(calendarTime);
         calendar.set(calendarTime, temp);
-        SimpleDateFormat dateformart = new SimpleDateFormat();
-        dateformart.setTimeZone(TimeZone.getTimeZone("GMT-5"));
+
         Date fecha = calendar.getTime();
-        dateformart.applyPattern("dd/MM/yyyy");
-        String fecha_Actual = dateformart.format(fecha);
+        String fecha_Actual = dateFormat.format(fecha);
         txtFechaInicio.setText(fecha_Actual);
     }
 
@@ -159,7 +164,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
     public Income getIncome() {
         BigDecimal monto = txtMonto.getValue();
         String usuario = mAuth.getCurrentUser().getUid();
-        String selecion = mensualRadio.isSelected() ? "MENSUAL" : "QUINCENAL";
+        String selecion = frequencyGroup.getCheckedRadioButtonId() == mensualRadio.getId() ? "MENSUAL" : "QUINCENAL";
         String fechaInicio = txtFechaInicio.getText().toString();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -181,20 +186,37 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
 
     @Override
     public void notifyIncomeSaved() {
-
         SweetAlertDialog alert = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText(getString(R.string.success_title))
-                .setContentText(getString(R.string.income_succes_save))
-                .setConfirmText(getString(R.string.income_confirm_save))
-                .setConfirmClickListener(sDialog -> {
-                    sDialog.dismissWithAnimation();
-                    Intent intent = new Intent(getContext(), MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    getContext().startActivity(intent);
-                    getActivity().finish();
-                });
+                .setTitleText(getString(R.string.success_title));
+        if (getActivity().getClass().equals(MontoActivity.class)) {
+            alert.setContentText(getString(R.string.income_succes_save))
+                    .setConfirmText(getString(R.string.income_confirm_save))
+                    .setConfirmClickListener(sDialog -> {
+                        sDialog.dismissWithAnimation();
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        getContext().startActivity(intent);
+                        getActivity().finish();
+                    });
+        } else {
+            alert.setContentText(getString(R.string.income_succes_save_main))
+                    .setConfirmClickListener(sDialog -> {
+                        getActivity().onBackPressed();
+                    });
+        }
         alert.setCancelable(false);
         alert.show();
+    }
+
+    @Override
+    public void loadValues(Income result) {
+        txtMonto.setValue(BigDecimal.valueOf(result.getAmount()));
+        txtFechaInicio.setText(dateFormat.format(result.payDate));
+        if ("MENSUAL".equals(result.period))
+            frequencyGroup.check(R.id.monto_mensual_radio);
+        else
+            frequencyGroup.check(R.id.monto_quincenal_radio);
+
     }
 
 }
