@@ -73,5 +73,6 @@
     <string name="amount_editor_accion_change">cambiar</string>
     <string name="error_alert_title">Oops!</string>
     <string name="amount_editor_error_decrease">No puedes disminuir más del monto actual</string>
+    <string name="dummy_category_amount">S/ 0.00</string>
 
 </resources>
