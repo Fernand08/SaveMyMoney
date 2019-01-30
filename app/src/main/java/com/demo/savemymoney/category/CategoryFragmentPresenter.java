@@ -6,6 +6,8 @@ import android.util.Log;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.exceptions.CategoryInvalidAmountException;
 import com.demo.savemymoney.data.entity.Category;
+import com.demo.savemymoney.data.entity.CategoryDetail;
+import com.demo.savemymoney.data.repository.CategoryDetailRepository;
 import com.demo.savemymoney.data.repository.CategoryRepository;
 import com.github.clemp6r.futuroid.FutureCallback;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,12 +19,14 @@ public class CategoryFragmentPresenter {
     private Context context;
     private FirebaseAuth firebaseAuth;
     private CategoryRepository categoryRepository;
+    private CategoryDetailRepository categoryDetailRepository;
 
     public CategoryFragmentPresenter(View view, Context context) {
         this.view = view;
         this.context = context;
         this.firebaseAuth = FirebaseAuth.getInstance();
         categoryRepository = new CategoryRepository(context);
+        categoryDetailRepository = new CategoryDetailRepository(context);
     }
 
     public void increaseDistributedAmount(Integer categoryId, BigDecimal amount) {
@@ -69,10 +73,25 @@ public class CategoryFragmentPresenter {
                 .addSuccessCallback(result -> view.updateCategory(result));
     }
 
+    public void saveDetail(CategoryDetail detail) {
+        detail.userUID = firebaseAuth.getCurrentUser().getUid();
+        categoryDetailRepository.saveDetail(detail)
+                .addSuccessCallback(result -> {
+                    view.showSuccess(context.getString(R.string.category_detail_success_register));
+                    loadCategory(detail.categoryId);
+                    view.refreshDetailList();
+                });
+
+    }
+
     public interface View {
 
         void showError(String string);
 
         void updateCategory(Category result);
+
+        void refreshDetailList();
+
+        void showSuccess(String string);
     }
 }

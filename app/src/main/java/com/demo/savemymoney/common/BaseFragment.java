@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
+import com.demo.savemymoney.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -33,6 +34,13 @@ public class BaseFragment extends Fragment {
     public void showError(String message) {
         new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
                 .setTitleText("Oops...")
+                .setContentText(message)
+                .show();
+    }
+
+    public void showSuccess(String message) {
+        new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText(getString(R.string.success_title))
                 .setContentText(message)
                 .show();
     }

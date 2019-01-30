@@ -34,6 +34,7 @@
         android:columnWidth="80dp"
         android:gravity="center"
         android:horizontalSpacing="2dp"
+        android:verticalSpacing="2dp"
         android:numColumns="auto_fit" />
 
 </LinearLayout>

@@ -1,8 +1,8 @@
 package com.demo.savemymoney.common.components;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;

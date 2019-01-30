@@ -80,5 +80,14 @@
     <string name="main_income_amount_title">Actualmente tienes para distribuir:</string>
     <string name="category_detail_title">Tienes asignado a esta categoría:</string>
     <string name="category_increase_error">No puedes incrementar por encima del monto principal</string>
+    <string name="category_detail_spending_subtitle">Registra tu gasto</string>
+    <string name="category_detail_spending_register">Registrar gasto</string>
+    <string name="app_dialog_cancel">Cancelar</string>
+    <string name="category_detail_date">Fecha</string>
+    <string name="category_detail_description">Descripción (Opcional)</string>
+    <string name="category_detail_amount">Monto</string>
+    <string name="category_detail_amount_invalid">El monto debe ser mayor a 0.00</string>
+    <string name="category_detail_amount_overflow">Sobrepasa el monto asignado</string>
+    <string name="category_detail_success_register">Gasto guardado</string>
 
 </resources>
