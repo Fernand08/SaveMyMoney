@@ -2,21 +2,21 @@ package com.demo.savemymoney.common.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.data.entity.Category;
 
 import java.util.List;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class CategoryAdapter extends BaseAdapter {
     private List<Category> categories;
@@ -53,7 +53,7 @@ public class CategoryAdapter extends BaseAdapter {
             ImageView categoryIcon = categoryView.findViewById(R.id.category_icon);
             categoryIcon.setImageResource(category.icon);
             categoryNameTv.setText(category.name);
-            categoryView.setLayoutParams(new ViewGroup.LayoutParams(150, 150));
+            categoryView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
             categoryView.setBackgroundColor(Color.parseColor(category.color));
         } else
             categoryView = convertView;

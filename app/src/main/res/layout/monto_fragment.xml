@@ -31,8 +31,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/monto_ingrese_monto"
                 android:inputType="numberDecimal"
-                app:currency="PEN"
-                app:locale="es" />
+                app:currency="PEN" />
         </android.support.design.widget.TextInputLayout>
 
         <RadioGroup
