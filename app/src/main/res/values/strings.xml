@@ -76,5 +76,7 @@
     <string name="dummy_category_amount">S/ 0.00</string>
     <string name="income_update_title">Configurar ingresos</string>
     <string name="main_income_title">Inicio</string>
+    <string name="main_income_categories_text">Selecciona una categoría para asignar un monto o registrar un gasto</string>
+    <string name="main_income_amount_title">Actualmente tienes para distribuir:</string>
 
 </resources>
