@@ -200,9 +200,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
                     });
         } else {
             alert.setContentText(getString(R.string.income_succes_save_main))
-                    .setConfirmClickListener(sDialog -> {
-                        getActivity().onBackPressed();
-                    });
+                    .setConfirmClickListener(sDialog -> getActivity().onBackPressed());
         }
         alert.setCancelable(false);
         alert.show();

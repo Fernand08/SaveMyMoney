@@ -42,6 +42,7 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         presenter = new MainActivityPresenter(this, this);
+        navigateFragment(new MainFragment());
     }
 
 
@@ -83,7 +84,9 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_incomes) {
+        if (id == R.id.nav_home) {
+            navigateFragment(new MainFragment());
+        } else if (id == R.id.nav_incomes) {
             navigateFragment(new MontoFragment());
         } else if (id == R.id.nav_exit) {
             signOut();

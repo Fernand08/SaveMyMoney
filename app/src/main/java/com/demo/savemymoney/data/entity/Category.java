@@ -14,4 +14,12 @@ public class Category {
     public Double distributedAmount;
     public Boolean isSaving;
     public Boolean isDeletable;
+
+    public Category(@NonNull Integer categoryId, String name, String color, Boolean isSaving, Boolean isDeletable) {
+        this.categoryId = categoryId;
+        this.name = name;
+        this.color = color;
+        this.isSaving = isSaving;
+        this.isDeletable = isDeletable;
+    }
 }

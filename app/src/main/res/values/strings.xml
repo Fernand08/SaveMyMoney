@@ -63,5 +63,6 @@
     <string name="income_succes_save">Genial! ya estás listo para administrar tu dinero</string>
     <string name="income_confirm_save">Ok!</string>
     <string name="income_succes_save_main">Se guardó tu configuración de ingresos</string>
+    <string name="main_category_loading">Cargando categorías</string>
 
 </resources>
