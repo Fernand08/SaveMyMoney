@@ -3,6 +3,7 @@ package com.demo.savemymoney.data.repository;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import com.demo.savemymoney.R;
 import com.demo.savemymoney.data.db.AppDatabase;
 import com.demo.savemymoney.data.entity.Category;
 import com.github.clemp6r.futuroid.Future;
@@ -16,10 +17,10 @@ import static com.github.clemp6r.futuroid.Async.submit;
 public class CategoryRepository {
 
     private List<Category> DEFAULT_CATEGORY_LIST = Arrays.asList(
-            new Category(1, "Ahorros", "#ffffff", true, false),
-            new Category(2, "Educación", "#ffffff", false, false),
-            new Category(3, "Diversión", "#ffffff", false, false),
-            new Category(4, "Casa", "#ffffff", false, false)
+            new Category(1, "Ahorros", "#4286f4", R.drawable.ic_home_black_24dp, true, false),
+            new Category(2, "Educación", "#70b72a", R.drawable.ic_home_black_24dp, false, false),
+            new Category(3, "Diversión", "#9e1f8d", R.drawable.ic_home_black_24dp, false, false),
+            new Category(4, "Casa", "#d86800", R.drawable.ic_home_black_24dp, false, false)
     );
 
     private AppDatabase database;

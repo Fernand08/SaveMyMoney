@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseActivity;
-import com.demo.savemymoney.common.ViewPagerAdapter;
+import com.demo.savemymoney.common.adapters.ViewPagerAdapter;
 import com.demo.savemymoney.main.MainActivity;
 import com.demo.savemymoney.signup.SignUpFragment;
 

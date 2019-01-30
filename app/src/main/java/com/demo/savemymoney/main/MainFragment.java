@@ -4,12 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.GridView;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseFragment;
+import com.demo.savemymoney.common.adapters.CategoryAdapter;
 import com.demo.savemymoney.data.entity.Category;
 
 import java.util.List;
@@ -54,15 +53,8 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
     @Override
     public void showCategoryList(List<Category> result) {
 
-        LinearLayout parentLayout = getActivity().findViewById(R.id.categories_container);
-        LayoutInflater layoutInflater = getLayoutInflater();
-
-        for (Category category : result) {
-            layoutInflater.inflate(R.layout.categories_layout, parentLayout, false);
-            Button button = new Button(getContext());
-            button.setText(category.name);
-            parentLayout.addView(button);
-        }
+        GridView categoriesGrid = getActivity().findViewById(R.id.categories_container);
+        categoriesGrid.setAdapter(new CategoryAdapter(result, getContext()));
 
     }
 }
