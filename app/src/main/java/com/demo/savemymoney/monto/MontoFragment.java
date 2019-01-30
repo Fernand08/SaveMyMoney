@@ -83,6 +83,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
         super.onStart();
         initUI();
         presenter.loadIncome();
+        getActivity().setTitle(R.string.income_update_title);
     }
 
     private void initUI() {

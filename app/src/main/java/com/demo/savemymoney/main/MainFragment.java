@@ -49,6 +49,7 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
         amountEditor.setOnAmountChangeListener(this);
         presenter.getCategoryList();
         presenter.getMainAmount();
+        getActivity().setTitle(R.string.main_income_title);
     }
 
     @Override
