@@ -24,10 +24,12 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 public class CategoryAdapter extends BaseAdapter {
     private List<Category> categories;
     private Context context;
+    private OnCategorySelectedListener listener;
 
-    public CategoryAdapter(@NonNull List<Category> categories, @NonNull Context context) {
+    public CategoryAdapter(@NonNull List<Category> categories, @NonNull Context context, OnCategorySelectedListener listener) {
         this.categories = categories;
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -60,6 +62,7 @@ public class CategoryAdapter extends BaseAdapter {
             categoryAmountTv.setText(formatAsText(category.distributedAmount));
             categoryView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
             categoryView.setBackgroundColor(Color.parseColor(category.color));
+            categoryView.setOnClickListener(v -> listener.onSelectCategory(category));
         } else
             categoryView = convertView;
 
@@ -70,5 +73,9 @@ public class CategoryAdapter extends BaseAdapter {
         NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
         format.setCurrency(Currency.getInstance("PEN"));
         return format.format(distributedAmount);
+    }
+
+    public interface OnCategorySelectedListener {
+        void onSelectCategory(Category category);
     }
 }

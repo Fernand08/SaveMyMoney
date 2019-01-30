@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.demo.savemymoney.R;
+import com.demo.savemymoney.category.CategoryFragment;
 import com.demo.savemymoney.common.BaseFragment;
 import com.demo.savemymoney.common.adapters.CategoryAdapter;
 import com.demo.savemymoney.common.components.AmountEditor;
@@ -19,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainFragment extends BaseFragment implements MainFragmentPresenter.View, AmountEditor.OnAmountChangeListener {
+public class MainFragment extends BaseFragment implements MainFragmentPresenter.View, AmountEditor.OnAmountChangeListener, CategoryAdapter.OnCategorySelectedListener {
 
     @BindView(R.id.main_amount_editor)
     AmountEditor amountEditor;
@@ -65,7 +66,7 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
     @Override
     public void showCategoryList(List<Category> result) {
         GridView categoriesGrid = getActivity().findViewById(R.id.categories_container);
-        categoriesGrid.setAdapter(new CategoryAdapter(result, getContext()));
+        categoriesGrid.setAdapter(new CategoryAdapter(result, getContext(), this));
     }
 
     @Override
@@ -86,5 +87,10 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
     @Override
     public void onChangeAmount(BigDecimal amount) {
         presenter.changeAmount(amount);
+    }
+
+    @Override
+    public void onSelectCategory(Category category) {
+        goTo(CategoryFragment.newInstance(category), R.id.content_frame);
     }
 }

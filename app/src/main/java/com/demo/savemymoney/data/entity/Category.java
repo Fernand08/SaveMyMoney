@@ -3,8 +3,10 @@ package com.demo.savemymoney.data.entity;
 import android.arch.persistence.room.Entity;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
 @Entity(primaryKeys = {"userUID", "categoryId"})
-public class Category {
+public class Category implements Serializable {
     @NonNull
     public String userUID;
     @NonNull

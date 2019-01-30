@@ -78,5 +78,7 @@
     <string name="main_income_title">Inicio</string>
     <string name="main_income_categories_text">Selecciona una categoría para asignar un monto o registrar un gasto</string>
     <string name="main_income_amount_title">Actualmente tienes para distribuir:</string>
+    <string name="category_detail_title">Tienes asignado a esta categoría:</string>
+    <string name="category_increase_error">No puedes incrementar por encima del monto principal</string>
 
 </resources>

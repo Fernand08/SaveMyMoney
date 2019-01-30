@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -76,9 +77,11 @@ public class AmountEditor extends LinearLayout {
         builder.setCancelable(false);
 
         final CurrencyEditText input = promptView.findViewById(R.id.dialog_amount_editor_currency);
-        if (view.getId() == R.id.amount_editor_mount_tv)
+        if (view.getId() == R.id.amount_editor_mount_tv) {
+            input.setSelectAllOnFocus(true);
             input.setValue(BigDecimal.valueOf(currentAmount));
-
+        }
+        showKeyboard();
         builder.setPositiveButton(getContext().getString(R.string.amount_editor_dialog_positive), (dialog, which) -> {
             BigDecimal amount = input.getValue();
             if (view.getId() == R.id.amount_editor_plus)
@@ -88,8 +91,21 @@ public class AmountEditor extends LinearLayout {
             else
                 onChange(amount);
         });
-        builder.setNegativeButton(getContext().getString(R.string.amount_editor_dialog_negative), (dialog, which) -> dialog.cancel());
+        builder.setNegativeButton(getContext().getString(R.string.amount_editor_dialog_negative), (dialog, which) -> {
+            dialog.cancel();
+            closeKeyboard();
+        });
         builder.show();
+    }
+
+    private void showKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
+
+    private void closeKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
     public void setAmount(Double amount) {
@@ -105,12 +121,13 @@ public class AmountEditor extends LinearLayout {
     }
 
     private void onIncrease(BigDecimal amount) {
+        closeKeyboard();
         if (onAmountChangeListener != null)
             onAmountChangeListener.onIncreaseAmount(amount);
     }
 
     private void onDecrease(BigDecimal amount) {
-
+        closeKeyboard();
         if (currentAmount < amount.doubleValue()) {
             new SweetAlertDialog(getContext(), ERROR_TYPE)
                     .setTitleText(getContext().getString(R.string.error_alert_title))
@@ -124,8 +141,10 @@ public class AmountEditor extends LinearLayout {
     }
 
     private void onChange(BigDecimal amount) {
-        if (onAmountChangeListener != null)
+        closeKeyboard();
+        if (onAmountChangeListener != null) {
             onAmountChangeListener.onChangeAmount(amount);
+        }
     }
 
     public interface OnAmountChangeListener {
