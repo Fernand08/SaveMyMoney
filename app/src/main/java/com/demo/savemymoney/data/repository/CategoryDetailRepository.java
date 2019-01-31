@@ -33,4 +33,12 @@ public class CategoryDetailRepository {
     public LiveData<List<CategoryDetail>> getAll(String userUID, Integer categoryId) {
         return database.categoryDetailDao().findAll(userUID, categoryId);
     }
+
+    public Future<Object> deleteDetail(CategoryDetail detail) {
+        return submit(() -> {
+            database.categoryDao().increaseAmount(detail.userUID, detail.categoryId, detail.amount);
+            database.categoryDetailDao().deleteDetail(detail);
+            return null;
+        });
+    }
 }

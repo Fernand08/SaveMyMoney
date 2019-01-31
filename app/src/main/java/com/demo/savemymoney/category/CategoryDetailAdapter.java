@@ -3,6 +3,7 @@ package com.demo.savemymoney.category;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -27,10 +28,16 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
     private List<CategoryDetail> data;
     private Context context;
     private LayoutInflater layoutInflater;
+    private OnDeleteButtonClickListener listener;
 
-    public CategoryDetailAdapter(Context context) {
+    public interface OnDeleteButtonClickListener {
+        void onDeleteButtonClicked(CategoryDetail categoryDetail);
+    }
+
+    public CategoryDetailAdapter(Context context, OnDeleteButtonClickListener listener) {
         this.data = new ArrayList<>();
         this.context = context;
+        this.listener = listener;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -71,6 +78,8 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
         TextView date;
         @BindView(R.id.description)
         TextView description;
+        @BindView(R.id.delete_button)
+        AppCompatImageButton deleteButton;
 
         CategoryDetailViewHolder(View itemView) {
             super(itemView);
@@ -84,6 +93,10 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
                 amount.setText(String.format("- %s", format.format(categoryDetail.amount)));
                 date.setText(DateUtils.getRelativeTimeSpanString(categoryDetail.date.getTime()));
                 description.setText(categoryDetail.description);
+                deleteButton.setOnClickListener(v -> {
+                    if (listener != null)
+                        listener.onDeleteButtonClicked(categoryDetail);
+                });
             }
         }
 

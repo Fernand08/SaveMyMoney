@@ -81,7 +81,6 @@ public class CategoryFragmentPresenter {
                 .addSuccessCallback(result -> {
                     view.showSuccess(context.getString(R.string.category_detail_success_register));
                     loadCategory(detail.categoryId);
-                    view.refreshDetailList();
                 });
 
     }
@@ -90,13 +89,19 @@ public class CategoryFragmentPresenter {
         return categoryDetailRepository.getAll(firebaseAuth.getCurrentUser().getUid(), categoryId);
     }
 
+    public void deleteDetail(CategoryDetail detail) {
+        categoryDetailRepository.deleteDetail(detail)
+                .addSuccessCallback(result -> {
+                    view.showSuccess(context.getString(R.string.category_detail_success_deleted));
+                    loadCategory(detail.categoryId);
+                });
+    }
+
     public interface View {
 
         void showError(String string);
 
         void updateCategory(Category result);
-
-        void refreshDetailList();
 
         void showSuccess(String string);
     }

@@ -27,8 +27,9 @@ import java.math.BigDecimal;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class CategoryFragment extends BaseFragment implements CategoryFragmentPresenter.View, AmountEditor.OnAmountChangeListener, CategoryDetailDialogFragment.OnDetailAcceptedListener {
+public class CategoryFragment extends BaseFragment implements CategoryFragmentPresenter.View, AmountEditor.OnAmountChangeListener, CategoryDetailDialogFragment.OnDetailAcceptedListener, CategoryDetailAdapter.OnDeleteButtonClickListener {
     private static final String ARG_CATEGORY_ID = "category";
     private Category category;
 
@@ -67,7 +68,7 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
         categoryAmountEditor.setOnAmountChangeListener(this);
         fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(category.color)));
 
-        categoryDetailAdapter = new CategoryDetailAdapter(getContext());
+        categoryDetailAdapter = new CategoryDetailAdapter(getContext(), this);
 
         presenter.getDetail(category.categoryId).observe(this, details -> categoryDetailAdapter.setData(details));
 
@@ -121,12 +122,23 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
     }
 
     @Override
-    public void refreshDetailList() {
-
+    public void onDetailAccepted(CategoryDetail detail) {
+        presenter.saveDetail(detail);
     }
 
     @Override
-    public void onDetailAccepted(CategoryDetail detail) {
-        presenter.saveDetail(detail);
+    public void onDeleteButtonClicked(CategoryDetail categoryDetail) {
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(getString(R.string.app_caution))
+                .setContentText(getString(R.string.category_detail_delete_item))
+                .setConfirmText(getString(R.string.app_yes))
+                .setCancelText(getString(R.string.app_no))
+                .setConfirmClickListener(dialog -> {
+                    presenter.deleteDetail(categoryDetail);
+                    dialog.dismissWithAnimation();
+                })
+                .setCancelClickListener(dialog -> dialog.cancel())
+                .show();
+
     }
 }

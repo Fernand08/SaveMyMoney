@@ -89,5 +89,10 @@
     <string name="category_detail_amount_invalid">El monto debe ser mayor a 0.00</string>
     <string name="category_detail_amount_overflow">Sobrepasa el monto asignado</string>
     <string name="category_detail_success_register">Gasto guardado</string>
+    <string name="app_caution">Cuidado!</string>
+    <string name="category_detail_delete_item">¿Eliminar este gasto?</string>
+    <string name="app_yes">Si</string>
+    <string name="app_no">No</string>
+    <string name="category_detail_success_deleted">Gasto eliminado</string>
 
 </resources>
