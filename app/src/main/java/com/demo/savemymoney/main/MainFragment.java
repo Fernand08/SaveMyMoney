@@ -13,12 +13,14 @@ import com.demo.savemymoney.common.adapters.CategoryAdapter;
 import com.demo.savemymoney.common.components.AmountEditor;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.MainAmount;
+import com.demo.savemymoney.monto.MontoFragment;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainFragment extends BaseFragment implements MainFragmentPresenter.View, AmountEditor.OnAmountChangeListener, CategoryAdapter.OnCategorySelectedListener {
 
@@ -72,6 +74,20 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
     @Override
     public void showMainAmount(MainAmount result) {
         amountEditor.setAmount(result.amount);
+    }
+
+    @Override
+    public void notifyIncomeNotFound() {
+        SweetAlertDialog alert = new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                .setTitleText(getString(R.string.error_alert_title))
+                .setContentText(getString(R.string.main_income_not_exist_message))
+                .setConfirmText(getString(R.string.main_income_confirm_register))
+                .setConfirmClickListener(sDialog -> {
+                    sDialog.dismissWithAnimation();
+                    goTo(MontoFragment.newInstance(), R.id.content_frame);
+                });
+        alert.setCancelable(false);
+        alert.show();
     }
 
     @Override

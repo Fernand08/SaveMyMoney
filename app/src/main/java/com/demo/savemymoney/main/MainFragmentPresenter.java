@@ -67,7 +67,18 @@ public class MainFragmentPresenter {
 
     public void increaseAmount(BigDecimal amount) {
         mainAmountRepository.increaseAmount(firebaseAuth.getCurrentUser().getUid(), amount.doubleValue())
-                .addSuccessCallback(result -> getMainAmount());
+                .addCallback(new FutureCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        getMainAmount();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.e(getClass().getName(), "Error increasing main amount", t);
+                        view.notifyIncomeNotFound();
+                    }
+                });
     }
 
     public void decreaseAmount(BigDecimal amount) {
@@ -77,7 +88,18 @@ public class MainFragmentPresenter {
 
     public void changeAmount(BigDecimal amount) {
         mainAmountRepository.changeAmount(firebaseAuth.getCurrentUser().getUid(), amount.doubleValue())
-                .addSuccessCallback(result -> getMainAmount());
+                .addCallback(new FutureCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        getMainAmount();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.e(getClass().getName(), "Error changing main amount", t);
+                        view.notifyIncomeNotFound();
+                    }
+                });
     }
 
 
@@ -90,5 +112,7 @@ public class MainFragmentPresenter {
         void showCategoryList(List<Category> result);
 
         void showMainAmount(MainAmount result);
+
+        void notifyIncomeNotFound();
     }
 }

@@ -3,6 +3,7 @@ package com.demo.savemymoney.data.repository;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import com.demo.savemymoney.common.exceptions.IncomeNotFoundException;
 import com.demo.savemymoney.data.db.AppDatabase;
 import com.demo.savemymoney.data.entity.Income;
 import com.demo.savemymoney.data.entity.MainAmount;
@@ -44,9 +45,16 @@ public class MainAmountRepository {
 
     public Future<Void> increaseAmount(String userUID, Double amount) {
         return submit(() -> {
+            checkIfIncomeExists(userUID);
             database.mainAmountDao().increaseAmount(userUID, amount);
             return null;
         });
+    }
+
+    private void checkIfIncomeExists(String userUID) {
+        Income income = database.incomeDao().findByUserUID(userUID);
+        if (income == null)
+            throw new IncomeNotFoundException();
     }
 
     public Future<Void> decreaseAmount(String userUID, Double amount) {
@@ -58,6 +66,7 @@ public class MainAmountRepository {
 
     public Future<Void> changeAmount(String userUID, Double amount) {
         return submit(() -> {
+            checkIfIncomeExists(userUID);
             database.mainAmountDao().changeAmount(userUID, amount);
             return null;
         });
