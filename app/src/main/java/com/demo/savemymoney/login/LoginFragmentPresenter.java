@@ -7,6 +7,7 @@ import android.util.Log;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.main.MainActivity;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
@@ -45,6 +46,8 @@ public class LoginFragmentPresenter {
                                 view.showErrorMessages(Collections.singletonList(new ErrorMessage(null, context.getString(R.string.login_failed))));
                             else if (task.getException() instanceof FirebaseAuthInvalidUserException)
                                 view.showErrorMessages(Collections.singletonList(new ErrorMessage(null, context.getString(R.string.login_failed_user_not_exist))));
+                            else if (task.getException() instanceof FirebaseNetworkException)
+                                view.showErrorMessages(Collections.singletonList(new ErrorMessage(null, context.getString(R.string.login_failed_network_error))));
 
                         }
                     });
