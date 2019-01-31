@@ -61,6 +61,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
     MontoFragmentPresenter presenter;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private Income incomeBeforeChanges;
 
     public static MontoFragment newInstance() {
         return new MontoFragment();
@@ -174,6 +175,8 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
         income.amount = monto.doubleValue();
         income.period = selecion;
         income.startDate = fechaInicio_Date;
+        if (incomeBeforeChanges != null)
+            income.payDate = incomeBeforeChanges.payDate;
 
         return income;
     }
@@ -202,8 +205,9 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
 
     @Override
     public void loadValues(Income result) {
+        incomeBeforeChanges = result;
         txtMonto.setValue(BigDecimal.valueOf(result.getAmount()));
-        txtFechaInicio.setText(dateFormat.format(result.payDate));
+        txtFechaInicio.setText(dateFormat.format(result.startDate));
         if ("MENSUAL".equals(result.period))
             frequencyGroup.check(R.id.monto_mensual_radio);
         else
@@ -216,7 +220,9 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
         if (isSameDay(income.startDate, new Date()))
             presenter.increaseMainAmount();
         else
-            Notifier.scheduleMainAmount(getContext(), getMillisUntil(income.startDate), mAuth.getCurrentUser().getUid());
+            Notifier.scheduleMainAmount(getContext(),
+                    getMillisUntil(income.startDate),
+                    mAuth.getCurrentUser().getUid());
 
     }
 

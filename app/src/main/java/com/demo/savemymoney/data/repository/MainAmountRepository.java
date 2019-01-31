@@ -66,7 +66,7 @@ public class MainAmountRepository {
     public Future<Income> increaseByIncome(String userUID) {
         return submit(() -> {
             Income income = database.incomeDao().findByUserUID(userUID);
-            if (isSameDay(income.payDate, new Date()))
+            if (income.payDate != null && isSameDay(income.payDate, new Date()))
                 return income;
             income.payDate = new Date();
             database.incomeDao().updateIncome(income);
