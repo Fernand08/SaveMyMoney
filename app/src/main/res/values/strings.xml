@@ -95,5 +95,6 @@
     <string name="app_no">No</string>
     <string name="category_detail_success_deleted">Gasto eliminado</string>
     <string name="login_failed_network_error">No se pudo conectar. Revisa tu conexión a internet</string>
+    <string name="amount_editor_error_amount">Ingresa un monto mayor a 0.00</string>
 
 </resources>

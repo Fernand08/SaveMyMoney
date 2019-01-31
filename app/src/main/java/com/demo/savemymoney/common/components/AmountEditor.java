@@ -1,12 +1,14 @@
 package com.demo.savemymoney.common.components;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +31,11 @@ public class AmountEditor extends LinearLayout {
 
     @BindView(R.id.amount_editor_mount_tv)
     public TextView amountTextView;
+    @BindView(R.id.amount_editor_plus)
+    Button plusButton;
+    @BindView(R.id.amount_editor_minus)
+    Button minusButton;
+
     private OnAmountChangeListener onAmountChangeListener;
     private Double currentAmount;
 
@@ -82,20 +89,32 @@ public class AmountEditor extends LinearLayout {
             input.setValue(BigDecimal.valueOf(currentAmount));
         }
         showKeyboard();
-        builder.setPositiveButton(getContext().getString(R.string.amount_editor_dialog_positive), (dialog, which) -> {
-            BigDecimal amount = input.getValue();
-            if (view.getId() == R.id.amount_editor_plus)
-                onIncrease(amount);
-            else if (view.getId() == R.id.amount_editor_minus)
-                onDecrease(amount);
-            else
-                onChange(amount);
-        });
+        builder.setPositiveButton(getContext().getString(R.string.amount_editor_dialog_positive), null);
         builder.setNegativeButton(getContext().getString(R.string.amount_editor_dialog_negative), (dialog, which) -> {
             dialog.cancel();
             closeKeyboard();
         });
-        builder.show();
+        AlertDialog alert = builder.create();
+        alert.setOnShowListener(dialog -> {
+            Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+            button.setOnClickListener(v -> {
+                BigDecimal amount = input.getValue();
+                if (amount.doubleValue() <= 0.00) {
+                    input.setError(getContext().getString(R.string.amount_editor_error_amount));
+                    return;
+                }
+
+                if (view.getId() == R.id.amount_editor_plus)
+                    AmountEditor.this.onIncrease(amount);
+                else if (view.getId() == R.id.amount_editor_minus)
+                    AmountEditor.this.onDecrease(amount);
+                else
+                    AmountEditor.this.onChange(amount);
+                dialog.dismiss();
+            });
+        });
+
+        alert.show();
     }
 
     private void showKeyboard() {
@@ -114,6 +133,11 @@ public class AmountEditor extends LinearLayout {
         format.setCurrency(Currency.getInstance("PEN"));
         String result = format.format(amount);
         amountTextView.setText(result);
+    }
+
+    public void setButtonsColor(int color) {
+        plusButton.setBackgroundTintList(ColorStateList.valueOf(color));
+        minusButton.setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
     public void setOnAmountChangeListener(OnAmountChangeListener listener) {
