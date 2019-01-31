@@ -89,6 +89,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
 
         frequencyGroup.check(R.id.monto_mensual_radio);
 
+
         txtFechaInicio.setOnClickListener(view12 -> {
 
             Calendar cal = Calendar.getInstance();
@@ -97,15 +98,48 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
             int year = cal.get(cal.YEAR);
             int month = cal.get(cal.MONTH);
             int day = cal.get(cal.DAY_OF_MONTH);
-            new DatePickerDialog(
+
+          DatePickerDialog dialog =   new DatePickerDialog(
                     getContext(), mDateSetListener
-                    , year, month, day).show();
+                    , year, month, day);
+                  dialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                  dialog.show();
         });
 
         mDateSetListener = (datePicker, year, month, day) -> {
+
             month = month + 1;
             String fecha = day + "/" + month + "/" + year;
-            txtFechaInicio.setText(fecha);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+
+            int anio = cal.get(cal.YEAR);
+            int mes = cal.get(cal.MONTH);
+            int dia = cal.get(cal.DAY_OF_MONTH);
+            mes = mes+1;
+
+            String fechahoy = dia + "/" + mes + "/" + anio;
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date hoy = new Date();
+
+            Date fechaseleccionada =null;
+            try {
+                 fechaseleccionada = sdf.parse(fecha);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            ;
+            if(fechaseleccionada.after(hoy)|| fecha.equals(fechahoy)){
+                txtFechaInicio.setText(fecha);
+            } else {
+                Toast.makeText(getContext(),"Seleccione Fecha de Hoy o Posterior",Toast.LENGTH_LONG).show();
+
+            }
+
+
         };
 
         Calendar calendar = Calendar.getInstance();
@@ -167,12 +201,12 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
 
         Income income = new Income();
         income.userUID = usuario;
-
+        income.amount = monto.doubleValue();
         income.period = selecion;
         income.startDate = fechaInicio_Date;
         income.payDate = fechaInicio_Date;
 
-
+/*
         //Fecha Actual
         Calendar calendarioActual= Calendar.getInstance();
 
@@ -196,74 +230,12 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
 
         // Validar Registro de Sueldo Por Fecha
 
-
-        int diasAtrasAcumulado = -1;
         int diasDespuesAcumulado= -1;
-        int diasfaltantes = 0;
-        int paydate = 0 ;
-        int cantPeriodo = 0;
-        int contador = 1;
-        int maxContador = 0 ;
-
-
-        //Asignar valores por Periodo seleccionado
-        if ("MENSUAL".equals(selecion)){
-            cantPeriodo = 30;
-        }else{
-            cantPeriodo = 15;
-        }
 
 
 
 
-
-        if(calendarSeleccionado != null && calendarioActual != null){
-            if(calendarSeleccionado.before(calendarioActual)){// Cuando se selecciona fecha Antes de Fecha actual
-
-                // Sueldo acumulado si selecciona dias antes de la fecha actual
-                double sueldoAcumulado = monto.doubleValue();
-
-                // Contador de dias de fechaSeleccionada y FechaActual
-                while (calendarSeleccionado.before(calendarioActual)|| calendarSeleccionado.equals(calendarioActual)){
-
-
-                    diasAtrasAcumulado++;
-                    calendarSeleccionado.add(Calendar.DATE,1);
-                }
-
-                maxContador = diasAtrasAcumulado / cantPeriodo;
-
-                sueldoAcumulado = sueldoAcumulado * maxContador;
-                income.amount = sueldoAcumulado;
-
-                //Settear la fecha de pago
-
-                //dias que sobran desde el ultimo dia de pago
-                diasfaltantes = diasAtrasAcumulado % cantPeriodo;
-                //dias que falta para obtener tu sgte pago.
-                paydate = cantPeriodo -  diasfaltantes;
-
-
-                // PayDate , fechaactual mas el numero de dias.
-                Calendar calendarioPagoAntes= Calendar.getInstance();
-                calendarioPagoAntes.add(Calendar.DAY_OF_MONTH,paydate);
-                Date diaPago = calendarioPagoAntes.getTime();
-
-
-                String diaPago_String = sdf.format(diaPago);
-                Date diaPago_parse = null ;
-                try {
-                    diaPago_parse = sdf.parse(diaPago_String);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                income.payDate = diaPago_parse;
-
-
-
-
-            }
-            else  if (calendarSeleccionado.after(calendarioActual)){ // Cuando se selecciona fecha Despues de Fecha actual
+        if (calendarSeleccionado.after(calendarioActual)){ // Cuando se selecciona fecha Despues de Fecha actual
 
                 // Contador de dias de fechaSeleccionada y FechaActual
                 while (calendarioActual.before(calendarSeleccionado)|| calendarioActual.equals(calendarSeleccionado)){
@@ -273,7 +245,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
                     calendarioActual.add(Calendar.DATE,1);
                 }
 
-                income.amount = null;
+                income.amount = 1.0;
 
                 // PayDate , fechaactual mas el numero de dias.
                 Calendar calendarioPagoDespues= Calendar.getInstance();
@@ -291,13 +263,12 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
                 income.payDate = diaPago_parse;
 
             }
-            else if (calendarSeleccionado.equals(calendarioActual)){ //Cuando se Selecciona la fecha Actual
 
-                income.amount = monto.doubleValue();
 
-            }
 
-        }
+*/
+
+
         return income;
     }
 
