@@ -7,6 +7,7 @@ import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.data.entity.Income;
 import com.demo.savemymoney.data.repository.IncomeRepository;
+import com.demo.savemymoney.data.repository.MainAmountRepository;
 import com.github.clemp6r.futuroid.FutureCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -16,13 +17,15 @@ import java.util.List;
 public class MontoFragmentPresenter {
     private View view;
     private Context context;
-    private IncomeRepository repository;
+    private IncomeRepository incomeRepository;
+    private MainAmountRepository mainAmountRepository;
     private FirebaseAuth firebaseAuth;
 
     public MontoFragmentPresenter(View view, Context context) {
         this.view = view;
         this.context = context;
-        repository = new IncomeRepository(context);
+        incomeRepository = new IncomeRepository(context);
+        mainAmountRepository = new MainAmountRepository(context);
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
@@ -31,12 +34,13 @@ public class MontoFragmentPresenter {
         List<ErrorMessage> errors = getErrors(income);
         if (errors.isEmpty()) {
             view.showProgress();
-            repository.save(income)
+            incomeRepository.save(income)
                     .addCallback(new FutureCallback<Void>() {
                         @Override
                         public void onSuccess(Void result) {
                             view.hideProgress();
                             view.notifyIncomeSaved();
+                            view.prepareFutureNotification(income);
                         }
 
                         @Override
@@ -60,12 +64,12 @@ public class MontoFragmentPresenter {
 
     public void loadIncome() {
         view.showProgress();
-        repository.getIncome(firebaseAuth.getCurrentUser().getUid())
+        incomeRepository.getIncome(firebaseAuth.getCurrentUser().getUid())
                 .addCallback(new FutureCallback<Income>() {
                     @Override
                     public void onSuccess(Income result) {
                         view.hideProgress();
-                        if(result!=null){
+                        if (result != null) {
                             view.loadValues(result);
                         }
                     }
@@ -75,6 +79,11 @@ public class MontoFragmentPresenter {
                         view.hideProgress();
                     }
                 });
+    }
+
+    public void increaseMainAmount() {
+        mainAmountRepository.increaseByIncome(firebaseAuth.getCurrentUser().getUid())
+                .addSuccessCallback(result -> Log.i(getClass().getName(), "increase amount same day"));
     }
 
     public interface View {
@@ -91,5 +100,7 @@ public class MontoFragmentPresenter {
         void notifyIncomeSaved();
 
         void loadValues(Income result);
+
+        void prepareFutureNotification(Income income);
     }
 }

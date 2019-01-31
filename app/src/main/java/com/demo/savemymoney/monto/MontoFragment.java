@@ -6,18 +6,17 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseFragment;
 import com.demo.savemymoney.common.dto.ErrorMessage;
+import com.demo.savemymoney.common.notification.Notifier;
 import com.demo.savemymoney.data.entity.Income;
 import com.demo.savemymoney.databinding.MontoFragmentBinding;
 import com.demo.savemymoney.main.MainActivity;
@@ -33,6 +32,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import ru.kolotnev.formattedittext.CurrencyEditText;
+
+import static com.demo.savemymoney.common.util.DateUtils.getMillisUntil;
+import static com.demo.savemymoney.common.util.DateUtils.isSameDay;
 
 
 public class MontoFragment extends BaseFragment implements MontoFragmentPresenter.View {
@@ -97,9 +99,11 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
             int year = cal.get(cal.YEAR);
             int month = cal.get(cal.MONTH);
             int day = cal.get(cal.DAY_OF_MONTH);
-            new DatePickerDialog(
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
                     getContext(), mDateSetListener
-                    , year, month, day).show();
+                    , year, month, day);
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+            datePickerDialog.show();
         });
 
         mDateSetListener = (datePicker, year, month, day) -> {
@@ -167,137 +171,10 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
 
         Income income = new Income();
         income.userUID = usuario;
-
+        income.amount = monto.doubleValue();
         income.period = selecion;
         income.startDate = fechaInicio_Date;
-        income.payDate = fechaInicio_Date;
 
-
-        //Fecha Actual
-        Calendar calendarioActual= Calendar.getInstance();
-
-        Date fechaActual = new Date();
-       String fechaActual_String = sdf.format(fechaActual);
-        Date   fecha_Actual_Parse =null;
-        try {
-             fecha_Actual_Parse = sdf.parse(fechaActual_String);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        calendarioActual.setTime(fecha_Actual_Parse);
-
-        //Fecha Seleccionada
-        Calendar calendarSeleccionado = Calendar.getInstance();
-        calendarSeleccionado.setTime(fechaInicio_Date);
-
-
-
-
-        // Validar Registro de Sueldo Por Fecha
-
-
-        int diasAtrasAcumulado = -1;
-        int diasDespuesAcumulado= -1;
-        int diasfaltantes = 0;
-        int paydate = 0 ;
-        int cantPeriodo = 0;
-        int contador = 1;
-        int maxContador = 0 ;
-
-
-        //Asignar valores por Periodo seleccionado
-        if ("MENSUAL".equals(selecion)){
-            cantPeriodo = 30;
-        }else{
-            cantPeriodo = 15;
-        }
-
-
-
-
-
-        if(calendarSeleccionado != null && calendarioActual != null){
-            if(calendarSeleccionado.before(calendarioActual)){// Cuando se selecciona fecha Antes de Fecha actual
-
-                // Sueldo acumulado si selecciona dias antes de la fecha actual
-                double sueldoAcumulado = monto.doubleValue();
-
-                // Contador de dias de fechaSeleccionada y FechaActual
-                while (calendarSeleccionado.before(calendarioActual)|| calendarSeleccionado.equals(calendarioActual)){
-
-
-                    diasAtrasAcumulado++;
-                    calendarSeleccionado.add(Calendar.DATE,1);
-                }
-
-                maxContador = diasAtrasAcumulado / cantPeriodo;
-
-                sueldoAcumulado = sueldoAcumulado * maxContador;
-                income.amount = sueldoAcumulado;
-
-                //Settear la fecha de pago
-
-                //dias que sobran desde el ultimo dia de pago
-                diasfaltantes = diasAtrasAcumulado % cantPeriodo;
-                //dias que falta para obtener tu sgte pago.
-                paydate = cantPeriodo -  diasfaltantes;
-
-
-                // PayDate , fechaactual mas el numero de dias.
-                Calendar calendarioPagoAntes= Calendar.getInstance();
-                calendarioPagoAntes.add(Calendar.DAY_OF_MONTH,paydate);
-                Date diaPago = calendarioPagoAntes.getTime();
-
-
-                String diaPago_String = sdf.format(diaPago);
-                Date diaPago_parse = null ;
-                try {
-                    diaPago_parse = sdf.parse(diaPago_String);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                income.payDate = diaPago_parse;
-
-
-
-
-            }
-            else  if (calendarSeleccionado.after(calendarioActual)){ // Cuando se selecciona fecha Despues de Fecha actual
-
-                // Contador de dias de fechaSeleccionada y FechaActual
-                while (calendarioActual.before(calendarSeleccionado)|| calendarioActual.equals(calendarSeleccionado)){
-
-
-                    diasDespuesAcumulado++;
-                    calendarioActual.add(Calendar.DATE,1);
-                }
-
-                income.amount = null;
-
-                // PayDate , fechaactual mas el numero de dias.
-                Calendar calendarioPagoDespues= Calendar.getInstance();
-                calendarioPagoDespues.add(Calendar.DAY_OF_MONTH,diasDespuesAcumulado);
-                Date diaPago = calendarioPagoDespues.getTime();
-
-
-                String diaPago_String = sdf.format(diaPago);
-                Date diaPago_parse = null ;
-                try {
-                    diaPago_parse = sdf.parse(diaPago_String);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                income.payDate = diaPago_parse;
-
-            }
-            else if (calendarSeleccionado.equals(calendarioActual)){ //Cuando se Selecciona la fecha Actual
-
-                income.amount = monto.doubleValue();
-
-            }
-
-        }
         return income;
     }
 
@@ -331,6 +208,15 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
             frequencyGroup.check(R.id.monto_mensual_radio);
         else
             frequencyGroup.check(R.id.monto_quincenal_radio);
+
+    }
+
+    @Override
+    public void prepareFutureNotification(Income income) {
+        if (isSameDay(income.startDate, new Date()))
+            presenter.increaseMainAmount();
+        else
+            Notifier.scheduleMainAmount(getContext(), getMillisUntil(income.startDate), mAuth.getCurrentUser().getUid());
 
     }
 

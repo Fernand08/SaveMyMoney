@@ -4,10 +4,14 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.demo.savemymoney.data.db.AppDatabase;
+import com.demo.savemymoney.data.entity.Income;
 import com.demo.savemymoney.data.entity.MainAmount;
 import com.github.clemp6r.futuroid.Future;
 
+import java.util.Date;
+
 import static com.demo.savemymoney.common.AppConstants.DATABASE_NAME;
+import static com.demo.savemymoney.common.util.DateUtils.isSameDay;
 import static com.github.clemp6r.futuroid.Async.submit;
 
 public class MainAmountRepository {
@@ -56,6 +60,18 @@ public class MainAmountRepository {
         return submit(() -> {
             database.mainAmountDao().changeAmount(userUID, amount);
             return null;
+        });
+    }
+
+    public Future<Income> increaseByIncome(String userUID) {
+        return submit(() -> {
+            Income income = database.incomeDao().findByUserUID(userUID);
+            if (isSameDay(income.payDate, new Date()))
+                return income;
+            income.payDate = new Date();
+            database.incomeDao().updateIncome(income);
+            database.mainAmountDao().increaseAmount(userUID, income.amount);
+            return income;
         });
     }
 }
