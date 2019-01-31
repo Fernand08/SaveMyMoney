@@ -1,6 +1,5 @@
 package com.demo.savemymoney.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,6 @@ import android.view.MenuItem;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseActivity;
 import com.demo.savemymoney.login.LoginActivity;
-import com.demo.savemymoney.monto.MontoActivity;
 import com.demo.savemymoney.monto.MontoFragment;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -149,7 +147,7 @@ public class MainActivity extends BaseActivity
                 .setConfirmText(getString(R.string.main_income_confirm_register))
                 .setConfirmClickListener(sDialog -> {
                     sDialog.dismissWithAnimation();
-                    startActivity(new Intent(MainActivity.this, MontoActivity.class));
+                    navigateFragment(new MontoFragment());
                 });
         alert.setCancelable(false);
         alert.show();
