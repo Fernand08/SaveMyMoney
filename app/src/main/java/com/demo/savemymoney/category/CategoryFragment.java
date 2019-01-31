@@ -9,6 +9,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +38,11 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
+    @BindView(R.id.category_detail_rv)
+    RecyclerView recyclerView;
+
     private CategoryFragmentPresenter presenter;
+    private CategoryDetailAdapter categoryDetailAdapter;
 
     public static CategoryFragment newInstance(@NonNull Category category) {
         CategoryFragment fragment = new CategoryFragment();
@@ -59,6 +66,15 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
         categoryAmountEditor.setAmount(category.distributedAmount);
         categoryAmountEditor.setOnAmountChangeListener(this);
         fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(category.color)));
+
+        categoryDetailAdapter = new CategoryDetailAdapter(getContext());
+
+        presenter.getDetail(category.categoryId).observe(this, details -> categoryDetailAdapter.setData(details));
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(categoryDetailAdapter);
     }
 
     @Override
@@ -67,6 +83,7 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         presenter = new CategoryFragmentPresenter(this, getContext());
         ButterKnife.bind(this, view);
+
         return view;
     }
 

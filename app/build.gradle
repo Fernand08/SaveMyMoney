@@ -47,4 +47,5 @@ dependencies {
     implementation 'com.github.clemp6r.futuroid:futuroid:1.0.0'
     implementation 'com.github.f0ris.sweetalert:library:1.5.1'
     implementation 'ru.kolotnev:formatt-edit-text:0.7'
+    implementation 'com.android.support:cardview-v7:27.1.1'
 }

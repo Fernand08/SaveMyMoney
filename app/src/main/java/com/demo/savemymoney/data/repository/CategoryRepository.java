@@ -24,7 +24,8 @@ public class CategoryRepository {
             new Category(2, "Educación", "#70b72a", R.drawable.ic_school_black_24dp, false, false),
             new Category(3, "Diversión", "#9e1f8d", R.drawable.ic_local_bar_black_24dp, false, false),
             new Category(4, "Casa", "#d86800", R.drawable.ic_home_black_24dp, false, false),
-            new Category(5, "Alimentos", "#fcbd14", R.drawable.ic_restaurant_black_24dp, false, false)
+            new Category(5, "Alimentos", "#fcbd14", R.drawable.ic_restaurant_black_24dp, false, false),
+            new Category(6, "Otros", "#6a707a", R.drawable.ic_more_black_24dp, false, false)
     );
 
     private AppDatabase database;

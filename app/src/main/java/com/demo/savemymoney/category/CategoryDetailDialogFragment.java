@@ -149,6 +149,16 @@ public class CategoryDetailDialogFragment extends AppCompatDialogFragment implem
             Log.e(getClass().getName(), "Error parsing date", e);
             detail.date = new Date();
         }
+
+        //Fix get actual time
+        Calendar actualCalendar = Calendar.getInstance();
+        Calendar c = Calendar.getInstance();
+        c.setTime(detail.date);
+        c.set(Calendar.HOUR_OF_DAY, actualCalendar.get(Calendar.HOUR_OF_DAY));
+        c.set(Calendar.MINUTE, actualCalendar.get(Calendar.MINUTE));
+
+        detail.date = c.getTime();
+
         detail.description = description.getText().toString();
         if (listener != null)
             listener.onDetailAccepted(detail);

@@ -1,5 +1,6 @@
 package com.demo.savemymoney.category;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.util.Log;
 
@@ -13,6 +14,7 @@ import com.github.clemp6r.futuroid.FutureCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class CategoryFragmentPresenter {
     private View view;
@@ -82,6 +84,10 @@ public class CategoryFragmentPresenter {
                     view.refreshDetailList();
                 });
 
+    }
+
+    public LiveData<List<CategoryDetail>> getDetail(Integer categoryId) {
+        return categoryDetailRepository.getAll(firebaseAuth.getCurrentUser().getUid(), categoryId);
     }
 
     public interface View {

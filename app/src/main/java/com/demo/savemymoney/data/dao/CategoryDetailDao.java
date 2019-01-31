@@ -1,10 +1,13 @@
 package com.demo.savemymoney.data.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import com.demo.savemymoney.data.entity.CategoryDetail;
+
+import java.util.List;
 
 @Dao
 public interface CategoryDetailDao {
@@ -13,4 +16,7 @@ public interface CategoryDetailDao {
 
     @Query("Select ifnull(max(detailId),0)+1 from CategoryDetail where userUID = :userUID and categoryId = :categoryId")
     Integer getNewId(String userUID, Integer categoryId);
+
+    @Query("Select * from CategoryDetail where userUID = :userUID and categoryId = :categoryId order by date desc")
+    LiveData<List<CategoryDetail>> findAll(String userUID, Integer categoryId);
 }
