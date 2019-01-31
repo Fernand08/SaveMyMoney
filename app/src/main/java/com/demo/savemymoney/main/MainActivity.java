@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +44,13 @@ public class MainActivity extends BaseActivity
 
         presenter = new MainActivityPresenter(this, this);
         navigateFragment(MainFragment.newInstance());
+    }
+
+    private void setUserInformation(NavigationView navigationView) {
+        AppCompatTextView userName = navigationView.getHeaderView(0).findViewById(R.id.nav_header_user_name);
+        AppCompatTextView userMail = navigationView.getHeaderView(0).findViewById(R.id.nav_header_user_mail);
+        userName.setText(mAuth.getCurrentUser().getDisplayName());
+        userMail.setText(mAuth.getCurrentUser().getEmail());
     }
 
 
@@ -109,6 +117,8 @@ public class MainActivity extends BaseActivity
             goTo(LoginActivity.class);
 
         presenter.checkIfHasIncome();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        setUserInformation(navigationView);
     }
 
     public void signOut() {
