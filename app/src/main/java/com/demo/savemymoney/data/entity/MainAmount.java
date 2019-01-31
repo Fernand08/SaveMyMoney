@@ -10,4 +10,11 @@ public class MainAmount {
     @NonNull
     public String userUID;
     public Double amount;
+
+    public static MainAmount defaultAmount(String userUID) {
+        MainAmount mainAmount = new MainAmount();
+        mainAmount.userUID = userUID;
+        mainAmount.amount = 0.00;
+        return mainAmount;
+    }
 }

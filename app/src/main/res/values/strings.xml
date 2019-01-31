@@ -63,5 +63,31 @@
     <string name="income_succes_save">Genial! ya estás listo para administrar tu dinero</string>
     <string name="income_confirm_save">Ok!</string>
     <string name="income_succes_save_main">Se guardó tu configuración de ingresos</string>
+    <string name="main_category_loading">Cargando categorías</string>
+    <string name="dummy_category_name">Categoría</string>
+    <string name="amount_editor_accion_add">aumentar</string>
+    <string name="amount_editor_accion_minus">disminuir</string>
+    <string name="amount_editor_title">Ingrese el monto a</string>
+    <string name="amount_editor_dialog_positive">Aceptar</string>
+    <string name="amount_editor_dialog_negative">Cancelar</string>
+    <string name="amount_editor_accion_change">cambiar</string>
+    <string name="error_alert_title">Oops!</string>
+    <string name="amount_editor_error_decrease">No puedes disminuir más del monto actual</string>
+    <string name="dummy_category_amount">S/ 0.00</string>
+    <string name="income_update_title">Configurar ingresos</string>
+    <string name="main_income_title">Inicio</string>
+    <string name="main_income_categories_text">Selecciona una categoría para asignar un monto o registrar un gasto</string>
+    <string name="main_income_amount_title">Actualmente tienes para distribuir:</string>
+    <string name="category_detail_title">Tienes asignado a esta categoría:</string>
+    <string name="category_increase_error">No puedes incrementar por encima del monto principal</string>
+    <string name="category_detail_spending_subtitle">Registra tu gasto</string>
+    <string name="category_detail_spending_register">Registrar gasto</string>
+    <string name="app_dialog_cancel">Cancelar</string>
+    <string name="category_detail_date">Fecha</string>
+    <string name="category_detail_description">Descripción (Opcional)</string>
+    <string name="category_detail_amount">Monto</string>
+    <string name="category_detail_amount_invalid">El monto debe ser mayor a 0.00</string>
+    <string name="category_detail_amount_overflow">Sobrepasa el monto asignado</string>
+    <string name="category_detail_success_register">Gasto guardado</string>
 
 </resources>

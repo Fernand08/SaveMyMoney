@@ -3,7 +3,6 @@ package com.demo.savemymoney.monto;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -29,8 +28,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,7 +58,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
 
     MontoFragmentPresenter presenter;
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat();
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public static MontoFragment newInstance() {
         return new MontoFragment();
@@ -85,26 +82,17 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
         super.onStart();
         initUI();
         presenter.loadIncome();
+        getActivity().setTitle(R.string.income_update_title);
     }
 
     private void initUI() {
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT-5"));
-        dateFormat.applyPattern("dd/MM/yyyy");
 
         frequencyGroup.check(R.id.monto_mensual_radio);
-        Locale locale = new Locale("ES");
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getActivity().getApplicationContext().getResources().updateConfiguration(config, null);
 
         txtFechaInicio.setOnClickListener(view12 -> {
 
             Calendar cal = Calendar.getInstance();
             cal.setTime(new Date());
-            SimpleDateFormat dateformart = new SimpleDateFormat();
-            dateformart.setTimeZone(TimeZone.getTimeZone("GMT-5"));
-            dateformart.applyPattern("dd/MM/yyyy");
 
             int year = cal.get(cal.YEAR);
             int month = cal.get(cal.MONTH);
@@ -137,7 +125,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
 
         for (ErrorMessage error : errors) {
             if (error.getInputId() == null)
-                showErrorMessage(error.getMessage());
+                showError(error.getMessage());
             else {
                 TextInputLayout input = getActivity().findViewById(error.getInputId());
                 input.setErrorEnabled(true);
@@ -329,9 +317,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
                     });
         } else {
             alert.setContentText(getString(R.string.income_succes_save_main))
-                    .setConfirmClickListener(sDialog -> {
-                        getActivity().onBackPressed();
-                    });
+                    .setConfirmClickListener(sDialog -> getActivity().onBackPressed());
         }
         alert.setCancelable(false);
         alert.show();

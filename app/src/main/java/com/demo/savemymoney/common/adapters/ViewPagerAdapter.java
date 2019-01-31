@@ -1,4 +1,4 @@
-package com.demo.savemymoney.common;
+package com.demo.savemymoney.common.adapters;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +43,14 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         presenter = new MainActivityPresenter(this, this);
+        navigateFragment(MainFragment.newInstance());
+    }
+
+    private void setUserInformation(NavigationView navigationView) {
+        AppCompatTextView userName = navigationView.getHeaderView(0).findViewById(R.id.nav_header_user_name);
+        AppCompatTextView userMail = navigationView.getHeaderView(0).findViewById(R.id.nav_header_user_mail);
+        userName.setText(mAuth.getCurrentUser().getDisplayName());
+        userMail.setText(mAuth.getCurrentUser().getEmail());
     }
 
 
@@ -83,7 +92,9 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_incomes) {
+        if (id == R.id.nav_home) {
+            navigateFragment(MainFragment.newInstance());
+        } else if (id == R.id.nav_incomes) {
             navigateFragment(new MontoFragment());
         } else if (id == R.id.nav_exit) {
             signOut();
@@ -106,6 +117,8 @@ public class MainActivity extends BaseActivity
             goTo(LoginActivity.class);
 
         presenter.checkIfHasIncome();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        setUserInformation(navigationView);
     }
 
     public void signOut() {

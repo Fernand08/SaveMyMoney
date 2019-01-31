@@ -51,7 +51,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
     public void showErrorMessages(List<ErrorMessage> errors) {
         for (ErrorMessage error : errors) {
             if (error.getInputId() == null)
-                showErrorMessage(error.getMessage());
+                showError(error.getMessage());
             else {
                 TextInputLayout input = getActivity().findViewById(error.getInputId());
                 input.setErrorEnabled(true);
