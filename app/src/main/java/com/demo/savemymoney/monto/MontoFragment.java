@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseFragment;
@@ -110,7 +111,50 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
         mDateSetListener = (datePicker, year, month, day) -> {
             month = month + 1;
             String fecha = day + "/" + month + "/" + year;
-            txtFechaInicio.setText(fecha);
+
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+
+            int anio = cal.get(cal.YEAR);
+            int mes = cal.get(cal.MONTH);
+            int dia = cal.get(cal.DAY_OF_MONTH);
+            mes = mes+1;
+
+            String fechahoy = dia + "/" + mes + "/" + anio;
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date hoy = new Date();
+
+            Date fechaseleccionada =null;
+            try {
+                fechaseleccionada = sdf.parse(fecha);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M){
+                // versiones con android 6.0 o superior
+                txtFechaInicio.setText(fecha);
+            } else{
+                // para versiones anteriores a android 6.0
+                if(fechaseleccionada.after(hoy)|| fecha.equals(fechahoy)){
+                    txtFechaInicio.setText(fecha);
+                } else {
+                    Toast.makeText(getContext(),"Seleccione fecha de hoy o posterior",Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+
+
+
+
+
+
         };
 
         Calendar calendar = Calendar.getInstance();
