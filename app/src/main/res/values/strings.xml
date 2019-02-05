@@ -102,6 +102,6 @@
     <string name="string_goals_amaunt"> Monto a llegar</string>
     <string name="string_goals_saving">Ahorros:</string>
     <string name="string_goals_register">Registrar Meta</string>
-
+    <string name="string_goals_description">Meta</string>
 
 </resources>

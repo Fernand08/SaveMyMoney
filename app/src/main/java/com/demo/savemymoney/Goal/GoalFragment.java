@@ -44,6 +44,8 @@ public class GoalFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        getActivity().setTitle("Meta");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_goal, container, false);
     }
