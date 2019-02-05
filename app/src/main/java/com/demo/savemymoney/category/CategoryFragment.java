@@ -1,7 +1,6 @@
 package com.demo.savemymoney.category;
 
 
-import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -14,7 +13,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +27,7 @@ import com.demo.savemymoney.common.components.AmountEditor;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.CategoryDetail;
 import com.demo.savemymoney.main.MainActivity;
+import com.maltaisn.icondialog.IconHelper;
 
 import java.math.BigDecimal;
 
@@ -172,7 +171,9 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
             main.getSupportActionBar().setTitle(category.name);
             main.getSupportActionBar().setHomeButtonEnabled(true);
             main.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            main.getSupportActionBar().setHomeAsUpIndicator(changeDrawableColor(getContext(), category.icon, Color.WHITE));
+            main.getSupportActionBar().setHomeAsUpIndicator(changeDrawableColor(
+                    IconHelper.getInstance(getContext()).getIcon(category.icon).getDrawable(getContext())
+                    , Color.WHITE));
             main.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(category.color)));
             categoryAmountEditor.setButtonsColor(Color.parseColor(category.color));
             main.changeDistributed(String.format(getString(R.string.category_assigned_reference_format),
@@ -181,8 +182,7 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
         }
     }
 
-    public static Drawable changeDrawableColor(Context context, int icon, int newColor) {
-        Drawable mDrawable = ContextCompat.getDrawable(context, icon).mutate();
+    public static Drawable changeDrawableColor(Drawable mDrawable, int newColor) {
         mDrawable.setColorFilter(new PorterDuffColorFilter(newColor, PorterDuff.Mode.SRC_IN));
         return mDrawable;
     }

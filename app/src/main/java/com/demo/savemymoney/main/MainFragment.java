@@ -1,6 +1,9 @@
 package com.demo.savemymoney.main;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,8 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.demo.savemymoney.R;
+import com.demo.savemymoney.category.CategoryDetailDialogFragment;
+import com.demo.savemymoney.category.CategoryDialogFragment;
 import com.demo.savemymoney.category.CategoryFragment;
 import com.demo.savemymoney.common.BaseFragment;
 import com.demo.savemymoney.common.adapters.CategoryAdapter;
@@ -116,6 +121,13 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
 
     @Override
     public void onAdd() {
-        Toast.makeText(getContext(), "Add new category!", Toast.LENGTH_SHORT).show();
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null)
+            ft.remove(prev);
+
+        ft.addToBackStack(null);
+        AppCompatDialogFragment dialogFragment = CategoryDialogFragment.newInstance();
+        dialogFragment.show(ft, "dialog");
     }
 }

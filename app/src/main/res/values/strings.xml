@@ -97,5 +97,11 @@
     <string name="login_failed_network_error">No se pudo conectar. Revisa tu conexión a internet</string>
     <string name="amount_editor_error_amount">Ingresa un monto mayor a 0.00</string>
     <string name="category_assigned_reference_format">Asignado: %s</string>
+    <string name="category_name">Nombre</string>
+    <string name="category_color">Color</string>
+    <string name="category_icon">Icono</string>
+    <string name="category_register">Guardar</string>
+    <string name="category_new">Nueva Categoría</string>
+    <string name="category_select_icon_title">Selecciona un icono</string>
 
 </resources>

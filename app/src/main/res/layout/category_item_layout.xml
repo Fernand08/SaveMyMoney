@@ -16,7 +16,7 @@
         android:textSize="10sp"
         android:textStyle="bold" />
 
-    <ImageView
+    <com.maltaisn.icondialog.IconView
         android:id="@+id/category_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"

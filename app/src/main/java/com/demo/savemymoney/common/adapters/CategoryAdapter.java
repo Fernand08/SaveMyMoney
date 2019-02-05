@@ -8,12 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.data.entity.Category;
+import com.maltaisn.icondialog.IconView;
 
 import java.util.List;
 
@@ -56,8 +56,8 @@ public class CategoryAdapter extends BaseAdapter {
                 categoryView = inflater.inflate(R.layout.category_item_layout, null);
                 TextView categoryNameTv = categoryView.findViewById(R.id.category_name);
                 TextView categoryAmountTv = categoryView.findViewById(R.id.category_amount);
-                ImageView categoryIcon = categoryView.findViewById(R.id.category_icon);
-                categoryIcon.setImageResource(category.icon);
+                IconView categoryIcon = categoryView.findViewById(R.id.category_icon);
+                categoryIcon.setIcon(category.icon);
                 categoryNameTv.setText(category.name);
                 categoryAmountTv.setText(formatAsCurrency(category.distributedAmount));
                 categoryView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));

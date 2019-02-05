@@ -1,7 +1,6 @@
 package com.demo.savemymoney.data.repository;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.demo.savemymoney.data.db.AppDatabase;
@@ -10,14 +9,13 @@ import com.github.clemp6r.futuroid.Future;
 
 import java.util.List;
 
-import static com.demo.savemymoney.common.AppConstants.DATABASE_NAME;
 import static com.github.clemp6r.futuroid.Async.submit;
 
 public class CategoryDetailRepository {
     private AppDatabase database;
 
     public CategoryDetailRepository(Context context) {
-        database = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME).build();
+        database = AppDatabase.getAppDatabase(context);
     }
 
     public Future<Void> saveDetail(CategoryDetail detail) {

@@ -23,6 +23,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="overFlowText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/md_orange_900</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

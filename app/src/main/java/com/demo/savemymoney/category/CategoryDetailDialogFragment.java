@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.CategoryDetail;
+import com.maltaisn.icondialog.IconHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -93,7 +94,7 @@ public class CategoryDetailDialogFragment extends AppCompatDialogFragment implem
     public void onStart() {
         super.onStart();
         header.setBackgroundColor(Color.parseColor(category.color));
-        icon.setImageResource(category.icon);
+        icon.setImageDrawable(IconHelper.getInstance(getContext()).getIcon(category.icon).getDrawable(getContext()));
         title.setText(category.name);
         date.setText(format.format(new Date()));
     }
