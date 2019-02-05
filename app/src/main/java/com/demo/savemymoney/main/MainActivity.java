@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.demo.savemymoney.Goal.GoalFragment;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseActivity;
 import com.demo.savemymoney.login.LoginActivity;
@@ -94,7 +95,9 @@ public class MainActivity extends BaseActivity
             navigateFragment(MainFragment.newInstance());
         } else if (id == R.id.nav_incomes) {
             navigateFragment(new MontoFragment());
-        } else if (id == R.id.nav_exit) {
+        } else if (id == R.id.nav_goal) {
+            navigateFragment(new GoalFragment());
+        }else if (id == R.id.nav_exit) {
             signOut();
         }
 

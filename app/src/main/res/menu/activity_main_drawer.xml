@@ -12,6 +12,12 @@
             android:id="@+id/nav_incomes"
             android:icon="@drawable/ic_trending_up_black_24dp"
             android:title="@string/menu_incomes" />
+
+        <item
+            android:id="@+id/nav_goal"
+            android:icon="@drawable/ic_school_black_24dp"
+            android:title="@string/menu_goals"
+            />
     </group>
 
     <group android:id="@+id/otherOptionsMenu">

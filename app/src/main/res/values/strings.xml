@@ -97,4 +97,11 @@
     <string name="login_failed_network_error">No se pudo conectar. Revisa tu conexión a internet</string>
     <string name="amount_editor_error_amount">Ingresa un monto mayor a 0.00</string>
 
+    <string name="menu_goals">Meta</string>
+    <string name="string_goals">Registra tu Meta</string>
+    <string name="string_goals_amaunt"> Monto a llegar</string>
+    <string name="string_goals_saving">Ahorros:</string>
+    <string name="string_goals_register">Registrar Meta</string>
+
+
 </resources>
