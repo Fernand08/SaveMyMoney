@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.category.CategoryFragment;
@@ -22,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MainFragment extends BaseFragment implements MainFragmentPresenter.View, AmountEditor.OnAmountChangeListener, CategoryAdapter.OnCategorySelectedListener {
+public class MainFragment extends BaseFragment implements MainFragmentPresenter.View, AmountEditor.OnAmountChangeListener, CategoryAdapter.CategoryActionsListener {
 
     @BindView(R.id.main_amount_editor)
     AmountEditor amountEditor;
@@ -68,6 +69,9 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
     @Override
     public void showCategoryList(List<Category> result) {
         GridView categoriesGrid = getActivity().findViewById(R.id.categories_container);
+        Category categoryForAdd = new Category();
+        categoryForAdd.isAddOption = true;
+        result.add(categoryForAdd);
         categoriesGrid.setAdapter(new CategoryAdapter(result, getContext(), this));
     }
 
@@ -108,5 +112,10 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
     @Override
     public void onSelectCategory(Category category) {
         goTo(CategoryFragment.newInstance(category), R.id.content_frame);
+    }
+
+    @Override
+    public void onAdd() {
+        Toast.makeText(getContext(), "Add new category!", Toast.LENGTH_SHORT).show();
     }
 }

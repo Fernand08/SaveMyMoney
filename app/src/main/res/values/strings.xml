@@ -78,7 +78,7 @@
     <string name="main_income_title">Inicio</string>
     <string name="main_income_categories_text">Selecciona una categoría para asignar un monto o registrar un gasto</string>
     <string name="main_income_amount_title">Actualmente tienes para distribuir:</string>
-    <string name="category_detail_title">Tienes asignado a esta categoría:</string>
+    <string name="category_detail_title">Te quedan:</string>
     <string name="category_increase_error">No puedes incrementar por encima del monto principal</string>
     <string name="category_detail_spending_subtitle">Registra tu gasto</string>
     <string name="category_detail_spending_register">Registrar gasto</string>
@@ -96,5 +96,6 @@
     <string name="category_detail_success_deleted">Gasto eliminado</string>
     <string name="login_failed_network_error">No se pudo conectar. Revisa tu conexión a internet</string>
     <string name="amount_editor_error_amount">Ingresa un monto mayor a 0.00</string>
+    <string name="category_assigned_reference_format">Asignado: %s</string>
 
 </resources>

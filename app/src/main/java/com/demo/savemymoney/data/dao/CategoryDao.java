@@ -33,4 +33,7 @@ public interface CategoryDao {
 
     @Query("Update Category set distributedAmount = :amount where userUID = :userUID and categoryId = :categoryId")
     void changeAmount(String userUID, Integer categoryId, Double amount);
+
+    @Query("Update Category set distributedAmountReference = IFNULL(distributedAmountReference,0) + :amount where userUID = :userUID and categoryId = :categoryId")
+    void addDistributedAmountReference(String userUID, Integer categoryId, Double amount);
 }

@@ -30,7 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/monto_ingrese_monto"
-                app:currency="PEN" />
+                app:currency="PEN"
+                app:locale="pe"/>
         </android.support.design.widget.TextInputLayout>
 
         <RadioGroup

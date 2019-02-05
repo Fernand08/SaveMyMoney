@@ -37,6 +37,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.demo.savemymoney.common.util.NumberFormatUtils.formatAsCurrency;
+
 public class CategoryFragment extends BaseFragment implements CategoryFragmentPresenter.View, AmountEditor.OnAmountChangeListener, CategoryDetailDialogFragment.OnDetailAcceptedListener, CategoryDetailAdapter.OnDeleteButtonClickListener {
     private static final String ARG_CATEGORY_ID = "category";
     private Category category;
@@ -139,6 +141,7 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
     public void updateCategory(Category result) {
         this.category = result;
         categoryAmountEditor.setAmount(result.distributedAmount);
+        configureActivityBar();
     }
 
     @Override
@@ -172,6 +175,9 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
             main.getSupportActionBar().setHomeAsUpIndicator(changeDrawableColor(getContext(), category.icon, Color.WHITE));
             main.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(category.color)));
             categoryAmountEditor.setButtonsColor(Color.parseColor(category.color));
+            main.changeDistributed(String.format(getString(R.string.category_assigned_reference_format),
+                    formatAsCurrency(category.distributedAmountReference)
+            ));
         }
     }
 

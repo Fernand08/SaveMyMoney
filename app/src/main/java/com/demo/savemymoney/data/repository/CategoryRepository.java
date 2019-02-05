@@ -70,6 +70,7 @@ public class CategoryRepository {
         else {
             database.mainAmountDao().decreaseAmount(userUID, amount);
             database.categoryDao().increaseAmount(userUID, categoryId, amount);
+            database.categoryDao().addDistributedAmountReference(userUID, categoryId, amount);
         }
     }
 

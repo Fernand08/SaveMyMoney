@@ -15,9 +15,6 @@ import android.widget.TextView;
 import com.demo.savemymoney.R;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.util.Currency;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +23,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import ru.kolotnev.formattedittext.CurrencyEditText;
 
 import static cn.pedant.SweetAlert.SweetAlertDialog.ERROR_TYPE;
+import static com.demo.savemymoney.common.util.NumberFormatUtils.formatAsCurrency;
 
 public class AmountEditor extends LinearLayout {
 
@@ -129,9 +127,7 @@ public class AmountEditor extends LinearLayout {
 
     public void setAmount(Double amount) {
         this.currentAmount = amount;
-        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
-        format.setCurrency(Currency.getInstance("PEN"));
-        String result = format.format(amount);
+        String result = formatAsCurrency(amount);
         amountTextView.setText(result);
     }
 
