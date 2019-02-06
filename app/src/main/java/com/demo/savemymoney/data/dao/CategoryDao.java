@@ -36,4 +36,10 @@ public interface CategoryDao {
 
     @Query("Update Category set distributedAmountReference = IFNULL(distributedAmountReference,0) + :amount where userUID = :userUID and categoryId = :categoryId")
     void addDistributedAmountReference(String userUID, Integer categoryId, Double amount);
+
+    @Query("Select ifnull(max(categoryId),0)+1 from Category where userUID = :userUID")
+    Integer newCategoryId(String userUID);
+
+    @Query("Select count(categoryId) from Category where userUID = :userUID and upper(name) = trim(upper(:name))")
+    Integer countByName(String userUID, String name);
 }

@@ -3,6 +3,7 @@ package com.demo.savemymoney.data.repository;
 import android.content.Context;
 
 import com.demo.savemymoney.common.exceptions.CategoryInvalidAmountException;
+import com.demo.savemymoney.common.exceptions.CategoryNameAlreadyExistsException;
 import com.demo.savemymoney.data.db.AppDatabase;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.MainAmount;
@@ -21,8 +22,7 @@ public class CategoryRepository {
             new Category(2, "Educación", "#70b72a", 64, false, false),
             new Category(3, "Diversión", "#9e1f8d", 419, false, false),
             new Category(4, "Casa", "#d86800", 470, false, false),
-            new Category(5, "Alimentos", "#fcbd14", 430, false, false),
-            new Category(6, "Otros", "#6a707a", 935, false, false)
+            new Category(5, "Alimentos", "#fcbd14", 430, false, false)
     );
 
     private AppDatabase database;
@@ -90,6 +90,18 @@ public class CategoryRepository {
                 decreaseAmount(userUID, categoryId, amount);
             else
                 increaseAmount(userUID, categoryId, abs(category.distributedAmount - amount));
+            return null;
+        });
+    }
+
+    public Future<Void> saveCategory(String userUID, Category category) {
+        return submit(() -> {
+            Integer nameCount = database.categoryDao().countByName(userUID, category.name);
+            if (nameCount > 0)
+                throw new CategoryNameAlreadyExistsException();
+            category.userUID = userUID;
+            category.categoryId = database.categoryDao().newCategoryId(userUID);
+            database.categoryDao().save(category);
             return null;
         });
     }

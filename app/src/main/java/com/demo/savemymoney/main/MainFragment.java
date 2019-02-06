@@ -28,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MainFragment extends BaseFragment implements MainFragmentPresenter.View, AmountEditor.OnAmountChangeListener, CategoryAdapter.CategoryActionsListener {
+public class MainFragment extends BaseFragment implements MainFragmentPresenter.View, AmountEditor.OnAmountChangeListener, CategoryAdapter.CategoryActionsListener, CategoryDialogFragment.AddCategoryListener {
 
     @BindView(R.id.main_amount_editor)
     AmountEditor amountEditor;
@@ -127,7 +127,12 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
             ft.remove(prev);
 
         ft.addToBackStack(null);
-        AppCompatDialogFragment dialogFragment = CategoryDialogFragment.newInstance();
+        AppCompatDialogFragment dialogFragment = CategoryDialogFragment.newInstance(this);
         dialogFragment.show(ft, "dialog");
+    }
+
+    @Override
+    public void onCategoryAdded() {
+        presenter.getCategoryList();
     }
 }
