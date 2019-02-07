@@ -110,5 +110,7 @@
     <string name="category_delete_confirm_message_fmt">¿Seguro que quieres eliminar la categoría %s?</string>
     <string name="category_delete_has_detail_error">La categoría tiene gastos registrados, no es posible eliminarla</string>
     <string name="category_deleted_message">Categoría eliminada</string>
+    <string name="huy_message_title">Huy!</string>
+    <string name="chihuan_message">Te quedaste Chihuán 😢</string>
 
 </resources>

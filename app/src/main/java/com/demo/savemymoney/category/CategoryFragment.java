@@ -99,11 +99,26 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
 
     @OnClick(R.id.fab)
     public void onAddClick() {
-        if (category.distributedAmount <= 0.00) {
-            showChihuanDialog();
-            return;
-        }
+        presenter.afterAddCategory(category);
+    }
 
+    public void showChihuanDialog() {
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(getString(R.string.huy_message_title))
+                .setContentText(getString(R.string.chihuan_message))
+                .show();
+    }
+
+    @Override
+    public void showDistributeMessage() {
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Espera!")
+                .setContentText("Aún puedes asignar dinero a esta categoría \uD83D\uDE0E")
+                .show();
+    }
+
+    @Override
+    public void addSpending() {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("dialog");
         if (prev != null)
@@ -112,13 +127,6 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
         ft.addToBackStack(null);
         AppCompatDialogFragment dialogFragment = CategoryDetailDialogFragment.newInstance(category, this);
         dialogFragment.show(ft, "dialog");
-    }
-
-    private void showChihuanDialog() {
-        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Huy!")
-                .setContentText("Te quedaste Chihuán \uD83D\uDE22")
-                .show();
     }
 
     @Override
