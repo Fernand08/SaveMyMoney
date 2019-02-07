@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,13 @@ import android.widget.TextView;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.data.entity.Category;
+import com.maltaisn.icondialog.Icon;
+import com.maltaisn.icondialog.IconHelper;
 import com.maltaisn.icondialog.IconView;
 
 import java.util.List;
 
+import static android.support.design.widget.Snackbar.LENGTH_LONG;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static com.demo.savemymoney.common.util.NumberFormatUtils.formatAsCurrency;
 
@@ -63,6 +67,13 @@ public class CategoryAdapter extends BaseAdapter {
                 categoryView.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
                 categoryView.setBackgroundColor(Color.parseColor(category.color));
                 categoryView.setOnClickListener(v -> listener.onSelectCategory(category));
+                categoryView.setOnLongClickListener(v -> {
+                    if (category.isDeletable)
+                        listener.onDeleteCategory(category);
+                    else
+                        Snackbar.make(parent, R.string.category_unable_to_delete_default, LENGTH_LONG).show();
+                    return true;
+                });
             } else {
                 categoryView = inflater.inflate(R.layout.category_add_layout, null);
                 FloatingActionButton button = categoryView.findViewById(R.id.add_button);
@@ -78,5 +89,7 @@ public class CategoryAdapter extends BaseAdapter {
         void onSelectCategory(Category category);
 
         void onAdd();
+
+        void onDeleteCategory(Category category);
     }
 }

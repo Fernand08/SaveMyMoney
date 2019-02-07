@@ -8,10 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.demo.savemymoney.R;
-import com.demo.savemymoney.category.CategoryDetailDialogFragment;
 import com.demo.savemymoney.category.CategoryDialogFragment;
 import com.demo.savemymoney.category.CategoryFragment;
 import com.demo.savemymoney.common.BaseFragment;
@@ -20,6 +18,7 @@ import com.demo.savemymoney.common.components.AmountEditor;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.MainAmount;
 import com.demo.savemymoney.monto.MontoFragment;
+import com.maltaisn.icondialog.IconHelper;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,10 +27,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static cn.pedant.SweetAlert.SweetAlertDialog.SUCCESS_TYPE;
+import static cn.pedant.SweetAlert.SweetAlertDialog.WARNING_TYPE;
+
 public class MainFragment extends BaseFragment implements MainFragmentPresenter.View, AmountEditor.OnAmountChangeListener, CategoryAdapter.CategoryActionsListener, CategoryDialogFragment.AddCategoryListener {
 
     @BindView(R.id.main_amount_editor)
     AmountEditor amountEditor;
+
+    @BindView(R.id.categories_container)
+    GridView categoriesGrid;
 
     MainFragmentPresenter presenter;
 
@@ -49,6 +54,7 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
         presenter = new MainFragmentPresenter(this, getContext());
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
+
         return view;
     }
 
@@ -56,9 +62,9 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
     public void onStart() {
         super.onStart();
         amountEditor.setOnAmountChangeListener(this);
-        presenter.getCategoryList();
         presenter.getMainAmount();
         getActivity().setTitle(R.string.main_income_title);
+        IconHelper.getInstance(getContext()).addLoadCallback(() -> presenter.getCategoryList());
     }
 
     @Override
@@ -73,7 +79,6 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
 
     @Override
     public void showCategoryList(List<Category> result) {
-        GridView categoriesGrid = getActivity().findViewById(R.id.categories_container);
         Category categoryForAdd = new Category();
         categoryForAdd.isAddOption = true;
         result.add(categoryForAdd);
@@ -94,6 +99,19 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
                 .setConfirmClickListener(sDialog -> {
                     sDialog.dismissWithAnimation();
                     goTo(MontoFragment.newInstance(), R.id.content_frame);
+                });
+        alert.setCancelable(false);
+        alert.show();
+    }
+
+    @Override
+    public void notifyCategoryDeleted() {
+        SweetAlertDialog alert = new SweetAlertDialog(getContext(), SUCCESS_TYPE)
+                .setTitleText(getString(R.string.success_title))
+                .setContentText(getString(R.string.category_deleted_message))
+                .setConfirmClickListener(sDialog -> {
+                    sDialog.dismissWithAnimation();
+                    presenter.getCategoryList();
                 });
         alert.setCancelable(false);
         alert.show();
@@ -129,6 +147,20 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
         ft.addToBackStack(null);
         AppCompatDialogFragment dialogFragment = CategoryDialogFragment.newInstance(this);
         dialogFragment.show(ft, "dialog");
+    }
+
+    @Override
+    public void onDeleteCategory(Category category) {
+        new SweetAlertDialog(getContext(), WARNING_TYPE)
+                .setTitleText(getString(R.string.app_caution))
+                .setContentText(String.format(getString(R.string.category_delete_confirm_message_fmt), category.name))
+                .setCancelText(getString(R.string.app_dialog_cancel))
+                .setConfirmText(getString(R.string.category_delete_confirm))
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    presenter.deleteCategory(category);
+                    sweetAlertDialog.dismissWithAnimation();
+                })
+                .show();
     }
 
     @Override

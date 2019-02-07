@@ -2,6 +2,7 @@ package com.demo.savemymoney.data.repository;
 
 import android.content.Context;
 
+import com.demo.savemymoney.common.exceptions.CategoryHasDetailException;
 import com.demo.savemymoney.common.exceptions.CategoryInvalidAmountException;
 import com.demo.savemymoney.common.exceptions.CategoryNameAlreadyExistsException;
 import com.demo.savemymoney.data.db.AppDatabase;
@@ -102,6 +103,16 @@ public class CategoryRepository {
             category.userUID = userUID;
             category.categoryId = database.categoryDao().newCategoryId(userUID);
             database.categoryDao().save(category);
+            return null;
+        });
+    }
+
+    public Future<Void> deleteCategory(Category category) {
+        return submit(() -> {
+            boolean hasDetail = database.categoryDao().hasDetail(category.userUID, category.categoryId);
+            if (hasDetail) throw new CategoryHasDetailException();
+            database.mainAmountDao().increaseAmount(category.userUID, category.distributedAmount);
+            database.categoryDao().deleteCategory(category);
             return null;
         });
     }
