@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.demo.savemymoney.R;
@@ -42,6 +45,11 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
     @BindView(R.id.description_goal)
     EditText descripcion;
 
+    @BindView(R.id.delete_goal_button)
+    ImageButton delete;
+    @BindView(R.id.register_goal_button)
+    Button registrar ;
+
 
     GoalFragmentPresenter presenter;
 
@@ -62,6 +70,8 @@ public static GoalFragment newInstance(){return new GoalFragment();}
 
         getActivity().setTitle(R.string.goal_title);
 
+        delete.setVisibility(View.INVISIBLE);
+        registrar.setText(getString(R.string.string_goals_register));
         // Inflate the layout for this fragment
         return  view;
     }
@@ -71,6 +81,7 @@ public static GoalFragment newInstance(){return new GoalFragment();}
         super.onStart();
         presenter.getAmountSaving();
         presenter.loadGoal();
+
     }
 
     @Override
@@ -142,9 +153,23 @@ public static GoalFragment newInstance(){return new GoalFragment();}
     }
 
     @Override
+    public void Reload(Fragment fragment) {
+        goTo(fragment,R.id.content_frame);
+    }
+
+
+    @Override
     public void loadGoal(Goal goal) {
+    if(goal.amountGoal != null && goal.description != null){
+        delete.setVisibility(View.VISIBLE);
         montodeseado.setValue(BigDecimal.valueOf(goal.amountGoal));
         descripcion.setText(goal.description);
+        registrar.setText(getString(R.string.string_goals_update));
+
+    }
+
+
+
     }
 
 }

@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="10dp"
                 android:gravity="center"
-                android:text="1,000,000.00"
+
                 android:textSize="40sp"
                 android:textStyle="bold" />
 
@@ -83,13 +83,38 @@
                     android:hint="@string/string_goals_description"
                     android:inputType="textMultiLine" />
             </android.support.design.widget.TextInputLayout>
-
-            <Button
-                style="@style/Widget.AppCompat.Button.Colored"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="81dp"
-                android:onClick="@{()->presenter.saveGoal()}"
-                android:text="@string/string_goals_register" />
+                android:layout_height="72dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/delete_goal_button"
+                    android:layout_width="122dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center|center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/float_transparent"
+                    android:src="@drawable/ic_delete_black_24dp"
+                    android:onClick="@{()->presenter.deleteGoal()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    />
+
+                <Button
+                    android:id="@+id/register_goal_button"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="271dp"
+                    android:layout_height="81dp"
+                    android:onClick="@{()->presenter.saveGoal()}"
+                    android:text="@string/string_goals_register" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
 
