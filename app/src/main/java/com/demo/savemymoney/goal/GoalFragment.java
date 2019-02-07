@@ -31,10 +31,14 @@ import ru.kolotnev.formattedittext.CurrencyEditText;
 
 
 public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.View {
+
+
     @BindView(R.id.cash_saving)
     TextView montoahorrado;
     @BindView(R.id.amount_goal_til)
     TextInputLayout montodeseadoTil;
+
+
 
     @BindView(R.id.amount_goal)
     CurrencyEditText montodeseado;
@@ -89,6 +93,32 @@ public static GoalFragment newInstance(){return new GoalFragment();}
         showProgressDialog(R.string.goal_alert_loading);
     }
 
+
+
+
+
+    @Override
+    public Goal getGoal() {
+        String usuarioId = mAuth.getCurrentUser().getUid();
+        BigDecimal montoGoal = montodeseado.getValue();
+        String descripGoal = descripcion.getText().toString();
+        Goal goal = new Goal();
+        goal.userUID = usuarioId;
+        goal.goalId = 1;
+        goal.amountGoal = montoGoal.doubleValue();
+        goal.description = descripGoal;
+
+
+        return goal;
+    }
+
+    @Override
+    public void Reload(Fragment fragment) {
+        goTo(fragment,R.id.content_frame);
+    }
+
+
+
     @Override
     public void showErrorMessages(List<ErrorMessage> errors) {
         for (ErrorMessage error : errors) {
@@ -137,25 +167,8 @@ public static GoalFragment newInstance(){return new GoalFragment();}
 
     }
 
-    @Override
-    public Goal getGoal() {
-        String usuarioId = mAuth.getCurrentUser().getUid();
-        BigDecimal montoGoal = montodeseado.getValue();
-        String descripGoal = descripcion.getText().toString();
-        Goal goal = new Goal();
-        goal.userUID = usuarioId;
-        goal.goalId = 1;
-        goal.amountGoal = montoGoal.doubleValue();
-        goal.description = descripGoal;
 
 
-        return goal;
-    }
-
-    @Override
-    public void Reload(Fragment fragment) {
-        goTo(fragment,R.id.content_frame);
-    }
 
 
     @Override
