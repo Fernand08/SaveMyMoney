@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.Goal;
 import com.demo.savemymoney.databinding.FragmentGoalBinding;
 import com.demo.savemymoney.main.MainActivity;
+import com.github.clemp6r.futuroid.FutureCallback;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -174,10 +176,36 @@ public static GoalFragment newInstance(){return new GoalFragment();}
     @Override
     public void loadGoal(Goal goal) {
     if(goal.amountGoal != null && goal.description != null){
+
         delete.setVisibility(View.VISIBLE);
         montodeseado.setValue(BigDecimal.valueOf(goal.amountGoal));
         descripcion.setText(goal.description);
         registrar.setText(getString(R.string.string_goals_update));
+
+        SweetAlertDialog alert = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText(getString(R.string.goal_alert_progress_title));
+        alert.setConfirmText(getString(R.string.app_yes))
+                .setCancelText(getString(R.string.app_no))
+                .showCancelButton(true)
+                .setConfirmClickListener(sDialog ->{
+
+                    goTo(GoalProgressFragment.newInstance(),R.id.content_frame);
+                    sDialog.dismissWithAnimation();
+                });
+        alert.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+
+                sweetAlertDialog.cancel();
+            }
+
+        });
+
+        alert.show();
+
+
+
+
 
     }
 

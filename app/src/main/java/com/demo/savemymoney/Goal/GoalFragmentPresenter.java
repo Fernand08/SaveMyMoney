@@ -151,7 +151,7 @@ public class GoalFragmentPresenter {
                     });
 
 
-                    loadGoal();
+
                     sDialog.dismissWithAnimation();
 
 
