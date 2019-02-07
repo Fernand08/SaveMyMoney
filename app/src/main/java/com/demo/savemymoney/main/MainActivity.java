@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.demo.savemymoney.Goal.GoalFragment;
+import com.demo.savemymoney.goal.GoalFragment;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseActivity;
 import com.demo.savemymoney.login.LoginActivity;

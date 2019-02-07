@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:activity=".goal.GoalFragment" android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:activity=".goal.GoalFragment">
+    <data>
+        <variable
+            name="presenter"
+            type="com.demo.savemymoney.goal.GoalFragmentPresenter"/>
+
+    </data>
 
 
     <LinearLayout
@@ -16,7 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:gravity="center"
+            android:gravity="center|center_vertical"
+
             android:padding="10dp"
             android:text="@string/string_goals"
             android:textSize="24sp"
@@ -24,28 +30,19 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="72dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/string_goals_saving"
-                android:textSize="17sp" />
-
-            <TextView
                 android:id="@+id/cash_saving"
-                android:layout_width="264dp"
-                android:layout_height="82dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
                 android:gravity="center"
-                android:padding="10dp"
-
-                android:textSize="17sp" />
+                android:text="1,000,000.00"
+                android:textSize="40sp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -56,23 +53,23 @@
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/amount_goal_til"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/mouth_goal"
-                    android:layout_width="414dp"
-                    android:layout_height="65dp"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:ems="10"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
+                <ru.kolotnev.formattedittext.CurrencyEditText
+                    android:id="@+id/amount_goal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="40"
                     android:hint="@string/string_goals_amaunt"
-                    android:inputType="date" />
+                    app:currency="PEN" />
+
+
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/description_goal_Til"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -80,20 +77,18 @@
                     android:id="@+id/description_goal"
                     android:layout_width="414dp"
                     android:layout_height="65dp"
-                    android:clickable="false"
-                    android:cursorVisible="false"
+
                     android:ems="10"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
+                    android:maxLength="40"
                     android:hint="@string/string_goals_description"
-                    android:inputType="date" />
+                    android:inputType="textMultiLine" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="81dp"
-
+                android:onClick="@{()->presenter.saveGoal()}"
                 android:text="@string/string_goals_register" />
         </LinearLayout>
 
@@ -109,4 +104,4 @@
 
 
 
-</android.support.design.widget.CoordinatorLayout >
+</layout >
