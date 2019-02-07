@@ -112,8 +112,8 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
     @Override
     public void showDistributeMessage() {
         new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Espera!")
-                .setContentText("Aún puedes asignar dinero a esta categoría \uD83D\uDE0E")
+                .setTitleText(getString(R.string.wait_message_title))
+                .setContentText(getString(R.string.assign_amount_is_posible_message))
                 .show();
     }
 

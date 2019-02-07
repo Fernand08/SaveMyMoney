@@ -112,5 +112,7 @@
     <string name="category_deleted_message">Categoría eliminada</string>
     <string name="huy_message_title">Huy!</string>
     <string name="chihuan_message">Te quedaste Chihuán 😢</string>
+    <string name="wait_message_title">Espera!</string>
+    <string name="assign_amount_is_posible_message">Aún puedes asignar dinero a esta categoría 😎</string>
 
 </resources>
