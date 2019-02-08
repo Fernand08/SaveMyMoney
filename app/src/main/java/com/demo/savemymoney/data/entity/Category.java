@@ -1,6 +1,7 @@
 package com.demo.savemymoney.data.entity;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
@@ -15,8 +16,11 @@ public class Category implements Serializable {
     public String color;
     public Integer icon;
     public Double distributedAmount;
+    public Double distributedAmountReference;
     public Boolean isSaving;
     public Boolean isDeletable;
+    @Ignore
+    public boolean isAddOption;
 
     public Category(@NonNull Integer categoryId, String name, String color, Integer icon, Boolean isSaving, Boolean isDeletable) {
         this.categoryId = categoryId;
@@ -26,5 +30,9 @@ public class Category implements Serializable {
         this.isDeletable = isDeletable;
         this.icon = icon;
         this.distributedAmount = 0.00;
+        this.distributedAmountReference = 0.00;
+    }
+
+    public Category() {
     }
 }

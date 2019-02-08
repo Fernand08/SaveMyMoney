@@ -3,6 +3,8 @@ package com.demo.savemymoney.main;
 import android.content.Context;
 import android.util.Log;
 
+import com.demo.savemymoney.R;
+import com.demo.savemymoney.common.exceptions.CategoryHasDetailException;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.MainAmount;
 import com.demo.savemymoney.data.repository.CategoryRepository;
@@ -102,6 +104,24 @@ public class MainFragmentPresenter {
                 });
     }
 
+    public void deleteCategory(Category category) {
+        categoryRepository.deleteCategory(category)
+                .addCallback(new FutureCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        getMainAmount();
+                        view.notifyCategoryDeleted();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.e(getClass().getName(), "Error deleting category", t);
+                        if (t instanceof CategoryHasDetailException)
+                            view.showError(context.getString(R.string.category_delete_has_detail_error));
+                    }
+                });
+    }
+
 
     public interface View {
 
@@ -114,5 +134,9 @@ public class MainFragmentPresenter {
         void showMainAmount(MainAmount result);
 
         void notifyIncomeNotFound();
+
+        void showError(String s);
+
+        void notifyCategoryDeleted();
     }
 }

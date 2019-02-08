@@ -14,14 +14,13 @@ import android.widget.TextView;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.data.entity.CategoryDetail;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.demo.savemymoney.common.util.NumberFormatUtils.formatAsCurrency;
 
 public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAdapter.CategoryDetailViewHolder> {
 
@@ -88,9 +87,7 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
 
         void bind(final CategoryDetail categoryDetail) {
             if (categoryDetail != null) {
-                NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
-                format.setCurrency(Currency.getInstance("PEN"));
-                amount.setText(String.format("- %s", format.format(categoryDetail.amount)));
+                amount.setText(String.format("- %s", formatAsCurrency(categoryDetail.amount)));
                 date.setText(DateUtils.getRelativeTimeSpanString(categoryDetail.date.getTime()));
                 description.setText(categoryDetail.description);
                 deleteButton.setOnClickListener(v -> {

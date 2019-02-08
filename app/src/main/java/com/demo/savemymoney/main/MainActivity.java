@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.demo.savemymoney.goal.GoalFragment;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseActivity;
+import com.demo.savemymoney.graphics.GraphicsActivity;
 import com.demo.savemymoney.goal.GoalProgressFragment;
 import com.demo.savemymoney.login.LoginActivity;
 import com.demo.savemymoney.monto.MontoFragment;
@@ -25,6 +26,7 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainActivityPresenter.View {
 
     MainActivityPresenter presenter;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,21 +70,16 @@ public class MainActivity extends BaseActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        this.menu = menu;
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.distributed) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -93,18 +90,38 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+            configureNavigationToolbar(R.string.main_income_title);
             navigateFragment(MainFragment.newInstance());
         } else if (id == R.id.nav_incomes) {
+            configureNavigationToolbar(R.string.income_update_title);
             navigateFragment(new MontoFragment());
+        } else if (id == R.id.nav_reports) {
+            goTo(GraphicsActivity.class);
         } else if (id == R.id.nav_goal) {
             navigateFragment(new GoalFragment());
-        }else if (id == R.id.nav_exit) {
+        } else if (id == R.id.nav_exit) {
             signOut();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void configureNavigationToolbar(int title) {
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.colorPrimary));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(title);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void navigateFragment(Fragment fragment) {
@@ -155,5 +172,9 @@ public class MainActivity extends BaseActivity
                 });
         alert.setCancelable(false);
         alert.show();
+    }
+
+    public void changeDistributed(String title) {
+        menu.getItem(0).setTitle(title);
     }
 }

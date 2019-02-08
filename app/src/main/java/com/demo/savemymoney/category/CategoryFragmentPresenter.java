@@ -8,9 +8,12 @@ import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.exceptions.CategoryInvalidAmountException;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.CategoryDetail;
+import com.demo.savemymoney.data.entity.MainAmount;
 import com.demo.savemymoney.data.repository.CategoryDetailRepository;
 import com.demo.savemymoney.data.repository.CategoryRepository;
+import com.demo.savemymoney.data.repository.MainAmountRepository;
 import com.github.clemp6r.futuroid.FutureCallback;
+import com.github.clemp6r.futuroid.SuccessCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.math.BigDecimal;
@@ -22,6 +25,7 @@ public class CategoryFragmentPresenter {
     private FirebaseAuth firebaseAuth;
     private CategoryRepository categoryRepository;
     private CategoryDetailRepository categoryDetailRepository;
+    private MainAmountRepository mainAmountRepository;
 
     public CategoryFragmentPresenter(View view, Context context) {
         this.view = view;
@@ -29,6 +33,7 @@ public class CategoryFragmentPresenter {
         this.firebaseAuth = FirebaseAuth.getInstance();
         categoryRepository = new CategoryRepository(context);
         categoryDetailRepository = new CategoryDetailRepository(context);
+        mainAmountRepository = new MainAmountRepository(context);
     }
 
     public void increaseDistributedAmount(Integer categoryId, BigDecimal amount) {
@@ -97,6 +102,21 @@ public class CategoryFragmentPresenter {
                 });
     }
 
+    public void afterAddCategory(Category category) {
+        mainAmountRepository.findByUserUID(category.userUID)
+                .addSuccessCallback(new SuccessCallback<MainAmount>() {
+                    @Override
+                    public void onSuccess(MainAmount result) {
+                        if (result.amount <= 0.00 && category.distributedAmount <= 0.00)
+                            view.showChihuanDialog();
+                        else if (result.amount > 0.00 && category.distributedAmount <= 0.00)
+                            view.showDistributeMessage();
+                        else
+                            view.addSpending();
+                    }
+                });
+    }
+
     public interface View {
 
         void showError(String string);
@@ -104,5 +124,11 @@ public class CategoryFragmentPresenter {
         void updateCategory(Category result);
 
         void showSuccess(String string);
+
+        void showChihuanDialog();
+
+        void showDistributeMessage();
+
+        void addSpending();
     }
 }

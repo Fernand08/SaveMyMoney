@@ -15,7 +15,7 @@ public class IncomeRepository {
     private AppDatabase database;
 
     public IncomeRepository(Context context) {
-        database = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME).build();
+        database = AppDatabase.getAppDatabase(context);
     }
 
     public Future<Void> save(Income income) {
