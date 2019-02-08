@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseActivity;
+import com.demo.savemymoney.graphics.GraphicsActivity;
 import com.demo.savemymoney.login.LoginActivity;
 import com.demo.savemymoney.monto.MontoFragment;
 
@@ -92,6 +93,8 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_incomes) {
             configureNavigationToolbar(R.string.income_update_title);
             navigateFragment(new MontoFragment());
+        } else if (id == R.id.nav_reports) {
+            goTo(GraphicsActivity.class);
         } else if (id == R.id.nav_exit) {
             signOut();
         }

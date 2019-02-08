@@ -154,7 +154,7 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
         new SweetAlertDialog(getContext(), WARNING_TYPE)
                 .setTitleText(getString(R.string.app_caution))
                 .setContentText(String.format(getString(R.string.category_delete_confirm_message_fmt), category.name))
-                .setCancelText(getString(R.string.app_dialog_cancel))
+                .setCancelText(getString(R.string.app_no))
                 .setConfirmText(getString(R.string.category_delete_confirm))
                 .setConfirmClickListener(sweetAlertDialog -> {
                     presenter.deleteCategory(category);

@@ -20,10 +20,10 @@ public class CategoryRepository {
 
     private List<Category> DEFAULT_CATEGORY_LIST = Arrays.asList(
             new Category(1, "Ahorros", "#4286f4", 296, true, false),
-            new Category(2, "Educación", "#70b72a", 64, false, false),
-            new Category(3, "Diversión", "#9e1f8d", 419, false, false),
-            new Category(4, "Casa", "#d86800", 470, false, false),
-            new Category(5, "Alimentos", "#fcbd14", 430, false, false)
+            new Category(2, "Educación", "#70b72a", 64, false, true),
+            new Category(3, "Diversión", "#9e1f8d", 419, false, true),
+            new Category(4, "Casa", "#d86800", 470, false, true),
+            new Category(5, "Alimentos", "#fcbd14", 430, false, true)
     );
 
     private AppDatabase database;

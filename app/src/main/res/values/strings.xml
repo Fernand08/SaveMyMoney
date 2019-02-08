@@ -106,13 +106,18 @@
     <string name="category_name_exists_error">Ya existe una categoría con ese nombre</string>
     <string name="category_success_save">Has creado una nueva categoría. A gastar!</string>
     <string name="category_unable_to_delete_default">No puedes eliminar una categoría predeterminada</string>
-    <string name="category_delete_confirm">Seguro</string>
-    <string name="category_delete_confirm_message_fmt">¿Seguro que quieres eliminar la categoría %s?</string>
+    <string name="category_delete_confirm">Sí</string>
+    <string name="category_delete_confirm_message_fmt">¿Quieres eliminar la categoría %s?</string>
     <string name="category_delete_has_detail_error">La categoría tiene gastos registrados, no es posible eliminarla</string>
     <string name="category_deleted_message">Categoría eliminada</string>
     <string name="huy_message_title">Huy!</string>
     <string name="chihuan_message">Te quedaste Chihuán 😢</string>
     <string name="wait_message_title">Espera!</string>
     <string name="assign_amount_is_posible_message">Aún puedes asignar dinero a esta categoría 😎</string>
+    <string name="menu_reports">Reportes</string>
+    <string name="graphic_category_pie_title">Categorías</string>
+    <string name="graphic_no_data_text">No hay información disponible para este gráfico</string>
+    <string name="graphic_spending_history_title">Historial de gastos</string>
+    <string name="graphic_saving_title">Ahorros</string>
 
 </resources>

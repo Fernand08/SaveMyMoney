@@ -57,4 +57,5 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.thebluealliance:spectrum:0.7.1'
     implementation 'com.maltaisn:icondialog:2.0.2'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }

@@ -12,6 +12,7 @@ import com.demo.savemymoney.data.dao.CategoryDao;
 import com.demo.savemymoney.data.dao.CategoryDetailDao;
 import com.demo.savemymoney.data.dao.IncomeDao;
 import com.demo.savemymoney.data.dao.MainAmountDao;
+import com.demo.savemymoney.data.dao.ReportDao;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.CategoryDetail;
 import com.demo.savemymoney.data.entity.CategoryDetailHistory;
@@ -26,7 +27,7 @@ import static com.demo.savemymoney.common.AppConstants.DATABASE_NAME;
         Category.class,
         CategoryDetail.class,
         CategoryDetailHistory.class
-}, version = 2)
+}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
@@ -38,6 +39,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CategoryDao categoryDao();
 
     public abstract CategoryDetailDao categoryDetailDao();
+
+    public abstract ReportDao reportDao();
 
     public static AppDatabase getAppDatabase(Context context) {
         if (INSTANCE == null)
