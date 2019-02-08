@@ -17,6 +17,10 @@ public interface GoalDao {
     @Query("Select * from Category where userUID = :userUID and isSaving = :bolean  ")
     Category findAmountByUserUID(String userUID, Boolean bolean);
 
+    @Query("Update Category set distributedAmount = distributedAmount- :amount  where userUID = :userUID and isSaving = :bolean ")
+    void decreaseAmountSaving(String userUID,Boolean bolean,Double amount);
+
+
 
     @Query("Select * from Goal where userUID = :userUID")
     Goal findByUserUID(String userUID);
@@ -26,4 +30,7 @@ public interface GoalDao {
 
     @Delete
     void deleteGoal(Goal goal);
+
+    @Query("DELETE FROM Goal WHERE userUID = :userUID")
+    void deleteGoalSaving(String userUID);
 }

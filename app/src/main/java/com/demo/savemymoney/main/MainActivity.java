@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.demo.savemymoney.goal.GoalFragment;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseActivity;
+import com.demo.savemymoney.goal.GoalProgressFragment;
 import com.demo.savemymoney.login.LoginActivity;
 import com.demo.savemymoney.monto.MontoFragment;
 

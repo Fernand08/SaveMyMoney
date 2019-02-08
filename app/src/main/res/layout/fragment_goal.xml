@@ -61,7 +61,7 @@
                     android:id="@+id/amount_goal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="40"
+                    android:maxLength="38"
                     android:hint="@string/string_goals_amaunt"
                     app:currency="PEN" />
 
@@ -79,7 +79,7 @@
                     android:layout_height="65dp"
 
                     android:ems="10"
-                    android:maxLength="40"
+                    android:maxLength="38"
                     android:hint="@string/string_goals_description"
                     android:inputType="textMultiLine" />
             </android.support.design.widget.TextInputLayout>

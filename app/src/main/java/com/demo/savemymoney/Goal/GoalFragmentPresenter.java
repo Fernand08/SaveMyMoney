@@ -188,7 +188,6 @@ public class GoalFragmentPresenter {
         Goal getGoal();
         void Reload (Fragment fragment);
         void loadGoal(Goal goal);
-
     }
 
 

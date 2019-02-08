@@ -35,6 +35,16 @@ public class GoalRepository {
             return database.goalDao().findByUserUID(userUID);
         });
     }
+    public Future<Goal> decreaseAmountSaving(String userUID,Boolean b,Double a){
+        return  submit(()->{
+            decreaseAmount(userUID, b, a);
+            return  null;
+        });
+    }
+    private void decreaseAmount(String userUID, Boolean b, Double amount){
+        database.mainAmountDao().increaseAmount(userUID, amount);
+        database.goalDao().decreaseAmountSaving(userUID, b, amount);
+    }
 
     public Future<Object> deleteGoal(Goal goal){
 
@@ -46,7 +56,14 @@ public class GoalRepository {
     }
 
 
+    public Future<Object> deleteGoalSaving(String uid){
 
+        return  submit(() -> {
+            database.goalDao().deleteGoalSaving(uid);
+
+            return  null;
+        });
+    }
 
 
 }
