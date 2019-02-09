@@ -11,12 +11,9 @@ import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.Goal;
 import com.demo.savemymoney.data.repository.GoalRepository;
 import com.demo.savemymoney.main.MainActivity;
-import com.demo.savemymoney.main.MainFragment;
 import com.emredavarci.circleprogressbar.CircleProgressBar;
 import com.github.clemp6r.futuroid.FutureCallback;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.math.BigDecimal;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 

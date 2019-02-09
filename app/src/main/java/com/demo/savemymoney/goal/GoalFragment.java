@@ -1,11 +1,9 @@
 package com.demo.savemymoney.goal;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +18,6 @@ import com.demo.savemymoney.common.dto.ErrorMessage;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.Goal;
 import com.demo.savemymoney.databinding.FragmentGoalBinding;
-import com.demo.savemymoney.main.MainActivity;
-import com.github.clemp6r.futuroid.FutureCallback;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -41,7 +37,6 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
     TextInputLayout montodeseadoTil;
 
 
-
     @BindView(R.id.amount_goal)
     CurrencyEditText montodeseado;
 
@@ -54,32 +49,34 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
     @BindView(R.id.delete_goal_button)
     ImageButton delete;
     @BindView(R.id.register_goal_button)
-    Button registrar ;
+    Button registrar;
 
 
     GoalFragmentPresenter presenter;
 
 
-public static GoalFragment newInstance(){return new GoalFragment();}
+    public static GoalFragment newInstance() {
+        return new GoalFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        FragmentGoalBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_goal,container,false);
-        presenter = new GoalFragmentPresenter(this,getContext());
+        FragmentGoalBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goal, container, false);
+        presenter = new GoalFragmentPresenter(this, getContext());
         binding.setPresenter(presenter);
 
         View view = binding.getRoot();
 
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
         getActivity().setTitle(R.string.goal_title);
 
         delete.setVisibility(View.INVISIBLE);
         registrar.setText(getString(R.string.string_goals_register));
         // Inflate the layout for this fragment
-        return  view;
+        return view;
     }
 
     @Override
@@ -94,9 +91,6 @@ public static GoalFragment newInstance(){return new GoalFragment();}
     public void showProgress() {
         showProgressDialog(R.string.goal_alert_loading);
     }
-
-
-
 
 
     @Override
@@ -116,9 +110,8 @@ public static GoalFragment newInstance(){return new GoalFragment();}
 
     @Override
     public void Reload(Fragment fragment) {
-        goTo(fragment,R.id.content_frame);
+        goTo(fragment, R.id.content_frame);
     }
-
 
 
     @Override
@@ -148,71 +141,62 @@ public static GoalFragment newInstance(){return new GoalFragment();}
     @Override
     public void notifyGoalSaved() {
         SweetAlertDialog alert = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-        .setTitleText(getString(R.string.goal_alert_confirm_title));
+                .setTitleText(getString(R.string.goal_alert_confirm_title));
         alert.setContentText(getString(R.string.goal_alert_confirm_context))
                 .setConfirmText("OK")
-        .setConfirmClickListener(sDialog ->{
-            sDialog.dismissWithAnimation();
-           presenter.loadGoal();
-        });
+                .setConfirmClickListener(sDialog -> {
+                    sDialog.dismissWithAnimation();
+                    presenter.loadGoal();
+                });
         alert.setCancelable(false);
         alert.show();
     }
 
     @Override
     public void showAmountSaving(Category result) {
-       Double amauntSaving = result.distributedAmount;
-       String amauntSaving_string = String.valueOf(amauntSaving);
-       montoahorrado.setText("S/. " +amauntSaving_string);
-
+        Double amauntSaving = result.distributedAmount;
+        String amauntSaving_string = String.valueOf(amauntSaving);
+        montoahorrado.setText("S/. " + amauntSaving_string);
 
 
     }
-
-
-
 
 
     @Override
     public void loadGoal(Goal goal) {
-    if(goal.amountGoal != null && goal.description != null){
+        if (goal.amountGoal != null && goal.description != null) {
 
-        delete.setVisibility(View.VISIBLE);
-        montodeseado.setValue(BigDecimal.valueOf(goal.amountGoal));
-        descripcion.setText(goal.description);
-        registrar.setText(getString(R.string.string_goals_update));
+            delete.setVisibility(View.VISIBLE);
+            montodeseado.setValue(BigDecimal.valueOf(goal.amountGoal));
+            descripcion.setText(goal.description);
+            registrar.setText(getString(R.string.string_goals_update));
 
-        SweetAlertDialog alert = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText(getString(R.string.goal_alert_progress_title));
-        alert.setConfirmText(getString(R.string.app_yes))
-                .setCancelText(getString(R.string.app_no))
-                .showCancelButton(true)
-                .setConfirmClickListener(sDialog ->{
+            SweetAlertDialog alert = new SweetAlertDialog(getContext(), SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText(getString(R.string.goal_alert_progress_title));
+            alert.setConfirmText(getString(R.string.app_yes))
+                    .setCancelText(getString(R.string.app_no))
+                    .showCancelButton(true)
+                    .setConfirmClickListener(sDialog -> {
 
-                    goTo(GoalProgressFragment.newInstance(),R.id.content_frame);
-                    sDialog.dismissWithAnimation();
-                });
-        alert.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
-            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        goTo(com.demo.savemymoney.goal.GoalProgressFragment.newInstance(), R.id.content_frame);
+                        sDialog.dismissWithAnimation();
+                    });
+            alert.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
 
-                sweetAlertDialog.cancel();
-            }
+                    sweetAlertDialog.cancel();
+                }
 
-        });
+            });
 
-        alert.show();
-
-
+            alert.show();
 
 
-
-    }
-
+        }
 
 
     }
-
 
 
 }
