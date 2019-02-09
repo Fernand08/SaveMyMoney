@@ -98,6 +98,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_reports) {
             goTo(GraphicsActivity.class);
         } else if (id == R.id.nav_goal) {
+            configureNavigationToolbar(R.string.goal_title);
             navigateFragment(new GoalFragment());
         } else if (id == R.id.nav_exit) {
             signOut();
