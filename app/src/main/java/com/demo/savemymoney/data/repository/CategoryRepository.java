@@ -82,6 +82,7 @@ public class CategoryRepository {
     private void decreaseAmount(String userUID, Integer categoryId, Double amount) {
         database.mainAmountDao().increaseAmount(userUID, amount);
         database.categoryDao().decreaseAmount(userUID, categoryId, amount);
+        database.categoryDao().decreaseDistributedAmountReference(userUID, categoryId, amount);
     }
 
     public Future<Void> changeDistributedAmount(String userUID, Integer categoryId, Double amount) {
