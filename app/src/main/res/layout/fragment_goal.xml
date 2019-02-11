@@ -16,53 +16,112 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-
+        <LinearLayout
+            android:id="@+id/group1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center|center_vertical"
-
-            android:padding="10dp"
-            android:text="@string/string_goals"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/cash_saving"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="10dp"
-                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                android:textSize="40sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/goal_amount_saving_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:text="@string/string_goals"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/cash_saving"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
 
 
         </LinearLayout>
 
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/group2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/goal_progress_mensaje"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <com.emredavarci.circleprogressbar.CircleProgressBar xmlns:cpb="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/progressBar"
+                    android:layout_width="382dp"
+                    android:layout_height="260dp"
+
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:gravity="center|center_vertical"
+                    cpb:backgroundColor="#e7b330"
+                    cpb:backgroundWidth="10"
+                    cpb:maxValue="100"
+                    cpb:prefix=""
+                    cpb:progressColor="#e76130"
+                    cpb:progressText="Loading..."
+                    cpb:progressTextColor="#f9916b"
+                    cpb:roundedCorners="true"
+                    cpb:strokeWidth="14"
+                    cpb:suffix="%"
+                    cpb:textSize="30sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/group3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/amount_goal_til"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textSize="40sp"
+                >
 
                 <ru.kolotnev.formattedittext.CurrencyEditText
                     android:id="@+id/amount_goal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="38"
                     android:hint="@string/string_goals_amaunt"
+                    android:textSize="20sp"
+                    android:maxLength="17"
+                    android:singleLine="true"
                     app:currency="PEN" />
 
 
@@ -71,53 +130,48 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/description_goal_Til"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textSize="40sp"
+                >
 
                 <EditText
                     android:id="@+id/description_goal"
-                    android:layout_width="414dp"
-                    android:layout_height="65dp"
-
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
                     android:ems="10"
-                    android:maxLength="38"
                     android:hint="@string/string_goals_description"
-                    android:inputType="textMultiLine" />
+                    android:maxLength="32"
+                    android:singleLine="true"/>
             </android.support.design.widget.TextInputLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/delete_goal_button"
-                    android:layout_width="122dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center|center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/float_transparent"
-                    android:src="@drawable/ic_delete_black_24dp"
-                    android:onClick="@{()->presenter.deleteGoal()}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-
-                    />
 
                 <Button
                     android:id="@+id/register_goal_button"
                     style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="271dp"
-                    android:layout_height="81dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:onClick="@{()->presenter.saveGoal()}"
                     android:text="@string/string_goals_register" />
             </LinearLayout>
+            <TextView
+                android:id="@+id/delete_goal_button"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/float_transparent"
+                android:textColor="@color/md_black_1000"
+                android:layout_gravity="end|bottom"
+                android:text="@string/goal_button_delete"
+                android:onClick="@{()->presenter.deleteGoal()}"
+               />
 
 
         </LinearLayout>
-
-
 
 
 
