@@ -16,4 +16,12 @@ public class DateUtils {
     public static long getMillisUntil(Date date) {
         return date.getTime() - new Date().getTime();
     }
+
+    public static Date setHourToDate(Date date, int hour) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, 0);
+        return calendar.getTime();
+    }
 }

@@ -36,6 +36,7 @@ import ru.kolotnev.formattedittext.CurrencyEditText;
 
 import static com.demo.savemymoney.common.util.DateUtils.getMillisUntil;
 import static com.demo.savemymoney.common.util.DateUtils.isSameDay;
+import static com.demo.savemymoney.common.util.DateUtils.setHourToDate;
 
 
 public class MontoFragment extends BaseFragment implements MontoFragmentPresenter.View {
@@ -119,14 +120,14 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
             int anio = cal.get(cal.YEAR);
             int mes = cal.get(cal.MONTH);
             int dia = cal.get(cal.DAY_OF_MONTH);
-            mes = mes+1;
+            mes = mes + 1;
 
             String fechahoy = dia + "/" + mes + "/" + anio;
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Date hoy = new Date();
 
-            Date fechaseleccionada =null;
+            Date fechaseleccionada = null;
             try {
                 fechaseleccionada = sdf.parse(fecha);
 
@@ -135,24 +136,18 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
             }
 
 
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M){
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 // versiones con android 6.0 o superior
                 txtFechaInicio.setText(fecha);
-            } else{
+            } else {
                 // para versiones anteriores a android 6.0
-                if(fechaseleccionada.after(hoy)|| fecha.equals(fechahoy)){
+                if (fechaseleccionada.after(hoy) || fecha.equals(fechahoy)) {
                     txtFechaInicio.setText(fecha);
                 } else {
-                    Toast.makeText(getContext(),"Seleccione fecha de hoy o posterior",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Seleccione fecha de hoy o posterior", Toast.LENGTH_LONG).show();
 
                 }
             }
-
-
-
-
-
 
 
         };
@@ -265,7 +260,7 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
             presenter.increaseMainAmount();
         else
             Notifier.scheduleMainAmount(getContext(),
-                    getMillisUntil(income.startDate),
+                    getMillisUntil(setHourToDate(income.startDate, 9)),
                     mAuth.getCurrentUser().getUid());
 
     }
