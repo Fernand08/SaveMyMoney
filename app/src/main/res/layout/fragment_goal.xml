@@ -10,11 +10,17 @@
 
     </data>
 
+<ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+
 
         <LinearLayout
             android:id="@+id/group1"
@@ -168,7 +174,7 @@
                 android:layout_gravity="end|bottom"
                 android:text="@string/goal_button_delete"
                 android:onClick="@{()->presenter.deleteGoal()}"
-               />
+                />
 
 
         </LinearLayout>
@@ -180,6 +186,9 @@
 
 
 
+
+
+</ScrollView>
 
 
 
