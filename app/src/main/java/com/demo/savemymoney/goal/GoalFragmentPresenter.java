@@ -221,8 +221,10 @@ public class GoalFragmentPresenter {
             editor.remove("memorySaving");
             editor.remove("montoSaving");
             editor.commit();
-            view.hideProgress();
             view.Reload(GoalFragment.newInstance());
+
+            view.hideProgress();
+
         });
 
 
@@ -283,7 +285,7 @@ public class GoalFragmentPresenter {
                                 editor.remove("memorySaving");
                                 editor.commit();
                                 view.hideProgress();
-                                view.Reload(GoalFragment.newInstance());
+
                             });
                             sDialog.dismissWithAnimation();
                         });

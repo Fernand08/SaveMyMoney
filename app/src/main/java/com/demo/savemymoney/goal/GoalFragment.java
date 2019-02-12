@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -189,19 +190,12 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
 
 
     }
-    public void  notifys(){
-        Double saving =Double.parseDouble( preferences.getString("inspectSaving",""));
-        Double goal = Double.parseDouble(preferences.getString("inspectGoal",""));
-        if(saving != null && goal != null){
-            if(goal >=saving){
-                presenter.deleteVerifyGoal();
-            }
-        }
-    }
+
     @Override
     public void showAmountSaving(Category result) {
 
         Double amauntSaving = result.distributedAmount;
+            amauntSaving = Math.round(amauntSaving*100.0)/100.0;
 
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("montoSaving");
@@ -210,7 +204,7 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
 
         montoAhorrado = result.distributedAmount;
         String amauntSaving_string = String.valueOf(amauntSaving);
-        montoahorrado.setText("S/. " + amauntSaving_string);
+        montoahorrado.setText("S/. " +amauntSaving_string);
 
 
     }
@@ -226,8 +220,8 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
         editor.putString("inspectSaving",montosave);
         editor.commit();
         Double guardado = Double.parseDouble(montosave);
-        if(guardado>= goal.amountGoal)
-            notifys();
+
+
 
 
         if (goal.amountGoal != null && goal.description != null) {
@@ -246,11 +240,14 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
             BigDecimal montosaving =BigDecimal.valueOf(guardado )  ;
             BigDecimal diferencia = montosaving.subtract(montogoal);
             Double diferencia_double = Double.parseDouble(String.valueOf(diferencia));
-
+                   diferencia_double = Math.round(diferencia_double*100.0)/100.0;
             BigDecimal diferenciaMonto = montogoal.subtract(montosaving);
             Double diferenciaMonto_Double = Double.parseDouble(String.valueOf( diferenciaMonto));
+            diferenciaMonto_Double = Math.round(diferenciaMonto_Double*100.0)/100.0;
             BigDecimal division = montosaving.divide(montogoal, MathContext.DECIMAL128);
             Double result  = Double.parseDouble(String.valueOf(division));
+
+
             Integer   porcentaje = (int)  (result * 100) ;
 
 
@@ -317,10 +314,11 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
 
             } else{
                 setIncreaseProgress(100);
+                String monto ="S/. "+ goal.amountGoal;
                 SweetAlertDialog alert = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
                         .setTitleText(getString(R.string.goal_alert_goal_congratulations_title));
                 alert.setContentText(getContext().getString(R.string.goal_alert_goal_congratulations_des)
-                        +goal.amountGoal +" para tu " + goal.description)
+                        + monto +" para tu " + goal.description)
                         .setConfirmText("OK")
                         .setConfirmClickListener(sDialog -> {
                             presenter.deleteVerifyGoal();
