@@ -6,7 +6,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import com.demo.savemymoney.data.entity.CategoryDetail;
+import com.demo.savemymoney.data.entity.CategoryDetailHistory;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 @Dao
 public interface CategoryDetailHistoryDao {
     @Insert(onConflict = REPLACE)
-    void saveDetail(CategoryDetail detail);
+    void saveDetail(CategoryDetailHistory detail);
 
-    @Query("Select * from CategoryDetail where userUID = :userUID and categoryId = :categoryId and month(date) = :month order by date desc")
-    LiveData<List<CategoryDetail>> findAll(String userUID, Integer categoryId, Integer month);
+    @Query("Select * from CategoryDetailHistory where userUID = :userUID and categoryId = :categoryId and month(date) = :month order by date desc")
+    LiveData<List<CategoryDetailHistory>> findAll(String userUID, Integer categoryId, Integer month);
 
     @Delete
-    void deleteDetail(CategoryDetail detail);
+    void deleteDetail(CategoryDetailHistory detail);
 }

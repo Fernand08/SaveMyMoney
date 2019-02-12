@@ -9,6 +9,7 @@ import com.github.clemp6r.futuroid.Future;
 
 import java.util.List;
 
+import static com.demo.savemymoney.data.entity.CategoryDetailHistory.fromDetail;
 import static com.github.clemp6r.futuroid.Async.submit;
 
 public class CategoryDetailRepository {
@@ -24,6 +25,7 @@ public class CategoryDetailRepository {
             detail.detailId = newId;
             database.categoryDao().decreaseAmount(detail.userUID, detail.categoryId, detail.amount);
             database.categoryDetailDao().saveDetail(detail);
+            database.categoryDetailHistoryDao().saveDetail(fromDetail(detail));
             return null;
         });
     }
@@ -36,6 +38,7 @@ public class CategoryDetailRepository {
         return submit(() -> {
             database.categoryDao().increaseAmount(detail.userUID, detail.categoryId, detail.amount);
             database.categoryDetailDao().deleteDetail(detail);
+            database.categoryDetailHistoryDao().deleteDetail(fromDetail(detail));
             return null;
         });
     }

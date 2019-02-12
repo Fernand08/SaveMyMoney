@@ -1,11 +1,9 @@
 package com.demo.savemymoney.data.db;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
-import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 
 import com.demo.savemymoney.data.dao.CategoryDao;
@@ -49,7 +47,7 @@ public abstract class AppDatabase extends RoomDatabase {
         if (INSTANCE == null)
             INSTANCE =
                     Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, DATABASE_NAME)
-                            .addMigrations(MIGRATION_1_2)
+                            .fallbackToDestructiveMigration()
                             .build();
         return INSTANCE;
     }
@@ -57,11 +55,4 @@ public abstract class AppDatabase extends RoomDatabase {
     public static void destroyInstance() {
         INSTANCE = null;
     }
-
-    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
-        @Override
-        public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("Alter table Category add distributedAmountReference REAL");
-        }
-    };
 }
