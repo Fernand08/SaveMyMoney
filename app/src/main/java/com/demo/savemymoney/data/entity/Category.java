@@ -22,6 +22,7 @@ public class Category implements Serializable {
     @Ignore
     public boolean isAddOption;
 
+    @Ignore
     public Category(@NonNull Integer categoryId, String name, String color, Integer icon, Boolean isSaving, Boolean isDeletable) {
         this.categoryId = categoryId;
         this.name = name;
