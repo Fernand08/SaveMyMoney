@@ -37,8 +37,8 @@ public class MainActivity extends BaseActivity
     MainActivityPresenter presenter;
     private Menu menu;
 
-  //  Intent serviceIntent;
-  //  ClockNotifyService clockNotifyService;
+   Intent serviceIntent;
+    ClockNotifyService clockNotifyService;
 
 
     @Override
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //      serviceIntent = new Intent(this,ClockNotifyService.class);
+              serviceIntent = new Intent(this,ClockNotifyService.class);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
