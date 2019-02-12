@@ -1,9 +1,16 @@
 package com.demo.savemymoney.main;
 
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +25,9 @@ import com.demo.savemymoney.common.BaseActivity;
 import com.demo.savemymoney.graphics.GraphicsActivity;
 import com.demo.savemymoney.login.LoginActivity;
 import com.demo.savemymoney.monto.MontoFragment;
+import com.demo.savemymoney.service.ClockNotifyService;
+
+import java.util.Calendar;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -27,12 +37,18 @@ public class MainActivity extends BaseActivity
     MainActivityPresenter presenter;
     private Menu menu;
 
+    Intent serviceIntent;
+    ClockNotifyService clockNotifyService;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        serviceIntent = new Intent(this,ClockNotifyService.class);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -46,6 +62,7 @@ public class MainActivity extends BaseActivity
         presenter = new MainActivityPresenter(this, this);
         navigateFragment(MainFragment.newInstance());
     }
+
 
     private void setUserInformation(NavigationView navigationView) {
         AppCompatTextView userName = navigationView.getHeaderView(0).findViewById(R.id.nav_header_user_name);
@@ -139,6 +156,28 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         setUserInformation(navigationView);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startService(serviceIntent);
+        bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            clockNotifyService = ((ClockNotifyService.ClockBinder) iBinder).getClockBinder();
+
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            clockNotifyService = null;
+        }
+    };
+
+
 
     public void signOut() {
         mAuth.signOut();

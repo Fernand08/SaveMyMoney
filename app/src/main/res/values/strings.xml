@@ -146,7 +146,7 @@
     <string name="goal_button_delete">Ya no quiero!</string>
     <string name="goal_alert_goal_achieved_title">Ya lo tienes!</string>
     <string name="goal_alert_goal_achieved_des">Tienes suficiente dinero para comprarlo!</string>
-    <string name="goal_alert_goal_congratulations_title">Felicitaciones!</string>
+    <string name="goal_alert_goal_congratulations_title">Felicitaciones!😎</string>
     <string name="goal_alert_goal_congratulations_des">Alcanzaste tu Meta de </string>
 
 </resources>

@@ -82,6 +82,9 @@ public class GoalFragmentPresenter {
 
 
 
+
+
+
     public void saveGoal() {
 
         String montoAhorrado =  preferences.getString("montoSaving","");
