@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.dto.ErrorMessage;
+import com.demo.savemymoney.common.mail.MailSender;
 import com.demo.savemymoney.main.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
@@ -42,12 +43,10 @@ public class SignUpFragmentPresenter {
 
                             saveToCloudDb(task.getResult().getUser().getUid(), model);
 
-
+                            MailSender.sendWelcomeMail(model.getEmail(), model.getFirstName());
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(model.getFirstName())
                                     .build();
-
-                            task.getResult().getUser().sendEmailVerification();
                             task.getResult().getUser().updateProfile(profileUpdates)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {

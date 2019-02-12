@@ -59,4 +59,5 @@ dependencies {
     implementation 'com.maltaisn:icondialog:2.0.2'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.emredavarci:circleprogressbar:1.0.4'
+    implementation 'com.mailjet:mailjet-client:4.0.5'
 }

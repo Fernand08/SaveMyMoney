@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.dto.ErrorMessage;
+import com.demo.savemymoney.common.mail.MailSender;
 import com.demo.savemymoney.main.MainActivity;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +39,7 @@ public class LoginFragmentPresenter {
                     .addOnCompleteListener(task -> {
                         view.hideProgress();
                         if (task.isSuccessful()) {
+
                             Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
                         } else {
