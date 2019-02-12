@@ -37,8 +37,8 @@ public class MainActivity extends BaseActivity
     MainActivityPresenter presenter;
     private Menu menu;
 
-    Intent serviceIntent;
-    ClockNotifyService clockNotifyService;
+  //  Intent serviceIntent;
+  //  ClockNotifyService clockNotifyService;
 
 
     @Override
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        serviceIntent = new Intent(this,ClockNotifyService.class);
+        //      serviceIntent = new Intent(this,ClockNotifyService.class);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -160,10 +160,10 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-        startService(serviceIntent);
-        bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+    //    startService(serviceIntent);
+    //    bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
     }
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+  /*  private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             clockNotifyService = ((ClockNotifyService.ClockBinder) iBinder).getClockBinder();
@@ -176,7 +176,7 @@ public class MainActivity extends BaseActivity
             clockNotifyService = null;
         }
     };
-
+*/
 
 
     public void signOut() {
