@@ -10,6 +10,7 @@ import android.content.Context;
 
 import com.demo.savemymoney.data.dao.CategoryDao;
 import com.demo.savemymoney.data.dao.CategoryDetailDao;
+import com.demo.savemymoney.data.dao.CategoryDetailHistoryDao;
 import com.demo.savemymoney.data.dao.IncomeDao;
 import com.demo.savemymoney.data.dao.MainAmountDao;
 import com.demo.savemymoney.data.dao.ReportDao;
@@ -39,6 +40,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CategoryDao categoryDao();
 
     public abstract CategoryDetailDao categoryDetailDao();
+
+    public abstract CategoryDetailHistoryDao categoryDetailHistoryDao();
 
     public abstract ReportDao reportDao();
 
