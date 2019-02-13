@@ -1,18 +1,23 @@
 package com.demo.savemymoney.main;
 
 import android.content.Context;
+import android.support.v4.math.MathUtils;
 import android.util.Log;
 
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.exceptions.CategoryHasDetailException;
 import com.demo.savemymoney.data.entity.Category;
+import com.demo.savemymoney.data.entity.CategoryDetail;
 import com.demo.savemymoney.data.entity.MainAmount;
+import com.demo.savemymoney.data.repository.CategoryDetailRepository;
 import com.demo.savemymoney.data.repository.CategoryRepository;
 import com.demo.savemymoney.data.repository.MainAmountRepository;
+import com.demo.savemymoney.service.ClockNotifier;
 import com.github.clemp6r.futuroid.FutureCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public class MainFragmentPresenter {
@@ -20,6 +25,7 @@ public class MainFragmentPresenter {
     private Context context;
     private FirebaseAuth firebaseAuth;
     private CategoryRepository categoryRepository;
+    private CategoryDetailRepository categoryDetailRepository;
     private MainAmountRepository mainAmountRepository;
 
     public MainFragmentPresenter(View view, Context context) {
@@ -28,6 +34,7 @@ public class MainFragmentPresenter {
         this.firebaseAuth = FirebaseAuth.getInstance();
         categoryRepository = new CategoryRepository(context);
         mainAmountRepository = new MainAmountRepository(context);
+        categoryDetailRepository = new CategoryDetailRepository(context);
     }
 
     public void getCategoryList() {
@@ -122,6 +129,22 @@ public class MainFragmentPresenter {
                 });
     }
 
+    public void getCountDetail(){
+        categoryDetailRepository.getCountDetails(firebaseAuth.getCurrentUser().getUid() ,new Date()).addCallback(new FutureCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer result) {
+                ClockNotifier.CountNotifier(context,result,firebaseAuth.getCurrentUser().getUid());
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+
+
+    }
 
     public interface View {
 
@@ -138,5 +161,6 @@ public class MainFragmentPresenter {
         void showError(String s);
 
         void notifyCategoryDeleted();
+        void getCountDetails(Context context ,String uid,Integer count);
     }
 }

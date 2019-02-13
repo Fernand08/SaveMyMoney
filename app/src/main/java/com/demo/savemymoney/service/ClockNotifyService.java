@@ -26,14 +26,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ClockNotifyService extends Service {
-
+    public static final String COUNT ="COUNTER";
     private  static  final  String LOGTAG = ClockNotifyService.class.getSimpleName();
 
     private Timer temporizador;
     private TimerTask tarea;
     private Handler handler = new Handler();
-    private SharedPreferences preferences;
-  private   Integer count ;
+    Integer counter ;
+   public  static      SharedPreferences preferences;
+
 
     public ClockNotifyService() {
     }
@@ -46,18 +47,11 @@ public class ClockNotifyService extends Service {
         Log.d(LOGTAG,"Servicio creado");
 
 
-        IniciarTemporizador();
     }
 
-    public void getCount(Integer integer){
 
-       preferences  = getApplication(). getApplicationContext().getSharedPreferences("countDetail", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("count");
-        editor.putString("count",String.valueOf(integer));
-        editor.commit();
 
-    }
+
 
     public  void notifys(){
 
@@ -80,10 +74,9 @@ public class ClockNotifyService extends Service {
         notificationManager.notify(0, n);
     }
 
-    private void IniciarTemporizador(){
+   public void IniciarTemporizador(){
 
-   String counter = preferences.getString("count","");
-     Integer count = Integer.parseInt(counter);
+
 
         Date horaDeAvisar = new Date(System.currentTimeMillis());
         Calendar now = Calendar.getInstance();
@@ -96,7 +89,7 @@ public class ClockNotifyService extends Service {
         if(c.get(Calendar.HOUR_OF_DAY )>23){
             c.set(Calendar.DAY_OF_YEAR,c.get(Calendar.DAY_OF_YEAR)+1);
         }
-        c.set(Calendar.HOUR_OF_DAY,3);
+        c.set(Calendar.HOUR_OF_DAY,15);
         c.set(Calendar.MINUTE,10);
         c.set(Calendar.SECOND,0);
         horaDeAvisar =  c.getTime();
@@ -115,10 +108,9 @@ public class ClockNotifyService extends Service {
                             public void run() {
 
                                 while(countAhora >= countAvisa){
-                                    if(count >=0){
+
                                         notifys();
-                                    }else
-                                        Log.d("Detail","Detail found");
+
 
                                 }
                                 try {
@@ -146,8 +138,14 @@ public class ClockNotifyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        preferences = getApplicationContext().getSharedPreferences("countDetail", Context.MODE_PRIVATE);
-        IniciarTemporizador();
+        String count = intent.getStringExtra(COUNT);
+        Integer counter = Integer.parseInt(count);
+        if(counter > 0){
+            IniciarTemporizador();
+
+        }
+
+
         return START_STICKY;
 
 

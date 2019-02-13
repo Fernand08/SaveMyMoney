@@ -12,22 +12,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Date;
 
 public class ClockNotifyPublisher extends BroadcastReceiver {
-    public FirebaseAuth mAuth;
-    public ClockNotifyService clockNotifyService;
 
+    public static String NOTIFICATION_USER_UID = "notification-user-uid";
+    public FirebaseAuth firebaseAuth;
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        String userUID = intent.getStringExtra(NOTIFICATION_USER_UID);
         CategoryDetailRepository repository = new CategoryDetailRepository(context);
-     SharedPreferences   preferences = context.getSharedPreferences("countDetail",Context.MODE_PRIVATE);
-        repository.getCountDetails(mAuth.getCurrentUser().getUid(),new Date()).addCallback(new FutureCallback<Integer>() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        repository.getCountDetails(firebaseAuth.getCurrentUser().getUid() ,new Date()).addCallback(new FutureCallback<Integer>() {
             @Override
             public void onSuccess(Integer result) {
-              /*  SharedPreferences.Editor editor = preferences.edit();
-                editor.remove("count");
-                editor.putString("count",String.valueOf(result));
-                editor.commit(); */
-              clockNotifyService.getCount(result);
+            ClockNotifier.CountNotifier(context,result,userUID);
+
             }
 
             @Override

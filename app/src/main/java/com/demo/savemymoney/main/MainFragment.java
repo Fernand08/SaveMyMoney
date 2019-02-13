@@ -1,5 +1,6 @@
 package com.demo.savemymoney.main;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +19,7 @@ import com.demo.savemymoney.common.components.AmountEditor;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.MainAmount;
 import com.demo.savemymoney.monto.MontoFragment;
+import com.demo.savemymoney.service.ClockNotifier;
 import com.maltaisn.icondialog.IconHelper;
 
 import java.math.BigDecimal;
@@ -63,6 +65,7 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
         super.onStart();
         amountEditor.setOnAmountChangeListener(this);
         presenter.getMainAmount();
+        presenter.getCountDetail();
         getActivity().setTitle(R.string.main_income_title);
         IconHelper.getInstance(getContext()).addLoadCallback(() -> presenter.getCategoryList());
     }
@@ -116,6 +119,15 @@ public class MainFragment extends BaseFragment implements MainFragmentPresenter.
         alert.setCancelable(false);
         alert.show();
     }
+
+    @Override
+    public void getCountDetails(Context context, String uid, Integer count) {
+        ClockNotifier.CountNotifier(context,count,uid);
+    }
+
+
+
+
 
     @Override
     public void onIncreaseAmount(BigDecimal amount) {
