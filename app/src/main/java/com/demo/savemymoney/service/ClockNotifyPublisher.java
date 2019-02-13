@@ -20,7 +20,7 @@ public class ClockNotifyPublisher extends BroadcastReceiver {
         String userUID = intent.getStringExtra(NOTIFICATION_USER_UID);
         CategoryDetailRepository repository = new CategoryDetailRepository(context);
         firebaseAuth = FirebaseAuth.getInstance();
-        repository.getCountDetails(userUID,new Date()).addCallback(new FutureCallback<Integer>() {
+        repository.getCountDetails( userUID,new Date()).addCallback(new FutureCallback<Integer>() {
             @Override
             public void onSuccess(Integer result) {
             ClockNotifier.CountNotifier(context,result,userUID);

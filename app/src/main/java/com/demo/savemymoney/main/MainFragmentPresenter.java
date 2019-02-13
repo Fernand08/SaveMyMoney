@@ -135,7 +135,7 @@ public class MainFragmentPresenter {
         categoryDetailRepository.getCountDetails(firebaseAuth.getCurrentUser().getUid() , new Date()).addCallback(new FutureCallback<Integer>() {
             @Override
             public void onSuccess(Integer result) {
-                ClockNotifier.CountNotifier(context,result,firebaseAuth.getCurrentUser().getUid());
+                view.getCountDetails (context,firebaseAuth.getCurrentUser().getUid(),result);
 
             }
 

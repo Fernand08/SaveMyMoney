@@ -138,7 +138,7 @@ public class ClockNotifyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-     if(intent.getStringExtra(COUNT)!= null){
+
          String count = intent.getStringExtra(COUNT);
          Integer counter = Integer.parseInt(count);
          if(counter > 0){
@@ -146,7 +146,7 @@ public class ClockNotifyService extends Service {
 
          }
 
-     }
+
         return START_STICKY;
 
 
