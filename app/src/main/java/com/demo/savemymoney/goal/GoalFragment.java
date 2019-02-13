@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,6 +88,8 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
     private SharedPreferences preferences;
     private GoalRepository goalRepository;
      FirebaseAuth firebaseAuth;
+    DisplayMetrics displaymetrics;
+
 
     public static GoalFragment newInstance() {
         return new GoalFragment();
@@ -104,6 +107,22 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
         View view = binding.getRoot();
 
         ButterKnife.bind(this, view);
+
+       displaymetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int width = displaymetrics.widthPixels;
+        int height = displaymetrics.heightPixels;
+
+        if(480 <width && width<=768 && 800< height &&  height <= 1280){
+            progressBar.getLayoutParams().width = 500;
+            progressBar.getLayoutParams().height=300;
+
+        } else if (width<= 480 && height <= 800){
+            progressBar.getLayoutParams().width =220;
+            progressBar.getLayoutParams().height=180;
+        }
+
+
 
         getActivity().setTitle(R.string.goal_title);
 
