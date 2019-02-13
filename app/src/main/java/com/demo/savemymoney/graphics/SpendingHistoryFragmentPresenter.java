@@ -1,11 +1,9 @@
 package com.demo.savemymoney.graphics;
 
-import android.arch.lifecycle.LiveData;
 import android.content.Context;
 
 import com.demo.savemymoney.data.entity.CategoryDetailHistory;
 import com.demo.savemymoney.data.repository.CategoryDetailHistoryRepository;
-import com.github.clemp6r.futuroid.SuccessCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -23,8 +21,8 @@ public class SpendingHistoryFragmentPresenter {
         this.firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    public void findByMonth(int month) {
-        categoryDetailHistoryRepository.getAll(firebaseAuth.getCurrentUser().getUid(), month)
+    public void findByMonth(int year, int month) {
+        categoryDetailHistoryRepository.getAll(firebaseAuth.getCurrentUser().getUid(), year,month)
                 .addSuccessCallback(result -> view.updateHistoryList(result));
 
     }

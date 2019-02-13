@@ -119,5 +119,7 @@
     <string name="graphic_no_data_text">No hay información disponible para este gráfico</string>
     <string name="graphic_spending_history_title">Historial de gastos</string>
     <string name="graphic_saving_title">Ahorros</string>
+    <string name="year_month_picker_dialogo_title">Selecciona año y mes</string>
+    <string name="history_empty_result">No hay gastos registrados en este mes</string>
 
 </resources>

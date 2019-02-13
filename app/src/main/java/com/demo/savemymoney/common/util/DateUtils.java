@@ -19,6 +19,12 @@ public class DateUtils {
         return (cal.get(Calendar.MONTH) + 1) == month;
     }
 
+    public static boolean isYear(Date date, int month) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.YEAR) == month;
+    }
+
     public static long getMillisUntil(Date date) {
         return date.getTime() - new Date().getTime();
     }

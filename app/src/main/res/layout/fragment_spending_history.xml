@@ -8,8 +8,18 @@
 
     <Button
         android:id="@+id/button_month"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:drawableEnd="@drawable/ic_date_range_black_24dp"
+        android:drawableTint="@color/white"
+        android:drawableTintMode="screen"
+        android:elevation="20sp"
+        android:foregroundTint="@color/white"
+        android:textAlignment="textStart"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/history_rv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
