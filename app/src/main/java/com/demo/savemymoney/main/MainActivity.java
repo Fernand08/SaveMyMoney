@@ -160,10 +160,10 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-    //    startService(serviceIntent);
-    //    bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+     startService(serviceIntent);
+     bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
     }
-  /*  private ServiceConnection serviceConnection = new ServiceConnection() {
+   private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             clockNotifyService = ((ClockNotifyService.ClockBinder) iBinder).getClockBinder();
@@ -176,7 +176,7 @@ public class MainActivity extends BaseActivity
             clockNotifyService = null;
         }
     };
-*/
+
 
 
     public void signOut() {

@@ -8,6 +8,7 @@ import android.arch.persistence.room.Query;
 
 import com.demo.savemymoney.data.entity.CategoryDetail;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -20,6 +21,11 @@ public interface CategoryDetailDao {
 
     @Query("Select * from CategoryDetail where userUID = :userUID and categoryId = :categoryId order by date desc")
     LiveData<List<CategoryDetail>> findAll(String userUID, Integer categoryId);
+
+
+    @Query("Select  count(detailId) from CategoryDetail where userUID = :userUID and date = :date")
+    Integer getCountDetails(String userUID, Date date);
+
 
     @Delete
     void deleteDetail(CategoryDetail detail);

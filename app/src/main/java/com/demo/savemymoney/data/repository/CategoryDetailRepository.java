@@ -7,6 +7,7 @@ import com.demo.savemymoney.data.db.AppDatabase;
 import com.demo.savemymoney.data.entity.CategoryDetail;
 import com.github.clemp6r.futuroid.Future;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.github.clemp6r.futuroid.Async.submit;
@@ -39,4 +40,12 @@ public class CategoryDetailRepository {
             return null;
         });
     }
+
+    public Future<Integer> getCountDetails(String userUID, Date date){
+        return  submit(()->{
+            database.categoryDetailDao().getCountDetails(userUID,date);
+            return  null;
+        });
+    }
+
 }
