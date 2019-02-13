@@ -86,11 +86,11 @@ public class ClockNotifyService extends Service {
 
         c.setTime(horaDeAvisar);
 
-        if(c.get(Calendar.HOUR_OF_DAY )>23){
+        if(c.get(Calendar.HOUR_OF_DAY )>22){
             c.set(Calendar.DAY_OF_YEAR,c.get(Calendar.DAY_OF_YEAR)+1);
         }
-        c.set(Calendar.HOUR_OF_DAY,15);
-        c.set(Calendar.MINUTE,10);
+        c.set(Calendar.HOUR_OF_DAY,22);
+        c.set(Calendar.MINUTE,0);
         c.set(Calendar.SECOND,0);
         horaDeAvisar =  c.getTime();
        // String horaDeAvisar_string = horaDeAvisar.toString();
