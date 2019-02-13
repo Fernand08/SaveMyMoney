@@ -6,6 +6,7 @@ import com.demo.savemymoney.common.exceptions.IncomeNotFoundException;
 import com.demo.savemymoney.data.db.AppDatabase;
 import com.demo.savemymoney.data.entity.Income;
 import com.demo.savemymoney.data.entity.MainAmount;
+import com.demo.savemymoney.data.entity.SavingHistory;
 import com.github.clemp6r.futuroid.Future;
 
 import java.util.Date;
@@ -36,6 +37,12 @@ public class MainAmountRepository {
             else {
                 MainAmount defaultAmount = MainAmount.defaultAmount(userUID);
                 database.mainAmountDao().saveMainAmount(defaultAmount);
+                SavingHistory savingHistory = new SavingHistory();
+                savingHistory.userUID = userUID;
+                savingHistory.amount = 0.00;
+                savingHistory.lastUpdate = new Date();
+                savingHistory.periodNumber = defaultAmount.periodNumber;
+                database.savingHistoryDao().save(savingHistory);
                 return defaultAmount;
             }
         });

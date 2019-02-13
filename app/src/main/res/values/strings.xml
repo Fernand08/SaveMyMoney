@@ -104,7 +104,7 @@
     <string name="category_new">Nueva Categoría</string>
     <string name="category_select_icon_title">Selecciona un icono</string>
     <string name="category_name_exists_error">Ya existe una categoría con ese nombre</string>
-    <string name="category_success_save">Has creado una nueva categoría. A gastar!</string>
+    <string name="category_success_save">Categoría creada</string>
     <string name="category_unable_to_delete_default">No puedes eliminar una categoría predeterminada</string>
     <string name="category_delete_confirm">Sí</string>
     <string name="category_delete_confirm_message_fmt">¿Quieres eliminar la categoría %s?</string>

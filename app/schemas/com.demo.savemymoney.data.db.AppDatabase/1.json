@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "03edc746451f244ac1bff45d7984fc30",
+    "identityHash": "7c2e28042511ce7c51e4aa6a43e330f6",
     "entities": [
       {
         "tableName": "Income",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "MainAmount",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `amount` REAL, PRIMARY KEY(`userUID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `amount` REAL, `period_number` INTEGER, PRIMARY KEY(`userUID`))",
         "fields": [
           {
             "fieldPath": "userUID",
@@ -62,6 +62,12 @@
             "fieldPath": "amount",
             "columnName": "amount",
             "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "period_number",
+            "columnName": "period_number",
+            "affinity": "INTEGER",
             "notNull": false
           }
         ],
@@ -264,7 +270,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"03edc746451f244ac1bff45d7984fc30\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"7c2e28042511ce7c51e4aa6a43e330f6\")"
     ]
   }
 }
