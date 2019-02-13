@@ -8,9 +8,10 @@ public class ClockNotifier {
 
         Intent notificationIntent = new Intent(context,ClockNotifyService.class);
         notificationIntent.putExtra(ClockNotifyService.COUNT ,count);
-
+        context.startService(notificationIntent);
         Intent notifi = new Intent(context,ClockNotifyPublisher.class);
         notifi.putExtra(ClockNotifyPublisher.NOTIFICATION_USER_UID,userUID);
+        context.startService(notifi);
     }
 
 }

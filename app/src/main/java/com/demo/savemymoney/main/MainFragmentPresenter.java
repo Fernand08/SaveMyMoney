@@ -17,6 +17,7 @@ import com.github.clemp6r.futuroid.FutureCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -130,7 +131,8 @@ public class MainFragmentPresenter {
     }
 
     public void getCountDetail(){
-        categoryDetailRepository.getCountDetails(firebaseAuth.getCurrentUser().getUid() ,new Date()).addCallback(new FutureCallback<Integer>() {
+
+        categoryDetailRepository.getCountDetails(firebaseAuth.getCurrentUser().getUid() , new Date()).addCallback(new FutureCallback<Integer>() {
             @Override
             public void onSuccess(Integer result) {
                 ClockNotifier.CountNotifier(context,result,firebaseAuth.getCurrentUser().getUid());
