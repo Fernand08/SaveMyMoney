@@ -1,0 +1,309 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "dd4b44475be232bbc1b65a8dd26e52f9",
+    "entities": [
+      {
+        "tableName": "Income",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `amount` REAL, `startDate` INTEGER, `period` TEXT, `payDate` INTEGER, PRIMARY KEY(`userUID`))",
+        "fields": [
+          {
+            "fieldPath": "userUID",
+            "columnName": "userUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "startDate",
+            "columnName": "startDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "period",
+            "columnName": "period",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "payDate",
+            "columnName": "payDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "userUID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "MainAmount",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `amount` REAL, PRIMARY KEY(`userUID`))",
+        "fields": [
+          {
+            "fieldPath": "userUID",
+            "columnName": "userUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "userUID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Category",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `categoryId` INTEGER NOT NULL, `name` TEXT, `color` TEXT, `icon` INTEGER, `distributedAmount` REAL, `distributedAmountReference` REAL, `isSaving` INTEGER, `isDeletable` INTEGER, PRIMARY KEY(`userUID`, `categoryId`))",
+        "fields": [
+          {
+            "fieldPath": "userUID",
+            "columnName": "userUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "distributedAmount",
+            "columnName": "distributedAmount",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "distributedAmountReference",
+            "columnName": "distributedAmountReference",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isSaving",
+            "columnName": "isSaving",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isDeletable",
+            "columnName": "isDeletable",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "userUID",
+            "categoryId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "CategoryDetail",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `categoryId` INTEGER NOT NULL, `detailId` INTEGER NOT NULL, `description` TEXT, `amount` REAL, `date` INTEGER, PRIMARY KEY(`userUID`, `categoryId`, `detailId`), FOREIGN KEY(`userUID`, `categoryId`) REFERENCES `Category`(`userUID`, `categoryId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "userUID",
+            "columnName": "userUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "detailId",
+            "columnName": "detailId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "userUID",
+            "categoryId",
+            "detailId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "Category",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userUID",
+              "categoryId"
+            ],
+            "referencedColumns": [
+              "userUID",
+              "categoryId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "CategoryDetailHistory",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `categoryId` INTEGER NOT NULL, `detailId` INTEGER NOT NULL, `description` TEXT, `amount` REAL, `date` INTEGER, PRIMARY KEY(`userUID`, `categoryId`, `detailId`))",
+        "fields": [
+          {
+            "fieldPath": "userUID",
+            "columnName": "userUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "detailId",
+            "columnName": "detailId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "userUID",
+            "categoryId",
+            "detailId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Goal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `goalId` INTEGER NOT NULL, `amountGoal` REAL, `description` TEXT, PRIMARY KEY(`userUID`, `goalId`))",
+        "fields": [
+          {
+            "fieldPath": "userUID",
+            "columnName": "userUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "goalId",
+            "columnName": "goalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amountGoal",
+            "columnName": "amountGoal",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "userUID",
+            "goalId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"dd4b44475be232bbc1b65a8dd26e52f9\")"
+    ]
+  }
+}
