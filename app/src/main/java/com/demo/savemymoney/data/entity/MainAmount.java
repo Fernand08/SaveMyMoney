@@ -10,11 +10,13 @@ public class MainAmount {
     @NonNull
     public String userUID;
     public Double amount;
+    public Integer periodNumber;
 
     public static MainAmount defaultAmount(String userUID) {
         MainAmount mainAmount = new MainAmount();
         mainAmount.userUID = userUID;
         mainAmount.amount = 0.00;
+        mainAmount.periodNumber = 1;
         return mainAmount;
     }
 }

@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "705e98607ba942bf45708f7ccc0b1f79",
+    "version": 3,
+    "identityHash": "dd4b44475be232bbc1b65a8dd26e52f9",
     "entities": [
       {
         "tableName": "Income",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "MainAmount",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `amount` REAL, `periodNumber` INTEGER, PRIMARY KEY(`userUID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `amount` REAL, PRIMARY KEY(`userUID`))",
         "fields": [
           {
             "fieldPath": "userUID",
@@ -62,12 +62,6 @@
             "fieldPath": "amount",
             "columnName": "amount",
             "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "periodNumber",
-            "columnName": "periodNumber",
-            "affinity": "INTEGER",
             "notNull": false
           }
         ],
@@ -268,8 +262,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "SavingHistory",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `periodNumber` INTEGER NOT NULL, `lastUpdate` INTEGER, `amount` REAL, PRIMARY KEY(`userUID`, `periodNumber`))",
+        "tableName": "Goal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `goalId` INTEGER NOT NULL, `amountGoal` REAL, `description` TEXT, PRIMARY KEY(`userUID`, `goalId`))",
         "fields": [
           {
             "fieldPath": "userUID",
@@ -278,28 +272,28 @@
             "notNull": true
           },
           {
-            "fieldPath": "periodNumber",
-            "columnName": "periodNumber",
+            "fieldPath": "goalId",
+            "columnName": "goalId",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "lastUpdate",
-            "columnName": "lastUpdate",
-            "affinity": "INTEGER",
+            "fieldPath": "amountGoal",
+            "columnName": "amountGoal",
+            "affinity": "REAL",
             "notNull": false
           },
           {
-            "fieldPath": "amount",
-            "columnName": "amount",
-            "affinity": "REAL",
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
             "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
             "userUID",
-            "periodNumber"
+            "goalId"
           ],
           "autoGenerate": false
         },
@@ -309,7 +303,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"705e98607ba942bf45708f7ccc0b1f79\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"dd4b44475be232bbc1b65a8dd26e52f9\")"
     ]
   }
 }

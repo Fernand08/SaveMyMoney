@@ -8,9 +8,11 @@ import com.demo.savemymoney.common.exceptions.CategoryNameAlreadyExistsException
 import com.demo.savemymoney.data.db.AppDatabase;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.MainAmount;
+import com.demo.savemymoney.data.entity.SavingHistory;
 import com.github.clemp6r.futuroid.Future;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static com.github.clemp6r.futuroid.Async.submit;
@@ -42,9 +44,9 @@ public class CategoryRepository {
 
     public Future<List<Category>> saveDefaultsAndGetCategories(String uid) {
         return submit(() -> {
-            for (Category c : DEFAULT_CATEGORY_LIST) {
+            for (Category c : DEFAULT_CATEGORY_LIST)
                 c.userUID = uid;
-            }
+
             database.categoryDao().save(DEFAULT_CATEGORY_LIST);
             return database.categoryDao().getAll(uid);
         });
@@ -69,6 +71,7 @@ public class CategoryRepository {
             database.mainAmountDao().decreaseAmount(userUID, amount);
             database.categoryDao().increaseAmount(userUID, categoryId, amount);
             database.categoryDao().addDistributedAmountReference(userUID, categoryId, amount);
+            updateSavingHistory(userUID, categoryId);
         }
     }
 
@@ -83,6 +86,20 @@ public class CategoryRepository {
         database.mainAmountDao().increaseAmount(userUID, amount);
         database.categoryDao().decreaseAmount(userUID, categoryId, amount);
         database.categoryDao().decreaseDistributedAmountReference(userUID, categoryId, amount);
+        updateSavingHistory(userUID, categoryId);
+    }
+
+    private void updateSavingHistory(String userUID, Integer categoryId) {
+        Category category = database.categoryDao().findByUserUIDAndCategoryId(userUID, categoryId);
+        if (category.isSaving) {
+            Integer lastPeriod = database.savingHistoryDao().getLastPeriod(userUID);
+            SavingHistory history = new SavingHistory();
+            history.periodNumber = lastPeriod;
+            history.userUID = userUID;
+            history.lastUpdate = new Date();
+            history.amount = category.distributedAmount;
+            database.savingHistoryDao().save(history);
+        }
     }
 
     public Future<Void> changeDistributedAmount(String userUID, Integer categoryId, Double amount) {

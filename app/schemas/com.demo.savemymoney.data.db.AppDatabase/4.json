@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "705e98607ba942bf45708f7ccc0b1f79",
+    "version": 4,
+    "identityHash": "09d8c8d26269afa5d6cc7db3bba6be15",
     "entities": [
       {
         "tableName": "Income",
@@ -268,6 +268,45 @@
         "foreignKeys": []
       },
       {
+        "tableName": "Goal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `goalId` INTEGER NOT NULL, `amountGoal` REAL, `description` TEXT, PRIMARY KEY(`userUID`, `goalId`))",
+        "fields": [
+          {
+            "fieldPath": "userUID",
+            "columnName": "userUID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "goalId",
+            "columnName": "goalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amountGoal",
+            "columnName": "amountGoal",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "userUID",
+            "goalId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
         "tableName": "SavingHistory",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userUID` TEXT NOT NULL, `periodNumber` INTEGER NOT NULL, `lastUpdate` INTEGER, `amount` REAL, PRIMARY KEY(`userUID`, `periodNumber`))",
         "fields": [
@@ -309,7 +348,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"705e98607ba942bf45708f7ccc0b1f79\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"09d8c8d26269afa5d6cc7db3bba6be15\")"
     ]
   }
 }

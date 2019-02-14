@@ -104,7 +104,7 @@
     <string name="category_new">Nueva Categoría</string>
     <string name="category_select_icon_title">Selecciona un icono</string>
     <string name="category_name_exists_error">Ya existe una categoría con ese nombre</string>
-    <string name="category_success_save">Has creado una nueva categoría. A gastar!</string>
+    <string name="category_success_save">Categoría creada</string>
     <string name="category_unable_to_delete_default">No puedes eliminar una categoría predeterminada</string>
     <string name="category_delete_confirm">Sí</string>
     <string name="category_delete_confirm_message_fmt">¿Quieres eliminar la categoría %s?</string>
@@ -119,5 +119,36 @@
     <string name="graphic_no_data_text">No hay información disponible para este gráfico</string>
     <string name="graphic_spending_history_title">Historial de gastos</string>
     <string name="graphic_saving_title">Ahorros</string>
+    <string name="year_month_picker_dialogo_title">Selecciona año y mes</string>
+    <string name="history_empty_result">No hay gastos registrados en este mes</string>
+
+    <string name="menu_goals">Meta</string>
+    <string name="goal_title">Meta</string>
+    <string name="goal_progress_title">Meta</string>
+    <string name="string_goals">Tienes Ahorrado:</string>
+    <string name="string_goals_amaunt"> Monto a llegar</string>
+    <string name="string_goals_saving">Ahorros:</string>
+    <string name="string_goals_register">Guardar</string>
+
+    <string name="string_goals_description">Describe tu Meta</string>
+    <string name="goal_invalid_amount">Ingresa un monto mayor a 0.00</string>
+    <string name="goal_invalid_description">Ingrese una descripcion</string>
+    <string name="goal_alert_title">¿Deseas registrar la Meta?</string>
+    <string name="goal_alert_progress_title">¿Deseas visualizar tu Progreso?</string>
+    <string name="goal_goals_progress_update">Actualizar</string>
+    <string name="goal_goals_progress_cancel">Cancelar</string>
+    <string name="goal_goals_decrease">Gastar de mis Ahorros</string>
+    <string name="goal_goals_decrease_quest">¿Deseas Gastar de tus Ahorros?</string>
+    <string name="goal_goals_decrease_title">Se Gasto de tus Ahorros</string>
+    <string name="goal_alert_loading">Guardando Meta...</string>
+    <string name="goal_alert_confirm_title">Exito!</string>
+    <string name="goal_alert_confirm_context">Se Guardo Correctamente tu Meta</string>
+    <string name="goal_alert_delete_title">¿Desea eliminar esta Meta?</string>
+    <string name="goal_alert_delete">Meta Eliminada!</string>
+    <string name="goal_button_delete">Ya no quiero!</string>
+    <string name="goal_alert_goal_achieved_title">Ya lo tienes!</string>
+    <string name="goal_alert_goal_achieved_des">Tienes suficiente dinero para comprarlo!</string>
+    <string name="goal_alert_goal_congratulations_title">Felicitaciones!😎</string>
+    <string name="goal_alert_goal_congratulations_des">Alcanzaste tu Meta de \n</string>
 
 </resources>
