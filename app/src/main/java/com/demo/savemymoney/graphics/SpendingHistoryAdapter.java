@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import com.demo.savemymoney.R;
 import com.demo.savemymoney.data.entity.CategoryDetailHistory;
 import com.maltaisn.icondialog.IconView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,8 +88,9 @@ public class SpendingHistoryAdapter extends RecyclerView.Adapter<SpendingHistory
 
         void bind(final CategoryDetailHistory history) {
             if (history != null) {
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
                 amount.setText(String.format("- %s", formatAsCurrency(history.amount)));
-                date.setText(DateUtils.getRelativeTimeSpanString(history.date.getTime()));
+                date.setText(dateFormatter.format(history.date.getTime()));
                 description.setText(history.description);
                 layout.setBackgroundColor(Color.parseColor(history.category.color));
                 categoryName.setText(history.category.name);

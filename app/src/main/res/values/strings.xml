@@ -115,7 +115,7 @@
     <string name="wait_message_title">Espera!</string>
     <string name="assign_amount_is_posible_message">Aún puedes asignar dinero a esta categoría 😎</string>
     <string name="menu_reports">Reportes</string>
-    <string name="graphic_category_pie_title">Categorías</string>
+    <string name="graphic_category_pie_title">Gastos por categoría</string>
     <string name="graphic_no_data_text">No hay información disponible para este gráfico</string>
     <string name="graphic_spending_history_title">Historial de gastos</string>
     <string name="graphic_saving_title">Ahorros</string>
