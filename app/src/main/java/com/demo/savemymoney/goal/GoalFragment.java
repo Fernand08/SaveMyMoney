@@ -217,7 +217,7 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
         amauntSaving = Math.round(amauntSaving*100.0)/100.0;
         String comparate = null;
         Double comparate_double = null;
-        if(preferences.getString("montoSavingCat","") != null & comparate != null ){
+     /*   if(preferences.getString("montoSavingCat","") != null & comparate != null ){
             comparate = preferences.getString("montoSavingCat","");
            comparate_double = Double.parseDouble(comparate);
             comparate_double = Math.round(comparate_double*100.0)/100.0;
@@ -235,8 +235,10 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
             editor.commit();
         }
 
-
-
+*/
+        editor.remove("montoSaving");
+        editor.putString("montoSaving",String.valueOf(amauntSaving));
+        editor.commit();
 
         montoAhorrado = result.distributedAmount;
         String amauntSaving_string = String.valueOf(amauntSaving);
