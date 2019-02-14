@@ -22,7 +22,7 @@ import com.demo.savemymoney.goal.GoalFragment;
 import com.demo.savemymoney.graphics.GraphicsActivity;
 import com.demo.savemymoney.login.LoginActivity;
 import com.demo.savemymoney.monto.MontoFragment;
-import com.demo.savemymoney.service.ClockNotifyService;
+
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -32,8 +32,7 @@ public class MainActivity extends BaseActivity
     MainActivityPresenter presenter;
     private Menu menu;
 
-    Intent serviceIntent;
-    ClockNotifyService clockNotifyService;
+
 
 
     @Override
@@ -43,7 +42,6 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        serviceIntent = new Intent(this, ClockNotifyService.class);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -152,6 +150,13 @@ public class MainActivity extends BaseActivity
         setUserInformation(navigationView);
         configureDayliReminder();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
 
     private void configureDayliReminder() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

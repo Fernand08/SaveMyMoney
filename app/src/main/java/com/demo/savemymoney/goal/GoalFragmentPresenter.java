@@ -220,6 +220,7 @@ public class GoalFragmentPresenter {
             editor.remove("inspectGoal");
             editor.remove("memorySaving");
             editor.remove("montoSaving");
+            editor.remove("montoSavingCat");
             editor.commit();
             view.Reload(GoalFragment.newInstance());
 

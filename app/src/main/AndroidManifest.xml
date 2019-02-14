@@ -12,10 +12,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
 
-        <service
-            android:name=".service.ClockNotifyService"
-            android:enabled="true"
-            android:exported="true" />
+
 
         <activity android:name=".graphics.GraphicsActivity" />
         <activity

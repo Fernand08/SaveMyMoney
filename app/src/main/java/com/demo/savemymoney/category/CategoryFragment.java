@@ -1,6 +1,8 @@
 package com.demo.savemymoney.category;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -26,6 +28,8 @@ import com.demo.savemymoney.common.BaseFragment;
 import com.demo.savemymoney.common.components.AmountEditor;
 import com.demo.savemymoney.data.entity.Category;
 import com.demo.savemymoney.data.entity.CategoryDetail;
+import com.demo.savemymoney.data.entity.Goal;
+import com.demo.savemymoney.goal.GoalFragment;
 import com.demo.savemymoney.main.MainActivity;
 import com.maltaisn.icondialog.IconHelper;
 
@@ -53,6 +57,7 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
 
     private CategoryFragmentPresenter presenter;
     private CategoryDetailAdapter categoryDetailAdapter;
+    private SharedPreferences preferences;
 
     public static CategoryFragment newInstance(@NonNull Category category) {
         CategoryFragment fragment = new CategoryFragment();
@@ -75,6 +80,16 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
         configureActivityBar();
         categoryAmountEditor.setAmount(category.distributedAmount);
         categoryAmountEditor.setOnAmountChangeListener(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        if(category.categoryId ==1){
+
+            editor.remove("montoSavingCat");
+            editor.putString("categorySaving",String.valueOf(category));
+            editor.putString("montoSavingCat",String.valueOf( category.distributedAmount));
+            editor.commit();
+
+        }
+
         fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(category.color)));
 
         categoryDetailAdapter = new CategoryDetailAdapter(getContext(), this);
@@ -85,7 +100,9 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(categoryDetailAdapter);
+        presenter.loadingGoal();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,7 +110,7 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         presenter = new CategoryFragmentPresenter(this, getContext());
         ButterKnife.bind(this, view);
-
+        preferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
         return view;
     }
 
@@ -130,18 +147,67 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
     }
 
     @Override
+    public void loadSaving(Goal goal) {
+        String montosaving =  preferences.getString("montoSavingCat","0");
+        Double montosaving_D = Double.parseDouble(montosaving);
+        BigDecimal montosaving_B = BigDecimal.valueOf(montosaving_D);
+        Double montoSaving_B_Double =Double.parseDouble(String.valueOf( montosaving_B));
+        montoSaving_B_Double = Math.round(montoSaving_B_Double * 100)/100.0;
+        BigDecimal montogoal = BigDecimal.valueOf(goal.amountGoal);
+        Double montogoal_Double = Double.parseDouble(String.valueOf(montogoal));
+        montogoal_Double = Math.round(montogoal_Double*100.0)/100.0;
+        BigDecimal diferencia = montosaving_B.subtract(montogoal);
+
+        Double diferencia_Double =  Double.parseDouble(String.valueOf(diferencia));
+        if(diferencia_Double >=0){
+
+
+            String monto ="S/. "+ goal.amountGoal;
+            SweetAlertDialog alert = new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText(getString(R.string.goal_alert_goal_congratulations_title));
+            alert.setContentText(getContext().getString(R.string.goal_alert_goal_congratulations_des)
+                    + monto +" para tu " + goal.description)
+                    .setConfirmText("OK")
+                    .setConfirmClickListener(sDialog -> {
+                        presenter.deleteGoal();
+
+                        sDialog.dismissWithAnimation();
+                    });
+            alert.setCancelable(false);
+            alert.show();
+
+        }
+
+
+    }
+
+    @Override
+    public void reload(Fragment fragment) {
+        goTo(fragment,R.id.content_frame);
+    }
+
+    @Override
+    public void reloadA(Class activity) {
+        goTo(activity);
+    }
+
+
+    @Override
     public void onIncreaseAmount(BigDecimal amount) {
         presenter.increaseDistributedAmount(category.categoryId, amount);
+
     }
 
     @Override
     public void onDecreaseAmount(BigDecimal amount) {
+
         presenter.decreaseDistributedAmount(category.categoryId, amount);
     }
 
     @Override
     public void onChangeAmount(BigDecimal amount) {
         presenter.changeDistributedAmount(category.categoryId, amount);
+
     }
 
     @Override
@@ -149,6 +215,7 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
         this.category = result;
         categoryAmountEditor.setAmount(result.distributedAmount);
         configureActivityBar();
+        reload(CategoryFragment.newInstance(result));
     }
 
     @Override
