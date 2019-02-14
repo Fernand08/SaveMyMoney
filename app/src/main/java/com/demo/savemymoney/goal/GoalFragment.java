@@ -212,14 +212,31 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
 
     @Override
     public void showAmountSaving(Category result) {
-
-        Double amauntSaving = result.distributedAmount;
-            amauntSaving = Math.round(amauntSaving*100.0)/100.0;
-
         SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("montoSaving");
-        editor.putString("montoSaving",String.valueOf(amauntSaving));
-        editor.commit();
+        Double amauntSaving = result.distributedAmount;
+        amauntSaving = Math.round(amauntSaving*100.0)/100.0;
+        String comparate = null;
+        Double comparate_double = null;
+        if(preferences.getString("montoSavingCat","") != null & comparate != null ){
+            comparate = preferences.getString("montoSavingCat","");
+           comparate_double = Double.parseDouble(comparate);
+            comparate_double = Math.round(comparate_double*100.0)/100.0;
+            if(comparate_double == amauntSaving){
+                editor.remove("montoSaving");
+                editor.putString("montoSaving",String.valueOf(comparate_double));
+                editor.commit();
+
+            }
+        }else  {
+            comparate ="";
+            comparate_double=0.0;
+            editor.remove("montoSaving");
+            editor.putString("montoSaving",String.valueOf(amauntSaving));
+            editor.commit();
+        }
+
+
+
 
         montoAhorrado = result.distributedAmount;
         String amauntSaving_string = String.valueOf(amauntSaving);
@@ -234,11 +251,34 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
     @Override
     public void loadGoal(Goal goal) {
         String  montosave = preferences.getString("montoSaving","");
+
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("inspectGoal",String.valueOf(goal.amountGoal));
         editor.putString("inspectSaving",montosave);
         editor.commit();
-        Double guardado = Double.parseDouble(montosave);
+        Double   guardado= Double.parseDouble(montosave);
+
+
+
+
+        BigDecimal montogoal = BigDecimal.valueOf( goal.amountGoal);
+
+        BigDecimal montosaving =BigDecimal.valueOf(guardado)  ;
+        BigDecimal diferencia = montosaving.subtract(montogoal);
+        Double diferencia_double = Double.parseDouble(String.valueOf(diferencia));
+        diferencia_double = Math.round(diferencia_double*100.0)/100.0;
+        BigDecimal diferenciaMonto = montogoal.subtract(montosaving);
+        Double diferenciaMonto_Double = Double.parseDouble(String.valueOf( diferenciaMonto));
+        diferenciaMonto_Double = Math.round(diferenciaMonto_Double*100.0)/100.0;
+        BigDecimal division = montosaving.divide(montogoal, MathContext.DECIMAL128);
+        Double result  = Double.parseDouble(String.valueOf(division));
+
+
+        Integer   porcentaje = (int)  (result * 100) ;
+
+
+
+
 
 
 
@@ -254,20 +294,6 @@ public class GoalFragment extends BaseFragment implements GoalFragmentPresenter.
             descripcion.setText(goal.description);
 
 
-            BigDecimal montogoal = BigDecimal.valueOf( goal.amountGoal);
-
-            BigDecimal montosaving =BigDecimal.valueOf(guardado )  ;
-            BigDecimal diferencia = montosaving.subtract(montogoal);
-            Double diferencia_double = Double.parseDouble(String.valueOf(diferencia));
-                   diferencia_double = Math.round(diferencia_double*100.0)/100.0;
-            BigDecimal diferenciaMonto = montogoal.subtract(montosaving);
-            Double diferenciaMonto_Double = Double.parseDouble(String.valueOf( diferenciaMonto));
-            diferenciaMonto_Double = Math.round(diferenciaMonto_Double*100.0)/100.0;
-            BigDecimal division = montosaving.divide(montogoal, MathContext.DECIMAL128);
-            Double result  = Double.parseDouble(String.valueOf(division));
-
-
-            Integer   porcentaje = (int)  (result * 100) ;
 
 
 

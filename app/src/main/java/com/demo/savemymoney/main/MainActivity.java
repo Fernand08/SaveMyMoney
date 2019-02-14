@@ -25,7 +25,7 @@ import com.demo.savemymoney.common.BaseActivity;
 import com.demo.savemymoney.graphics.GraphicsActivity;
 import com.demo.savemymoney.login.LoginActivity;
 import com.demo.savemymoney.monto.MontoFragment;
-import com.demo.savemymoney.service.ClockNotifyService;
+
 
 import java.util.Calendar;
 
@@ -37,8 +37,7 @@ public class MainActivity extends BaseActivity
     MainActivityPresenter presenter;
     private Menu menu;
 
-   Intent serviceIntent;
-    ClockNotifyService clockNotifyService;
+
 
 
     @Override
@@ -48,7 +47,6 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-              serviceIntent = new Intent(this,ClockNotifyService.class);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -160,23 +158,9 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-    //    startService(serviceIntent);
-    //    bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+
     }
-  /*  private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            clockNotifyService = ((ClockNotifyService.ClockBinder) iBinder).getClockBinder();
 
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            clockNotifyService = null;
-        }
-    };
-*/
 
 
     public void signOut() {
