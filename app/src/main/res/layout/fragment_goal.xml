@@ -85,8 +85,8 @@
 
                 <com.emredavarci.circleprogressbar.CircleProgressBar xmlns:cpb="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/progressBar"
-                    android:layout_width="382dp"
-                    android:layout_height="260dp"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
 
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:gravity="center|center_vertical"
