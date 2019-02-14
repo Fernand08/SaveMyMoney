@@ -32,7 +32,7 @@ import static com.demo.savemymoney.common.AppConstants.DATABASE_NAME;
         CategoryDetailHistory.class,
         Goal.class,
         SavingHistory.class
-}, version = 4)
+}, version = 6)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;

@@ -23,4 +23,7 @@ public interface CategoryDetailDao {
 
     @Delete
     void deleteDetail(CategoryDetail detail);
+
+    @Query("Delete from CategoryDetail where userUID = :userUID")
+    void deleteByUserUID(String userUID);
 }

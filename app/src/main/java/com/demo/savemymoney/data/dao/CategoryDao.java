@@ -49,4 +49,10 @@ public interface CategoryDao {
 
     @Delete
     void deleteCategory(Category category);
+
+    @Query("Select sum(distributedAmount) from Category where userUID = :userUID and isSaving = 0")
+    Double getRestAmountByUserUID(String userUID);
+
+    @Query("Update Category set distributedAmount = 0, distributedAmountReference = 0 where userUID = :userUID and isSaving=0")
+    void resetCategoriesByUser(String userUID);
 }

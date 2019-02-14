@@ -85,6 +85,22 @@ public class MainAmountRepository {
             income.payDate = new Date();
             database.incomeDao().updateIncome(income);
             database.mainAmountDao().increaseAmount(userUID, income.amount);
+
+            if (income.payDate != null)
+                database.mainAmountDao().increasePeriod(userUID);
+
+            MainAmount mainAmount = database.mainAmountDao().findByUserUID(userUID);
+            SavingHistory saving = new SavingHistory();
+            saving.amount = 0.00;
+            saving.lastUpdate = new Date();
+            saving.userUID = userUID;
+            saving.periodNumber = mainAmount.periodNumber;
+            database.savingHistoryDao().save(saving);
+
+            database.categoryDetailDao().deleteByUserUID(userUID);
+            Double restAmount = database.categoryDao().getRestAmountByUserUID(userUID);
+            database.mainAmountDao().increaseAmount(userUID, restAmount);
+            database.categoryDao().resetCategoriesByUser(userUID);
             return income;
         });
     }

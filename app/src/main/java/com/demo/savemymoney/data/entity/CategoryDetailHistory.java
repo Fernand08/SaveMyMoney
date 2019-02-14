@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 
 import java.util.Date;
 
-@Entity(primaryKeys = {"userUID", "categoryId", "detailId"})
+@Entity(primaryKeys = {"userUID", "categoryId", "detailId","periodNumber"})
 public class CategoryDetailHistory {
     @NonNull
     public String userUID;
@@ -16,6 +16,8 @@ public class CategoryDetailHistory {
     public Integer categoryId;
     @NonNull
     public Integer detailId;
+    @NonNull
+    public Integer periodNumber;
     public String description;
     public Double amount;
     public Date date;

@@ -236,7 +236,10 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
                     });
         } else {
             alert.setContentText(getString(R.string.income_succes_save_main))
-                    .setConfirmClickListener(sDialog -> getActivity().onBackPressed());
+                    .setConfirmClickListener(sDialog -> {
+                        sDialog.dismissWithAnimation();
+                        goTo(MainActivity.class);
+                    });
         }
         alert.setCancelable(false);
         alert.show();
@@ -256,9 +259,16 @@ public class MontoFragment extends BaseFragment implements MontoFragmentPresente
 
     @Override
     public void prepareFutureNotification(Income income) {
-        if (isSameDay(income.startDate, new Date()))
+        if (isSameDay(income.startDate, new Date())) {
             presenter.increaseMainAmount();
-        else
+            Calendar c = Calendar.getInstance();
+            c.setTime(new Date());
+            if (income.period.equals("MENSUAL"))
+                c.add(Calendar.MONTH, 1);
+            else
+                c.add(Calendar.DAY_OF_MONTH, 15);
+            Notifier.scheduleMainAmount(getContext(), getMillisUntil(c.getTime()), income.userUID);
+        }else
             Notifier.scheduleMainAmount(getContext(),
                     getMillisUntil(setHourToDate(income.startDate, 9)),
                     mAuth.getCurrentUser().getUid());

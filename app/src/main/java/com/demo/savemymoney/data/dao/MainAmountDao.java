@@ -24,4 +24,7 @@ public interface MainAmountDao {
 
     @Query("Update MainAmount set amount = :amount where userUID = :userUID")
     void changeAmount(String userUID, Double amount);
+
+    @Query("Update MainAmount set periodNumber = periodNumber + 1 where userUID = :userUID")
+    void increasePeriod(String userUID);
 }
