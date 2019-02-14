@@ -1,33 +1,28 @@
 package com.demo.savemymoney.main;
 
-import android.app.PendingIntent;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.demo.savemymoney.goal.GoalFragment;
 import com.demo.savemymoney.R;
 import com.demo.savemymoney.common.BaseActivity;
+import com.demo.savemymoney.common.notification.Notifier;
+import com.demo.savemymoney.goal.GoalFragment;
 import com.demo.savemymoney.graphics.GraphicsActivity;
 import com.demo.savemymoney.login.LoginActivity;
 import com.demo.savemymoney.monto.MontoFragment;
 import com.demo.savemymoney.service.ClockNotifyService;
-
-import java.util.Calendar;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -37,7 +32,7 @@ public class MainActivity extends BaseActivity
     MainActivityPresenter presenter;
     private Menu menu;
 
-   Intent serviceIntent;
+    Intent serviceIntent;
     ClockNotifyService clockNotifyService;
 
 
@@ -48,7 +43,7 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-              serviceIntent = new Intent(this,ClockNotifyService.class);
+        serviceIntent = new Intent(this, ClockNotifyService.class);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -155,29 +150,18 @@ public class MainActivity extends BaseActivity
         presenter.checkIfHasIncome();
         NavigationView navigationView = findViewById(R.id.nav_view);
         setUserInformation(navigationView);
+        configureDayliReminder();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    //    startService(serviceIntent);
-    //    bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+    private void configureDayliReminder() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!prefs.getBoolean("firstTime", false)) {
+            Notifier.scheduleReminder(this, mAuth.getCurrentUser().getUid());
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("firstTime", true);
+            editor.apply();
+        }
     }
-  /*  private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            clockNotifyService = ((ClockNotifyService.ClockBinder) iBinder).getClockBinder();
-
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            clockNotifyService = null;
-        }
-    };
-*/
-
 
     public void signOut() {
         mAuth.signOut();

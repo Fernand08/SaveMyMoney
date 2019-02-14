@@ -39,6 +39,10 @@ public class CategoryDetailRepository {
         return database.categoryDetailDao().findAll(userUID, categoryId);
     }
 
+    public Future<List<CategoryDetail>> getAll(String userUID) {
+        return submit(() -> database.categoryDetailDao().findAll(userUID));
+    }
+
     public Future<Object> deleteDetail(CategoryDetail detail) {
         return submit(() -> {
             database.categoryDao().increaseAmount(detail.userUID, detail.categoryId, detail.amount);

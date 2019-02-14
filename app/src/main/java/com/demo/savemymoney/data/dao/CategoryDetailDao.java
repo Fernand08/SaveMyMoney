@@ -21,6 +21,9 @@ public interface CategoryDetailDao {
     @Query("Select * from CategoryDetail where userUID = :userUID and categoryId = :categoryId order by date desc")
     LiveData<List<CategoryDetail>> findAll(String userUID, Integer categoryId);
 
+    @Query("Select * from CategoryDetail where userUID = :userUID")
+    List<CategoryDetail> findAll(String userUID);
+
     @Delete
     void deleteDetail(CategoryDetail detail);
 
