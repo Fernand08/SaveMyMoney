@@ -12,22 +12,26 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.demo.savemymoney.R;
+import com.demo.savemymoney.data.entity.CategoryDetail;
 import com.demo.savemymoney.data.entity.Income;
+import com.demo.savemymoney.data.repository.CategoryDetailRepository;
 import com.demo.savemymoney.data.repository.MainAmountRepository;
 import com.demo.savemymoney.main.MainActivity;
 import com.github.clemp6r.futuroid.FutureCallback;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import static com.demo.savemymoney.common.util.DateUtils.getMillisUntil;
+import static com.demo.savemymoney.common.util.DateUtils.isSameDay;
 
 public class NotificationPublisher extends BroadcastReceiver {
-    private static final String MAIN_AMOUNT_NOTIFICATION_ID = "MAN";
     private static final CharSequence CHANNEL_TITLE = "SMM Notifications";
 
     public static String NOTIFICATION_USER_UID = "notification-user-uid";
     public static String NOTIFICATION_TYPE = "notification-type";
     public static String NOTIFICATION_AMOUNT = "notification-amount";
+    public static final String NOTIFICATION_REMINDER = "notification-reminder";
 
     private static final String CHANNEL_ID = "SMM_NOTIFY_CHANNEL";
 
@@ -37,7 +41,33 @@ public class NotificationPublisher extends BroadcastReceiver {
         String type = intent.getStringExtra(NOTIFICATION_TYPE);
         if (NOTIFICATION_AMOUNT.equals(type)) {
             amountNotification(context, intent);
+        } else if (NOTIFICATION_REMINDER.equals(type)) {
+            reminderNotification(context, intent);
         }
+    }
+
+    private void reminderNotification(Context context, Intent intent) {
+        Log.i(getClass().getName(), "Reminder Notification");
+        String userUID = intent.getStringExtra(NOTIFICATION_USER_UID);
+        CategoryDetailRepository categoryDetailRepository = new CategoryDetailRepository(context);
+        categoryDetailRepository.getAll(userUID)
+                .addSuccessCallback(result -> {
+                    int spendingCount = 0;
+                    for (CategoryDetail detail : result) {
+                        if (isSameDay(detail.date, new Date()))
+                            spendingCount++;
+                    }
+                    if (spendingCount == 0) {
+                        Intent mainIntent = new Intent(context, MainActivity.class);
+                        mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        PendingIntent action = PendingIntent.getActivity(context, 0, mainIntent, 0);
+                        sendNotification(context,
+                                intent,
+                                "Nos has abandonado :(",
+                                "Este es un recordatorio para que registres los gastos de hoy :)",
+                                action, 2);
+                    }
+                });
     }
 
     private void amountNotification(Context context, Intent intent) {
@@ -71,19 +101,18 @@ public class NotificationPublisher extends BroadcastReceiver {
                 intent,
                 "Hoy es el día de pago :)",
                 "Se limpiarán todos tus gastos. No te preocupes los podrás ver en el reporte de gastos",
-                action);
+                action, 1);
     }
 
-    private void sendNotification(Context context, Intent intent, String title, String content, PendingIntent action) {
+    private void sendNotification(Context context, Intent intent, String title, String content, PendingIntent action, int notificationId) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification notification = getNotification(context, title, content, action);
-        int id = intent.getIntExtra(MAIN_AMOUNT_NOTIFICATION_ID, 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_TITLE, NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
-        notificationManager.notify(id, notification);
+        notificationManager.notify(notificationId, notification);
     }
 
     private static Notification getNotification(Context context, String title, String content, PendingIntent action) {
