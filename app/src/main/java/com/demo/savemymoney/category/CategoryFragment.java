@@ -148,7 +148,7 @@ public class CategoryFragment extends BaseFragment implements CategoryFragmentPr
 
     @Override
     public void loadSaving(Goal goal) {
-        String montosaving =  preferences.getString("montoSavingCat","");
+        String montosaving =  preferences.getString("montoSavingCat","0");
         Double montosaving_D = Double.parseDouble(montosaving);
         BigDecimal montosaving_B = BigDecimal.valueOf(montosaving_D);
         Double montoSaving_B_Double =Double.parseDouble(String.valueOf( montosaving_B));
