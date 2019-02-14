@@ -92,7 +92,7 @@ public class MainAmountRepository {
 
             MainAmount mainAmount = database.mainAmountDao().findByUserUID(userUID);
             SavingHistory saving = new SavingHistory();
-            saving.amount = 0.00;
+            saving.amount = database.categoryDao().getSavingAmount(userUID);
             saving.lastUpdate = new Date();
             saving.userUID = userUID;
             saving.periodNumber = mainAmount.periodNumber;

@@ -55,4 +55,7 @@ public interface CategoryDao {
 
     @Query("Update Category set distributedAmount = 0, distributedAmountReference = 0 where userUID = :userUID and isSaving=0")
     void resetCategoriesByUser(String userUID);
+
+    @Query("Select sum(distributedAmount) from Category where userUID = :userUID and isSaving = 1")
+    Double getSavingAmount(String userUID);
 }
