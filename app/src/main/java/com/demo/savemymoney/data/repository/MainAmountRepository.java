@@ -82,12 +82,13 @@ public class MainAmountRepository {
             Income income = database.incomeDao().findByUserUID(userUID);
             if (income.payDate != null && isSameDay(income.payDate, new Date()))
                 return income;
-            income.payDate = new Date();
-            database.incomeDao().updateIncome(income);
-            database.mainAmountDao().increaseAmount(userUID, income.amount);
 
             if (income.payDate != null)
                 database.mainAmountDao().increasePeriod(userUID);
+
+            income.payDate = new Date();
+            database.incomeDao().updateIncome(income);
+            database.mainAmountDao().increaseAmount(userUID, income.amount);
 
             MainAmount mainAmount = database.mainAmountDao().findByUserUID(userUID);
             SavingHistory saving = new SavingHistory();
