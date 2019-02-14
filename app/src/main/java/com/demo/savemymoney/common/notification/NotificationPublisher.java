@@ -18,18 +18,14 @@ import com.demo.savemymoney.data.repository.CategoryDetailRepository;
 import com.demo.savemymoney.data.repository.MainAmountRepository;
 import com.demo.savemymoney.main.MainActivity;
 import com.github.clemp6r.futuroid.FutureCallback;
-import com.github.clemp6r.futuroid.SuccessCallback;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import static com.demo.savemymoney.common.util.DateUtils.getMillisUntil;
 import static com.demo.savemymoney.common.util.DateUtils.isSameDay;
 
 public class NotificationPublisher extends BroadcastReceiver {
-    private static final String MAIN_AMOUNT_NOTIFICATION_ID = "MAN";
-    private static final String REMINDER_NOTIFICATION_ID = "REM";
     private static final CharSequence CHANNEL_TITLE = "SMM Notifications";
 
     public static String NOTIFICATION_USER_UID = "notification-user-uid";
@@ -69,7 +65,7 @@ public class NotificationPublisher extends BroadcastReceiver {
                                 intent,
                                 "Nos has abandonado :(",
                                 "Este es un recordatorio para que registres los gastos de hoy :)",
-                                action);
+                                action, 2);
                     }
                 });
     }
@@ -105,19 +101,18 @@ public class NotificationPublisher extends BroadcastReceiver {
                 intent,
                 "Hoy es el día de pago :)",
                 "Se limpiarán todos tus gastos. No te preocupes los podrás ver en el reporte de gastos",
-                action);
+                action, 1);
     }
 
-    private void sendNotification(Context context, Intent intent, String title, String content, PendingIntent action) {
+    private void sendNotification(Context context, Intent intent, String title, String content, PendingIntent action, int notificationId) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification notification = getNotification(context, title, content, action);
-        int id = intent.getIntExtra(MAIN_AMOUNT_NOTIFICATION_ID, 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_TITLE, NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
-        notificationManager.notify(id, notification);
+        notificationManager.notify(notificationId, notification);
     }
 
     private static Notification getNotification(Context context, String title, String content, PendingIntent action) {
